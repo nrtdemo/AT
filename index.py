@@ -53,7 +53,7 @@ def index():
         print '<td class="col-lg-1 text-center {1}">{0}</td>'.format(
             l['port_status'], css_portstatus)
         print '<td class="col-lg-1">{0}</td>'.format(
-            l['path'].split('_[')[1].split(']')[0])
+            l['path'])
         print '<td class="col-lg-1">{0}</td>'.format(l['flap'])
         if l['status'] is not None:
             print '<td class="col-lg-1">{0}</td>'.format(l['problem_status'])
