@@ -9,7 +9,7 @@ class template_AT(object):
         print '<meta http-equiv="X-UA-Compatible" content="ie=edge">'
         print "<title>Alarm ticket</title>"
         # <!-- css -->
-        print '<link rel="stylesheet" href="/css/app.css">'
+        print '<link rel="stylesheet" href="/cgi-enabled/css/app.css">'
         # <!-- Bootstrap 3.3.7 -->
         print '<link rel="stylesheet" href="/cgi-enabled/AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css">'
         # <!-- DataTables -->
@@ -27,7 +27,7 @@ class template_AT(object):
         print '<link rel="stylesheet" href="/cgi-enabled/AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css">'
 
         # <!-- css in alarm ticket content -->
-        print '<link rel="stylesheet" href="/css/alarm_ticket.css">'
+        print '<link rel="stylesheet" href="/cgi-enabled/css/alarm_ticket.css">'
 
         print "</head>"
         print "<body>"
