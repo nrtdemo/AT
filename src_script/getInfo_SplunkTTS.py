@@ -1,5 +1,7 @@
 #!/usr/bin/python -u
 import time
+import re
+
 from MySQL import Database
 from tts_v1 import TTS
 from splunk import SPLUNK
@@ -15,35 +17,58 @@ splunk = SPLUNK('admin', 'P@ssw0rd', splunk_baseurl)
 TTS_basehost = "122.155.137.214"
 tts = TTS('catma', 'ait@1761', TTS_basehost)
 
+def get_catid(l):
+    cat_id = ''
+    splitcatid = l['cat_id'].split('_')
+    if len(splitcatid[0]) >= 9:
+        cat_id = re.search('(\w+)', splitcatid[0])
+        if cat_id:
+            cat_id = cat_id.group(1)
+            if len(cat_id) < 9:
+                cat_id = l['host'] + l['src_interface']
+    elif splitcatid[0] == 'MPLS':
+        sub_catid = re.search('CATID:(.*)', l['cat_id'])
+        if sub_catid:
+            cat_id = sub_catid.group(1)
+            if len(cat_id) < 9:
+                cat_id = l['host'] + l['src_interface']
+    else:
+        cat_id = l['host'] + l['src_interface']
+    return cat_id
+
 def insert_Splunk(lst_splunk):
     for l in lst_splunk:
-        splitcatid=l['cat_id'].split('_')
-
+        catid = get_catid(l)
         insert_query = """
-        INSERT INTO splunk
-        (cat_id, path, port_status, src_interface, host, flap, hostname, device_time)
-        VALUES
-        """
+                            INSERT INTO splunk
+                            (cat_id, path, port_status, src_interface, host, flap, hostname, device_time)
+                            VALUES
+                            """
 
-        #get value for string and then insert to database
-        if splitcatid[0] == 'NA':
-            insert_query += "('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(
-                str(l['host']+l['src_interface']), str(l['cat_id']), str(l['port_status']), str(l['src_interface']), str(l['host']), str(l['flap']), str(l['hostname']), str(l['device_time']))
+        if len(catid) >= 9:
+            check_query = """
+                SELECT splunk_id FROM splunk WHERE host='{0}' AND hostname='{1}' AND path='{2}' AND src_interface='{3}'
+                """.format(l['host'], l['hostname'], l['cat_id'], l['src_interface'])
+            getsplunk = db.query(check_query)
+            if len(getsplunk) > 0:
+                getsplunk = getsplunk[0]
+                sql_update_port_status = """
+                                UPDATE `splunk` SET `port_status`='{0}',`flap`='{1}', cat_id='{3}' WHERE splunk_id='{2}'
+                                """.format(l['port_status'], l['flap'], getsplunk['splunk_id'], catid)
+                db.insert(sql_update_port_status)
+                print "UPDATE DONE"
+            else:
+                insert_query += "('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')".format(
+                    str(catid), str(l['cat_id']), str(l['port_status']), str(l['src_interface']),
+                    str(l['host']), str(l['flap']), str(l['hostname']), str(l['device_time']))
+                db.insert(insert_query)
+                print "INSERT DONE"
         else:
-            insert_query += "('{[0]}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(
-                str(l['cat_id']).split('_'), str(l['cat_id']), str(l['port_status']), str(l['src_interface']), str(l['host']), str(l['flap']), str(l['hostname']), str(l['device_time']))
-        get_status_insert_data = db.insert(insert_query)
-
-        if not get_status_insert_data:
-            sql_update_port_status = """
-            UPDATE `splunk` SET `port_status`='{0}',`flap`='{1}' WHERE `cat_id`='{2}'
-            """.format(l['port_status'], l['flap'], l['cat_id'])
-            db.insert(sql_update_port_status)
-            # print "update"
-            # PrintDebug(insert_query)
-            # PrintDebug(sql_update_port_status)
-        else:
-            print "DONE"
+            insert_query += "('', '{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')".format(
+                str(l['cat_id']), str(l['port_status']), str(l['src_interface']),
+                str(l['host']), str(l['flap']), str(l['hostname']), str(l['device_time']))
+            db.insert(insert_query)
+            print "INSERT DONE"
 
 def insert_TTS(lst_catid):
     lst = []
@@ -97,14 +122,12 @@ def job_SPLUNK(searchQuery):
         time.sleep(15)
         rs = splunk.GetSearchStatus(sid)
     lst = splunk.GetSearchResult(sid)
-    # print lst
-    insert_Splunk(lst)  # insert list splunk data to database
+    insert_Splunk(lst)
 
 def job_TTS():
     print 'Doing TTS...'
     select_catid = """ SELECT `cat_id`,`host` FROM `splunk` WHERE port_status = 'Down' GROUP BY cat_id"""
     lst_catid = db.query(select_catid)
-    # run insert data
     insert_TTS(lst_catid)
 
 def PrintDebug(msg):
@@ -116,5 +139,5 @@ if __name__ == "__main__":
     search_link_pe_flap_out_bangkok='eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" host="10.5.*.*" host!="10.5.0.*" src_interface="TenGig*" OR "Gigabit*" port_status!="administratively down"'
     search_link_pe_flap_bangkok='eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" host="10.5.0.*" OR "10.126.0.*" src_interface="TenGig*" OR "Gigabit*" port_status!="administratively down"   hostname="*" host="10.5.0.11" src_interface="*"'
     search_link_switch_layer_two='host!="10.6.*.*" host!="10.5.*.*" eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" src_interface="FastE*" OR src_interface="TenGig*" OR "Gigabit*" port_status!="administratively down"  hostname=3GHSPA_NAN6519 host="10.163.27.2" src_interface="*"'
-    # job_SPLUNK(search_link)
+    job_SPLUNK(search_link)
     job_TTS()

@@ -7,7 +7,7 @@ def index():
     from src_script.MySQL import Database
     db = Database(host='localhost', username='root',
                   password='', db='alarm_ticket')
-    select_catid = """SELECT * FROM splunk LEFT JOIN tts ON (splunk.cat_id = tts.cat_id) GROUP BY  path"""
+    select_catid = """SELECT * FROM splunk LEFT JOIN tts ON (splunk.cat_id = tts.cat_id) GROUP BY src_interface, host, hostname, path"""
     lst_catid = db.query(select_catid)
 
     print '<div class="box">'
