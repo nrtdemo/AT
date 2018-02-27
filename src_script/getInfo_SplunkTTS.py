@@ -53,8 +53,6 @@ def insert_TTS(lst_catid):
     for l in lst:
         if l is not None:
             activity_table = ""
-            print l['catid']
-            print l['incident_id']
             ticket_info = tts.Get_TicketInfo(l['incident_id'])
             for t in ticket_info['activity_table']:
                 date = str(t['datestamp']).split('/')
@@ -104,7 +102,7 @@ def job_SPLUNK(searchQuery):
 
 def job_TTS():
     print 'Doing TTS...'
-    select_catid = """ SELECT `cat_id`,`host` FROM `splunk` WHERE port_status = 'Down'"""
+    select_catid = """ SELECT `cat_id`,`host` FROM `splunk` WHERE port_status = 'Down' GROUP BY cat_id"""
     lst_catid = db.query(select_catid)
     # run insert data
     insert_TTS(lst_catid)
@@ -118,5 +116,5 @@ if __name__ == "__main__":
     search_link_pe_flap_out_bangkok='eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" host="10.5.*.*" host!="10.5.0.*" src_interface="TenGig*" OR "Gigabit*" port_status!="administratively down"'
     search_link_pe_flap_bangkok='eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" host="10.5.0.*" OR "10.126.0.*" src_interface="TenGig*" OR "Gigabit*" port_status!="administratively down"   hostname="*" host="10.5.0.11" src_interface="*"'
     search_link_switch_layer_two='host!="10.6.*.*" host!="10.5.*.*" eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" src_interface="FastE*" OR src_interface="TenGig*" OR "Gigabit*" port_status!="administratively down"  hostname=3GHSPA_NAN6519 host="10.163.27.2" src_interface="*"'
-    job_SPLUNK(search_link)
+    # job_SPLUNK(search_link)
     job_TTS()
