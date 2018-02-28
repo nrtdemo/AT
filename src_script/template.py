@@ -25,7 +25,8 @@ class template_AT(object):
         # <!-- AdminLTE Skins. Choose a skin from the css/skins
         #    folder instead of downloading all of them to reduce the load. -->
         print '<link rel="stylesheet" href="AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css">'
-
+        # <!-- iCheck -->
+        print '<link rel="stylesheet" href="AdminLTE-2.4.2/plugins/iCheck/all.css">'
         # <!-- css in alarm ticket content -->
         print '<link rel="stylesheet" href="css/alarm_ticket.css">'
 
@@ -64,5 +65,7 @@ class template_AT(object):
         print '<script src="AdminLTE-2.4.2/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>'
         # <!-- SlimScroll -->
         print '<script src="AdminLTE-2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>'
+        # <!-- iCheck -->
+        print '<script src="AdminLTE-2.4.2/plugins/iCheck/icheck.min.js"></script>'
         print "</body>"
         print "</html>"

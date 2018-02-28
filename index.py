@@ -11,6 +11,30 @@ def index():
     lst_catid = db.query(select_catid)
 
     print '<div class="box">'
+
+    print '<div class="box-header" style="padding-bottom: 0;">'
+    print '<div class="row">'
+    print '<div class="col-xs-12">'
+    print '<div class="form-group">'
+    print '<ul class="list-inline" style="padding: 5px;margin-bottom: -10px;font-size: 12px">'
+    print '<label for="Up">'
+    print '<li style="padding: 2px 15px 2px 2px;border: 1px solid #ccc;border-radius: 2px;cursor: pointer;">'
+    print '<input class="status-filter cb-element" type="checkbox" value="Up">'
+    print '<span style="margin-left: 5px;">Up</span>'
+    print '</li>'
+    print '</label>'
+    print '<label for="Down">'
+    print '<li style="padding: 2px 15px 2px 2px;border: 1px solid #ccc;border-radius: 2px;cursor: pointer;">'
+    print '<input class="status-filter cb-element" type="checkbox" value="Down">'
+    print '<span style="margin-left: 5px;">Down</span>'
+    print '</li>'
+    print '</label>'
+    print '</ul>'
+    print '</div>'
+    print '</div>'
+    print '</div>'
+    print '</div>'
+
     print '<div class="box-body ">'
     print '<div class="table-responsive">'
     print '<table class="table table-bordered table-striped" id="alarmtickets">'
@@ -67,6 +91,7 @@ def index():
     print "</table>"
     print "</div>"
     print "</div>"
+
     print "</div>"
 
 
