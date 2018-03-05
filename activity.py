@@ -38,28 +38,28 @@ def index():
         print '<div class ="box-form">'
 
         print '<div class ="row form-group">'
-        print '<div class ="col-lg-2 text-right"> TicketNo:</div>'
+        print '<div class ="col-lg-2 text-right"> Interaction ID (Ticket No.):</div>'
         print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['ticketNo'])
-        print '<div class ="col-lg-2 text-right" > Downtime_start:</div>'
+        print '<div class ="col-lg-2 text-right" > Downtime start:</div>'
         print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['downtime_start'])
         print '</div>'
 
         print '<div class ="row form-group" >'
-        print '<div class ="col-lg-2 text-right" > Incident_id:</div>'
+        print '<div class ="col-lg-2 text-right" > Incident id:</div>'
         print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['incident_id'])
-        print '<div class ="col-lg-2 text-right" > Downtime_time:</div>'
+        print '<div class ="col-lg-2 text-right" > Downtime:</div>'
         print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['downtime_time'])
         print '</div>'
 
         print '<div class ="row form-group" >'
-        print '<div class ="col-lg-2 text-right"> Affected_item:</div>'
+        print '<div class ="col-lg-2 text-right"> Affected item:</div>'
         print '<div class ="col-lg-4">{0}</div>'.format(lst_catid['affected_item'])
-        print '<div class ="col-lg-2 text-right"> Owner_group:</div>'
+        print '<div class ="col-lg-2 text-right"> Owner group:</div>'
         print '<div class ="col-lg-4">{0}</div>'.format(lst_catid['owner_group'])
         print '</div>'
 
         print '<div class ="row form-group">'
-        print '<div class ="col-lg-2 text-right" > Cat_id:</div>'
+        print '<div class ="col-lg-2 text-right" > Cat id:</div>'
         print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['cat_id'])
         print '<div class ="col-lg-2 text-right" > Repairteam: </div>'
         print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['repairteam'])
@@ -68,14 +68,14 @@ def index():
         print '<div class ="row form-group" >'
         print '<div class ="col-lg-2 text-right" > Status:</div>'
         print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['status'])
-        print '<div class ="col-lg-2 text-right" > Oss_source:</div>'
-        print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['status'])
+        print '<div class ="col-lg-2 text-right" > Source:</div>'
+        print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['oss_source'])
         print '</div>'
 
         print '<div class ="row form-group">'
-        print '<div class ="col-lg-2 text-right"> Problem_status:</div>'
+        print '<div class ="col-lg-2 text-right"> Problem status:</div>'
         print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['problem_status'])
-        print '<div class ="col-lg-2 text-right"> Oss_destination:</div>'
+        print '<div class ="col-lg-2 text-right"> Destination:</div>'
         print '<div class ="col-lg-4">{0}</div>'.format(lst_catid['oss_destination'])
         print '</div>'
 
