@@ -1,7 +1,7 @@
 $(document).ready(function () {
     console.log("ready!");
     var alarmtickets_table = $('#alarmtickets').DataTable({
-        order: [[5, 'asc'], [ 0, 'desc' ]],
+        order: [[4, 'asc'], [ 0, 'desc' ]],
         pageLength: 50
     });
 
@@ -29,6 +29,6 @@ $(document).ready(function () {
             $(that).iCheck('uncheck');
             filter_stat = "";
         }
-        alarmtickets_table.columns(5).search(filter_stat).draw();
+        alarmtickets_table.columns(4).search(filter_stat).draw();
     });
 });

@@ -44,8 +44,8 @@ def index():
     print '<th class="col-lg-1">Ticket No.</th>'
     print '<th class="col-lg-1">Cat ID</th>'
     print '<th class="col-lg-1">Source Interface</th>'
-    print '<th class="col-lg-1">Host</th>'
-    print '<th class="col-lg-1">Hostname</th>'
+    print '<th class="col-lg-1 text-center">Host</th>'
+    # print '<th class="col-lg-1">Hostname</th>'
     # print '<th class="col-lg-1">device_time</th>'
     print '<th class="col-lg-1 text-center">Port Status</th>'
     print '<th class="col-lg-1">Path</th>'
@@ -68,8 +68,8 @@ def index():
         else:
             print '<td class="col-lg-1"></td>'
         print '<td class="col-lg-1">{0}</td>'.format(l['src_interface'])
-        print '<td class="col-lg-1">{0}</td>'.format(l['host'])
-        print '<td class="col-lg-1">{0}</td>'.format(l['hostname'])
+        print '<td class="col-lg-1 text-center"><div data-original-title="{1}" data-container="body" data-toggle="tooltip" data-placement="bottom" title="">{0}</div></td>'.format(l['host'], l['hostname'])
+        # print '<td class="col-lg-1">{0}</td>'.format(l['hostname'])
         # print '<td class="col-lg-1">{0}</td>'.format(l['device_time'])
         if l['port_status'] == 'Down':
             css_portstatus = 'danger'
