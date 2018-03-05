@@ -141,3 +141,5 @@ if __name__ == "__main__":
     search_link_switch_layer_two='host!="10.6.*.*" host!="10.5.*.*" eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" src_interface="FastE*" OR src_interface="TenGig*" OR "Gigabit*" port_status!="administratively down"  hostname=3GHSPA_NAN6519 host="10.163.27.2" src_interface="*"'
     job_SPLUNK(search_link)
     job_TTS()
+
+    # tts.Open_Ticket('TBB125502')

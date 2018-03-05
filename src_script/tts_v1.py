@@ -55,6 +55,119 @@ class TTS(object):
         self.DebugPrint(resp[0])
         self.DebugPrint(resp[1])
 
+    def Open_Ticket(self, catId):
+        self.Auth()
+        url = '/sm/cwc/nav.menu?name=navStart&id=ROOT%2FOpen%20New%20Ticket&{0}={1}'.format(
+            self.csrfName, self.csrfValue)
+        resp = self.SendData(url)
+        m = re.search('thread=([0-9]+)', resp[0]['content-location'])
+        if m:
+            threadid = m.group(1)
+        resp = self.SendData('{0}?thread={3}&{1}={2}'.format(TTS_Path.search, self.csrfName, self.csrfValue, threadid),
+                             save_referer=True)
+        self.DebugPrint(resp[0])
+        self.DebugPrint(resp[1])
+
+        url = "/sm/L10N/recordlist.jsp"
+        resp = self.SendData(url)
+        self.DebugPrint(resp[0])
+        self.DebugPrint(resp[1])
+
+        data = collections.OrderedDict()
+        data["row"] = ""
+        data["__x"] = ""
+        data["thread"] = threadid
+        data["resetnotebook"] = ""
+        data["event"] = "14"
+        data["transaction"] = "0"
+        data["type"] = "detail"
+        data["focus"] = "var%2Foss.search.value"
+        data["focusContents"] = catId
+        data["focusId"] = "X12"
+        data["focusReadOnly"] = ""
+        data["start"] = ""
+        data["count"] = ""
+        data["more"] = ""
+        data["tablename"] = ""
+        data["window"] = ""
+        data["close"] = ""
+        data["_blankFields"] = ""
+        data["_uncheckedBoxes"] = ""
+        data["_tpzEventSource"] = ""
+        data["formchanged"] = ""
+        data["formname"] = "wizard-oss.dcss.select.catid"
+        data[self.csrfName] = self.csrfValue
+        data["_multiSelection"] = ""
+        data["_multiSelection_tableId"] = ""
+        data["_multiSelection_selectionField"] = ""
+        data["clientWidth"] = "1109"
+        data["var%2Foss.search.fieldname"] = "id"
+        data["var%2Foss.search.value"] = catId
+        data["var%2Foss.dcss.allrecordcount"] = ""
+        data["var%2Foss.dcss.showtext"] = ""
+        resp_post = self.SendData(TTS_Path.search, data,
+                             AutoParseHTMLCharector=False)
+        self.DebugPrint(resp_post[1])
+        url = "/sm/L10N/recordlist.jsp"
+        resp = self.SendData(url)
+
+        data = collections.OrderedDict()
+        data["row"] = ""
+        data["__x"] = ""
+        data["thread"] = threadid
+        data["resetnotebook"] = ""
+        data["event"] = "13"
+        data["transaction"] = "1"
+        data["type"] = "detail"
+        data["focus"] = "var%2Flo.oss.select.SD.number%2Flo.oss.select.SD.number%5B1%5D"
+        data["focusContents"] = "Open+New+Ticket"
+        data["focusId"] = "X27_1"
+        data["focusReadOnly"] = ""
+        data["start"] = ""
+        data["count"] = ""
+        data["more"] = ""
+        data["tablename"] = ""
+        data["window"] = ""
+        data["close"] = ""
+        data["_blankFields"] = ""
+        data["_uncheckedBoxes"] = ""
+        data["_tpzEventSource"] = ""
+        data["formchanged"] = ""
+        data["formname"] = "wizard-oss.dcss.select.catid"
+        data[self.csrfName] = self.csrfValue
+        data["_multiSelection"] = ""
+        data["_multiSelection_tableId"] = ""
+        data["_multiSelection_selectionField"] = ""
+        data["clientWidth"] = "1109"
+        data["var%2Foss.search.fieldname"] = "id"
+        data["var%2Foss.search.value"] = catId
+        data["var%2Foss.dcss.allrecordcount"] = "1"
+        data["var%2Foss.dcss.showtext"] = "1+to+1"
+
+        resp_post = self.SendData(TTS_Path.search, data,
+                                  AutoParseHTMLCharector=False)
+        url = "/sm/L10N/recordlist.jsp"
+        self.SendData(url)
+        self.DebugPrint(resp_post[0])
+        self.DebugPrint(resp_post[1])
+
+        #cancel to open ticket view
+        # data = collections.OrderedDict()
+        # data["name"] = "dvdSelect"
+        # data["queryId"] = "0"
+        # data["value"] = "*"
+        # threadid = int(threadid) + 1
+        # data["thread"] = threadid
+        # url = '''/sm/service.do?{0}={1}'''.format(self.csrfName, self.csrfValue)
+        # resp = self.SendData(url, data, AdvancedHTMLParser=False)
+
+        # url = '''/sm/list.do?thread={2}&{0}={1}'''.format(
+        #     self.csrfName, self.csrfValue, threadid)
+        # resp = self.SendData(url)
+        # self.DebugPrint(resp[1])
+
+        self.Logout(self)
+
     def Get_TicketInfo(self, ticketNo):
         self.Auth()
         data = collections.OrderedDict()
@@ -444,5 +557,5 @@ class TTS(object):
         self.headers['Cookie'] = ';'.join(ncookies)
 
     def DebugPrint(self, msg):
-        if False:
+        if True:
             print msg
