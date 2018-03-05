@@ -29,6 +29,6 @@ $(document).ready(function () {
             $(that).iCheck('uncheck');
             filter_stat = "";
         }
-        alarmtickets_table.columns(6).search(filter_stat).draw();
+        alarmtickets_table.columns(5).search(filter_stat).draw();
     });
 });
