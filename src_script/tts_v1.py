@@ -166,7 +166,7 @@ class TTS(object):
         # resp = self.SendData(url)
         # self.DebugPrint(resp[1])
 
-        self.Logout(self)
+        self.Logout()
 
     def Get_TicketInfo(self, ticketNo):
         self.Auth()
@@ -488,18 +488,18 @@ class TTS(object):
         self.DebugPrint(resp[0])
         self.DebugPrint(resp[1])
 
-        print 'Loged In!!'
+        self.DebugPrint('Loged In!!')
 
     def Logout(self):
         self.login_state = False
 
-        resp = self.SendData('/sm/cwc/logoutcleanup.jsp', save_referer=True)
-        resp = self.SendData('/sm/cwc/shortenSessionTimeout.jsp', save_referer=True)
+        resp = self.SendData('/sm/cwc/logoutcleanup.jsp?lang=en&mode=ess.do&essuser=true', save_referer=True)
+        resp = self.SendData('/sm/cwc/shortenSessionTimeout.jsp')
         resp = self.SendData('/sm/goodbye.jsp', save_referer=True)
-        self.DebugPrint(resp[0])
-        self.DebugPrint(resp[1])
+        # self.DebugPrint(resp[0])
+        # self.DebugPrint(resp[1])
 
-        print 'Loged out!!'
+        self.DebugPrint('Loged out!!')
 
     def GetCSRF(self):
         if not self.csrfName:
@@ -518,7 +518,7 @@ class TTS(object):
     def SendData(self, path, data=None, save_referer=False, AutoParseHTMLCharector=True):
         self.DebugPrint('=' * 100)
         url = "http://{0}{1}".format(self.host, path)
-        self.DebugPrint("url {2}\nrequest_path {0}\nheader{1}".format(
+        self.DebugPrint("url {2}\nrequest_path {0}\nheader {1}".format(
             path, str(self.headers), url))
         headers = self.headers
         if data:
