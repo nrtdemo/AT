@@ -85,7 +85,11 @@ def index():
         else:
             print '<td class="col-lg-1"></td>'
         print '<td class="col-lg-1">{0}</td>'.format(l['affected_item'])
-        print '<td class="col-lg-1"></td>'
+        if l['port_status'] == 'Down':
+            print '<td class="col-lg-1"><a href="/cgi-enabled/openticket.py?cat_id={0}"><input type="button" value="open ticket"></a></td>'.format(
+                l['cat_id'])
+        else:
+            print '<td></td>'
         print "</tr>"
 
     print "</tbody>"

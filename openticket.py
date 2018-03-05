@@ -4,7 +4,16 @@ import cgitb
 cgitb.enable()
 
 def open_ticket():
-    print '<h2> openticket </h2>'
+    import cgi
+    from src_script.MySQL import Database
+    form = cgi.FieldStorage()
+    db = Database(host='localhost', username='root', password='', db='alarm_ticket')
+    query_detail="""SELECT * FROM tts WHERE cat_id = '{0}'""".format(form["cat_id"].value)
+    lst_detail = db.query(query_detail)[0]
+
+
+    print '<pre>{0}</pre>'.format(lst_detail)
+    print '<h2> open ticket </h2>'
     print '<form class ="form-horizontal" action="/action_page.php">'
     print '<div class ="form-group">'
     print '<label class ="control-label col-sm-2" for ="interaction"> interaction ID(Ticket) </label>'
@@ -17,6 +26,7 @@ def open_ticket():
     print '</div>'
     print '</div>'
 
+
     print '<div class ="form-group">'
     print '<label class ="control-label col-sm-2" for ="status" > Status </label>'
     print '<div class ="col-sm-4" >'
@@ -24,7 +34,7 @@ def open_ticket():
     print '</div>'
     print '<label class ="control-label col-sm-2" for ="recipients" > Recipients </label>'
     print '<div class ="col-sm-4">'
-    print '<input type = "text" class ="form-control" id="recipients" name="recipients">'
+    print '<input type = "text" readonly = "" class ="form-control" id="recipients" name="recipients" value="catma">'
     print '</div>'
     print '</div>'
 
@@ -35,25 +45,25 @@ def open_ticket():
     print '</div>'
     print '<label class ="control-label col-sm-2" for ="informant" > Informant </label>'
     print '<div class ="col-sm-4">'
-    print '<input type = "text" class ="form-control" id="informant" name="informant">'
+    print '<input type = "text" class ="form-control" id="informant" name="informant" value="catma">'
     print '</div>'
     print '</div>'
 
     print '<div class ="form-group">'
     print '<label class ="control-label col-sm-2" for ="catid" > CAT ID * </label>'
     print '<div class ="col-sm-4">'
-    print '<input type = "text" class ="form-control" id="catid" name="catid">'
+    print '<input type = "text" class ="form-control" id="catid" name="catid" value="{0}">'.format(lst_detail['cat_id'])
     print '</div>'
     print '<label class ="control-label col-sm-2" for ="email" > E-mail </label>'
     print '<div class ="col-sm-4">'
-    print '<input type = "text" class ="form-control" id="email" name="email" >'
+    print '<input type = "text" class ="form-control" id="email" name="email" value="catma@ait.co.th" >'
     print '</div>'
     print '</div>'
 
     print '<div class ="form-group">'
     print '<label class ="control-label col-sm-2" for ="source" > Name * </label>'
     print '<div class ="col-sm-4" >'
-    print '<input type = "text" class ="form-control" id="source" name="source">'
+    print '<input type = "text" class ="form-control" id="source" name="source" value="{0}">'.format(lst_detail['oss_source'])
     print '</div>'
     print '<label class ="control-label col-sm-2" for ="recipients "> category </label>'
     print '<div class ="col-sm-4">'
@@ -64,18 +74,18 @@ def open_ticket():
     print '<div class ="form-group">'
     print '<label class ="control-label col-sm-2" for ="source" > Destination</label>'
     print '<div class ="col-sm-4" >'
-    print '<input type = "text" class ="form-control" id="destination" name="destination">'
+    print '<input type = "text" class ="form-control" id="destination" name="destination" value="{0}">'.format(lst_detail['oss_destination'])
     print '</div>'
     print '<label class ="control-label col-sm-2" for ="recipients "> Phone number </label>'
     print '<div class ="col-sm-4">'
-    print '<input type = "text" class ="form-control" id="phonenumber" name="phonenumber">'
+    print '<input type = "text" class ="form-control" id="phonenumber" name="phonenumber" value="021041761">'
     print '</div>'
     print '</div>'
 
     print '<div class ="form-group">'
     print '<label class ="control-label col-sm-2" for ="source" > Address </label>'
     print '<div class ="col-sm-4" >'
-    print '<textarea type = "text" class ="form-control" id="address" name="address"></textarea>'
+    print '<textarea type = "text" class ="form-control" id="address" name="address" rows="5" >{0}</textarea>'.format(lst_detail['address'])
     print '</div>'
     print '<label class ="control-label col-sm-2" for ="recipients ">SMS</label>'
     print '<div class ="col-sm-4">'
@@ -163,14 +173,14 @@ def open_ticket():
     print '</div>'
     print '<label class ="control-label col-sm-2" for ="recipients " > Owner Group </label>'
     print '<div class ="col-sm-4" >'
-    print '<input type = "text" class ="form-control" id="recipients " name="recipients">'
+    print '<input type = "text" class ="form-control" id="recipients " name="recipients" value="{0}">'.format(lst_detail['owner_group'])
     print '</div>'
     print '</div>'
 
     print '<div class ="form-group">'
     print '<label class ="control-label col-sm-2" for ="faulttime" > Up Time * </label>'
     print '<div class ="col-sm-4" >'
-    print '<input type = "text" class ="form-control" id="uptime" name="uptime">'
+    print '<input type = "text" class ="form-control" readonly="" id="uptime" name="uptime">'
     print '</div>'
     print '<label class ="control-label col-sm-2" for ="recipients " > Assignment Group </label>'
     print '<div class ="col-sm-4" >'
@@ -181,7 +191,7 @@ def open_ticket():
     print '<div class ="form-group">'
     print '<label class ="control-label col-sm-2" for ="faulttime" > Total Down Time </label>'
     print '<div class ="col-sm-4" >'
-    print '<input type = "text" class ="form-control" id="totaltime" name="totaltime">'
+    print '<input type = "text" class ="form-control" readonly="" id="totaltime" name="totaltime">'
     print '</div>'
     print '<label class ="control-label col-sm-2" for ="faulttime" > EndToEnd Group </label>'
     print '<div class ="col-sm-4" >'
@@ -192,7 +202,7 @@ def open_ticket():
     print '<div class ="form-group">'
     print '<label class ="control-label col-sm-2" for ="faulttime" > SLA Target Date </label>'
     print '<div class ="col-sm-4" >'
-    print '<input type = "text" class ="form-control" id="sla_target_date" name="sla_target_date">'
+    print '<input type = "text" class ="form-control" readonly="" id="sla_target_date" name="sla_target_date">'
     print '</div>'
     print '<label class ="control-label col-sm-2" for ="faulttime" > Repair Team </label>'
     print '<div class ="col-sm-4" >'
