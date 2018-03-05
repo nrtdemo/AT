@@ -19,13 +19,13 @@ def index():
     print '<ul class="list-inline" style="padding: 5px;margin-bottom: -10px;font-size: 12px">'
     print '<label for="Up">'
     print '<li style="padding: 2px 15px 2px 2px;border: 1px solid #ccc;border-radius: 2px;cursor: pointer;">'
-    print '<input class="status-filter cb-element" type="checkbox" value="Up">'
+    print '<input id="0" class="status-filter cb-element" type="checkbox" value="Up">'
     print '<span style="margin-left: 5px;">Up</span>'
     print '</li>'
     print '</label>'
     print '<label for="Down">'
     print '<li style="padding: 2px 15px 2px 2px;border: 1px solid #ccc;border-radius: 2px;cursor: pointer;">'
-    print '<input class="status-filter cb-element" type="checkbox" value="Down">'
+    print '<input id="1" class="status-filter cb-element" type="checkbox" value="Down">'
     print '<span style="margin-left: 5px;">Down</span>'
     print '</li>'
     print '</label>'
@@ -35,6 +35,7 @@ def index():
     print '</div>'
     print '</div>'
 
+    print '<div class="box-header"><h3 class="box-title">Monitor Link 40G&100GbE Up_Down</h3></div>'
     print '<div class="box-body ">'
     print '<div class="table-responsive">'
     print '<table class="table table-bordered table-striped" id="alarmtickets">'
@@ -45,7 +46,7 @@ def index():
     print '<th class="col-lg-1">Source Interface</th>'
     print '<th class="col-lg-1">Host</th>'
     print '<th class="col-lg-1">Hostname</th>'
-    print '<th class="col-lg-1">device_time</th>'
+    # print '<th class="col-lg-1">device_time</th>'
     print '<th class="col-lg-1 text-center">Port Status</th>'
     print '<th class="col-lg-1">Path</th>'
     print '<th class="col-lg-1">flap</th>'
@@ -69,13 +70,13 @@ def index():
         print '<td class="col-lg-1">{0}</td>'.format(l['src_interface'])
         print '<td class="col-lg-1">{0}</td>'.format(l['host'])
         print '<td class="col-lg-1">{0}</td>'.format(l['hostname'])
-        print '<td class="col-lg-1">{0}</td>'.format(l['device_time'])
+        # print '<td class="col-lg-1">{0}</td>'.format(l['device_time'])
         if l['port_status'] == 'Down':
             css_portstatus = 'danger'
         else:
             css_portstatus = 'success'
-        print '<td class="col-lg-1 text-center {1}">{0}</td>'.format(
-            l['port_status'], css_portstatus)
+        print '''<td class="col-lg-1 text-center {1}"><div data-original-title="{2}" data-container="body" data-toggle="tooltip" data-placement="bottom" title="">{0}</div></td>'''.format(
+            l['port_status'], css_portstatus, l['device_time'])
         print '<td class="col-lg-1">{0}</td>'.format(
             l['path'])
         print '<td class="col-lg-1">{0}</td>'.format(l['flap'])

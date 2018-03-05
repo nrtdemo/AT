@@ -1,8 +1,12 @@
 $(document).ready(function () {
     console.log("ready!");
     var alarmtickets_table = $('#alarmtickets').DataTable({
-        order: [[6, 'asc'], [ 0, 'desc' ]],
+        order: [[5, 'asc'], [ 0, 'desc' ]],
         pageLength: 50
+    });
+
+    $(function () {
+        $("[data-toggle='tooltip']").tooltip();
     });
 
     $('input').iCheck({
@@ -13,6 +17,11 @@ $(document).ready(function () {
 
     $(".status-filter").on('ifChecked ifUnchecked', function (event) {
         var that = this;
+        $(".status-filter").each(function (index) {
+            if (index != $(that).attr("id")) {
+                $(this).iCheck('uncheck');
+            }
+        });
         if (event.type == 'ifChecked') {
             $(that).iCheck('check');
             filter_stat = $(that).val();
