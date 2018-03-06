@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 
 import cgitb
+import requests
+import collections
+import urllib
+import httplib2
 cgitb.enable()
 
 def open_ticket():
@@ -11,10 +15,8 @@ def open_ticket():
     query_detail="""SELECT * FROM tts WHERE cat_id = '{0}'""".format(form["cat_id"].value)
     lst_detail = db.query(query_detail)[0]
 
-
-    print '<pre>{0}</pre>'.format(lst_detail)
     print '<h2> open ticket </h2>'
-    print '<form class ="form-horizontal" action="/action_page.php">'
+    print '<form class ="form-horizontal" action="/cgi-enabled/checkvalue.py" method="post" name="ticket_form"  target = "_blank">'
     print '<div class ="form-group">'
     print '<label class ="control-label col-sm-2" for ="interaction"> interaction ID(Ticket) </label>'
     print '<div class ="col-sm-4">'
@@ -25,7 +27,6 @@ def open_ticket():
     print '<input type = "text" class ="form-control" id="customertype" name="customertype">'
     print '</div>'
     print '</div>'
-
 
     print '<div class ="form-group">'
     print '<label class ="control-label col-sm-2" for ="status" > Status </label>'
@@ -226,8 +227,47 @@ def open_ticket():
     print '<textarea type = "text" class ="form-control" id="comment" name="comment"></textarea>'
     print '</div>'
     print '</div>'
-
+    print '<button type="submit">save</button>'
     print '</form>'
+
+def post_method():
+    data = collections.OrderedDict()
+    data['interaction'] =''
+    data['customertype'] =''
+    data['status'] =''
+    data['recipients'] =''
+    data['incident'] =''
+    data['informant'] =''
+    data['catid'] =''
+    data['email'] =''
+    data['source'] =''
+    data['recipients'] =''
+    data['destination'] =''
+    data['phonenumber'] =''
+    data['address ']=''
+    data['sms ']=''
+    data['projectname'] =''
+    data['recipients'] =''
+    data['bandwidth'] =''
+    data['recipients'] =''
+    data['partnername ']=''
+    data['impact'] =''
+    data['bandwidth'] =''
+    data['urgency ']=''
+    data['affectedservice'] =''
+    data['affected_cl']=''
+    data['faulttime'] =''
+    data['uptime ']=''
+    data['assignment'] =''
+    data['totaltime ']=''
+    data['EndToEnd_group'] =''
+    data['sla_target_date ']=''
+    data['repair_team'] =''
+    data['title'] =''
+    data['description'] =''
+    data['comment'] =''
+    r = requests.post("http://192.168.133.132/cgi-enabled/checkvalue.py?",data)
+    # print r.
 
 
 if __name__ == "__main__":
@@ -237,4 +277,5 @@ if __name__ == "__main__":
     t.print_menu()
 
     open_ticket()
+    #post_method()
     t.print_close()
