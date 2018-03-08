@@ -38,7 +38,7 @@ def index():
         print '<div class ="box-form">'
 
         print '<div class ="row form-group">'
-        print '<div class ="col-lg-2 text-right"> Interaction ID (Ticket No.):</div>'
+        print '<div class ="col-lg-2 text-right">Ticket No:</div>'
         print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['ticketNo'])
         print '<div class ="col-lg-2 text-right" > Downtime start:</div>'
         print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['downtime_start'])
@@ -81,7 +81,9 @@ def index():
 
         print '<div class ="row form-group">'
         print '<div class ="col-lg-2 text-right" > Address:</div>'
-        print '<div class ="col-lg-10 " >{0}</div>'.format(lst_catid['address'])
+        print '<div class ="col-lg-4 " >{0}</div>'.format(lst_catid['address'])
+        print '<div class ="col-lg-2 text-right" > Bandwidth:</div>'
+        print '<div class ="col-lg-4 " >{0}</div>'.format(lst_catid['bandwidth'])
         print '</div>'
 
         print '<div class ="row form-group">'

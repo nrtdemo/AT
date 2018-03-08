@@ -99,7 +99,7 @@ def open_ticket():
     print '<div class="form-group">'
     print '<label class="control-label col-sm-2"> Bandwidth <font color="red">*</font> </label>'
     print '<div class="col-sm-4">'
-    print '<input type="text" class="form-control" id="bandwidth" name="bandwidth">'
+    print '<input type="text" class="form-control" id="bandwidth" name="bandwidth" value="{0}">'.format(lst_detail['bandwidth'])
     print '</div>'
     print '<label class="control-label col-sm-2"> area </label>'
     print '<div class="col-sm-4">'
@@ -165,7 +165,7 @@ def open_ticket():
     print '</div>'
     print '<label class="control-label col-sm-2"> Owner Group </label>'
     print '<div class="col-sm-4">'
-    print '<input type="text" class="form-control" id="owner.group" name="owner.group" value="{0}">'.format(lst_detail['owner_group'])
+    print '<input type="text" class="form-control" id="owner.group" name="owner.group" value="{0}" readonly>'.format(lst_detail['owner_group'])
     print '</div>'
     print '</div>'
 
