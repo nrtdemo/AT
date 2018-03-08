@@ -7,6 +7,7 @@ cgitb.enable()
 
 def open_ticket():
     import datetime
+    import pytz
     import cgi
     from src_script.MySQL import Database
     form = cgi.FieldStorage()
@@ -160,7 +161,7 @@ def open_ticket():
     print '<div class="form-group">'
     print '<label class="control-label col-sm-2"> Fault Time * </label>'
     print '<div class="col-sm-4">'
-    print '<input type="text" class="form-control" id="faulttime" name="faulttime">'
+    print '<input type="text" class="form-control" id="faulttime" name="faulttime" value="{0}">'.format(datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).strftime('%d/%m/%Y %H:%M:%S'))
     print '</div>'
     print '<label class="control-label col-sm-2"> Owner Group </label>'
     print '<div class="col-sm-4">'
