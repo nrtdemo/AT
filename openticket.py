@@ -56,7 +56,7 @@ def open_ticket():
     print '</div>'
 
     print '<div class="form-group">'
-    print '<label class="control-label col-sm-2" for="catid"> CAT ID * </label>'
+    print '<label class="control-label col-sm-2" for="catid"> CAT ID <font color="red">*</font></label>'
     print '<div class="col-sm-4">'
     print '<input type="text" class="form-control" id="catid" name="catid" value="{0}">'.format(lst_detail['cat_id'])
     print '</div>'
@@ -67,7 +67,7 @@ def open_ticket():
     print '</div>'
 
     print '<div class="form-group">'
-    print '<label class="control-label col-sm-2"> Name * </label>'
+    print '<label class="control-label col-sm-2"> Name <font color="red">*</font></label>'
     print '<div class="col-sm-4">'
     print '<input type="text" class="form-control" id="source" name="source" value="{0}">'.format(lst_detail['oss_source'])
     print '</div>'
@@ -96,7 +96,7 @@ def open_ticket():
     print '</div>'
 
     print '<div class="form-group">'
-    print '<label class="control-label col-sm-2"> Bandwidth </label>'
+    print '<label class="control-label col-sm-2"> Bandwidth <font color="red">*</font> </label>'
     print '<div class="col-sm-4">'
     print '<input type="text" class="form-control" id="bandwidth" name="bandwidth">'
     print '</div>'
@@ -122,7 +122,7 @@ def open_ticket():
     print '<div class="col-sm-4">'
     print '<input type="text" class="form-control" id="carrier.name" name="carrier.name">'
     print '</div>'
-    print '<label class="control-label col-sm-2"> Impact* </label>'
+    print '<label class="control-label col-sm-2"> Impact <font color="red">*</font> </label>'
     print '<div class="col-sm-4">'
     print '<input type="text" class="form-control" id="impact" name="impact">'
     print '</div>'
@@ -133,21 +133,21 @@ def open_ticket():
     print '<div class="col-sm-4">'
     print '<input type="text" class="form-control" id="carrier.ticket" name="carrier.ticket">'
     print '</div>'
-    print '<label class="control-label col-sm-2"> Urgency* </label>'
+    print '<label class="control-label col-sm-2"> Urgency <font color="red">*</font></label>'
     print '<div class="col-sm-4">'
     print '<input type="text" class="form-control" id="urgency" name="urgency">'
     print '</div>'
     print '</div>'
 
     print '<div class="form-group">'
-    print '<label class="control-label col-sm-2"> Affected Service* </label>'
+    print '<label class="control-label col-sm-2"> Affected Service <font color="red">*</font> </label>'
     print '<div class="col-sm-4">'
     print '<input type="text" class="form-control" id="affectedservice" name="affectedservice">'
     print '</div>'
     print '</div>'
 
     print '<div class="form-group">'
-    print '<label class="control-label col-sm-2"> Affected Cl* </label>'
+    print '<label class="control-label col-sm-2"> Affected Cl <font color="red">*</font></label>'
     print '<div class="col-sm-4">'
     print '<input type="text" class="form-control" id="affected_cl" name="affected_cl">'
     print '</div>'
@@ -158,7 +158,7 @@ def open_ticket():
     print '</div>'
 
     print '<div class="form-group">'
-    print '<label class="control-label col-sm-2"> Fault Time * </label>'
+    print '<label class="control-label col-sm-2"> Fault Time <font color="red">*</font></label>'
     print '<div class="col-sm-4">'
     print '<input type="text" class="form-control" id="faulttime" name="faulttime">'
     print '</div>'
@@ -169,7 +169,7 @@ def open_ticket():
     print '</div>'
 
     print '<div class="form-group">'
-    print '<label class="control-label col-sm-2"> Up Time * </label>'
+    print '<label class="control-label col-sm-2"> Up Time <font color="red">*</font></label>'
     print '<div class="col-sm-4">'
     print '<input type="text" class="form-control" readonly="" id="uptime" name="uptime">'
     print '</div>'
@@ -202,11 +202,11 @@ def open_ticket():
     print '</div>'
 
     print '<div class="form-group">'
-    print '<label class="control-label col-sm-2"> Title * </label>'
+    print '<label class="control-label col-sm-2"> Title <font color="red">*</font></label>'
     print '<div class="col-sm-10">'
     print '<input type="text" class="form-control" id="title" name="title">'
     print '</div>'
-    print '<label class="control-label col-sm-2"> Description * </label>'
+    print '<label class="control-label col-sm-2"> Description <font color="red">*</font></label>'
     print '<div class="col-sm-2"></div>'
     print '<div class="col-sm-10">'
     print '<textarea type="text" class="form-control" id="description" name="description" rows="5"></textarea>'
