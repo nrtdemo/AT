@@ -8,6 +8,7 @@ import json
 import AdvancedHTMLParser
 import time
 import datetime
+import pytz
 
 httplib2.debuglevel = 0
 
@@ -67,12 +68,13 @@ class TTS(object):
                              save_referer=True)
         self.DebugPrint(resp[0])
         self.DebugPrint(resp[1])
+        # protect open ticket, now is bug
+        return None
 
         url = "/sm/L10N/recordlist.jsp"
         resp = self.SendData(url)
         self.DebugPrint(resp[0])
         self.DebugPrint(resp[1])
-
         data = collections.OrderedDict()
         data["row"] = ""
         data["__x"] = ""
@@ -108,9 +110,9 @@ class TTS(object):
         resp_post = self.SendData(TTS_Path.search, data,
                              AutoParseHTMLCharector=False)
         self.DebugPrint(resp_post[1])
+
         url = "/sm/L10N/recordlist.jsp"
         resp = self.SendData(url)
-
         data = collections.OrderedDict()
         data["row"] = ""
         data["__x"] = ""
@@ -151,20 +153,74 @@ class TTS(object):
         self.DebugPrint(resp_post[0])
         self.DebugPrint(resp_post[1])
 
-        #cancel to open ticket view
-        # data = collections.OrderedDict()
-        # data["name"] = "dvdSelect"
-        # data["queryId"] = "0"
-        # data["value"] = "*"
-        # threadid = int(threadid) + 1
-        # data["thread"] = threadid
-        # url = '''/sm/service.do?{0}={1}'''.format(self.csrfName, self.csrfValue)
-        # resp = self.SendData(url, data, AdvancedHTMLParser=False)
+        data = collections.OrderedDict()
+        data["row"] = ""
+        data["__x"] = ""
+        data["thread"] = threadid
+        data["resetnotebook"] = ""
+        data["event"] = "10"
+        data["transaction"] = "2"
+        data["type"] = "detail"
+        data["focus"] = "instance%2Faction%2Faction"
 
-        # url = '''/sm/list.do?thread={2}&{0}={1}'''.format(
-        #     self.csrfName, self.csrfValue, threadid)
-        # resp = self.SendData(url)
-        # self.DebugPrint(resp[1])
+        data["focusContents"] = ""
+        data["focusId"] = "X110"
+        data["focusReadOnly"] = ""
+        data["start"] = ""
+        data["count"] = ""
+        data["more"] = ""
+        data["tablename"] = ""
+        data["window"] = ""
+        data["close"] = ""
+        data["_blankFields"] = ""
+        data["_uncheckedBoxes"] = ""
+        data["_tpzEventSource"] = ""
+        data["formchanged"] = ""
+        data["formname"] = "IM.open.incident"
+        data[self.csrfName] = self.csrfValue
+        data["clientWidth"] = "1343"
+        data["instance%2Fincident.id"] = ""
+        data["instance%2Fcustomer.type"] = ""
+        data["instance%2Fnumber"] = ""
+        data["instance%2Foss.informant"] = ""
+        data["instance%2Fcontact.email"] = ""
+        data["instance%2Fcatid"] = catId
+        data["instance%2Foss.contact.telephone"] = ""
+        data["instance%2Foss.source"] = ""
+        data["instance%2Foss.contact.sms"] = ""
+        data["instance%2Foss.destination"] = ""
+        data["instance%2Foss.contact.fax"] = ""
+        data["instance%2Foss.address%2Foss.address"] = ""
+        data["instance%2Fsource"] = ""
+        data["instance%2Fcategory"] = "incident"
+        data["instance%2Foss.bandwidth"] = "100 Gbps"
+        data["instance%2Fgateway.type"] = ""
+        data["instance%2Fsubcategory"] = "failure"
+        data["instance%2Fpartners.name"] = ""
+        data["instance%2Fproduct.type"] = "system down"
+        data["instance%2Fcarrier.name"] = ""
+        data["instance%2Finitial.impact"] = "3"
+        data["instance%2Fcarrier.ticket"] = ""
+        data["instance%2Fseverity"] = "2"
+        data["instance%2Faffected.item"] = ""
+        data["instance%2Flogical.name"] = ""
+        data["instance%2Fowner.group"] = ""
+        data["instance%2Fdowntime.start"] = datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).strftime('%d/%m/%Y %H:%M:%S')
+        data["instance%2Fassignment"] = ""
+        data["instance%2Fdowntime.end"] = ""
+        data["instance%2Fendtoend.group"] = ""
+        data["instance%2Fdowntime"] = ""
+        data["instance%2Frepairteam"] = ""
+        data["instance%2Fnext.breach"] = ""
+        # Need to require
+        data["instance%2Fbrief.description"] = "Down"
+        data["instance%2Faction%2Faction"] = ""
+        data["instance%2Fcomment%2Fcomment"] = ""
+
+        url = '''/sm/service.do?{0}={1}'''.format(self.csrfName, self.csrfValue)
+        resp = self.SendData(TTS_Path.search, data, AdvancedHTMLParser=False)
+        url = "/sm/L10N/recordlist.jsp"
+        resp = self.SendData(url)
 
         self.Logout()
 
@@ -273,24 +329,27 @@ class TTS(object):
 
         data = resp[1]
 
-        lst_name = ['instance/oss.address/oss.address',
-                    'instance/brief.description',
-                    'instance/action/action']
+        lst_keyval = [
+            # ['key', 'name']
+            ["dvdvar", "instance/oss.address/oss.address"],
+            ["dvdvar", "instance/brief.description"],
+            ["dvdvar", "instance/action/action"],
+            ["name", "instance/oss.bandwidth"]
+        ]
         info = collections.OrderedDict()
         parser = AdvancedHTMLParser.AdvancedHTMLParser()
         parser.parseStr(data)
 
-        for l in lst_name:
-            infoname = parser.getElementsByName(str(l))
-            infodvdvar = parser.getElementsByAttr('dvdvar', str(l))
+        for l in lst_keyval:
+            key = l[0]
+            name = l[1]
+            infodvdvar = parser.getElementsByAttr(key, str(name))
             # if status closed get variable dvdvar or ref
             lem = str(infodvdvar).split('TagCollection([AdvancedTag(u\'')[1].split('\',')[0]
             if lem == 'textarea':
-                # print infoname.all()[0].innerHTML.strip()
-                info[l] = infodvdvar.all()[0].innerHTML.strip()
+                info[name] = infodvdvar.all()[0].innerHTML.strip()
             elif lem == 'input':
-                # print str(infoname).split('u\'value\', u\'')[1].split('\')')[0].encode('utf-8')
-                info[l] = str(infodvdvar).split('u\'value\', u\'')[1].split('\')')[0].encode('utf-8')
+                info[name] = str(infodvdvar).split('u\'value\', u\'')[1].split('\')')[0].encode('utf-8')
 
         parserTableNormalRow = parser.getElementsByAttr('class', 'TableNormalRow')
         id_activity_table = str(parserTableNormalRow).split('dtlr_')[1].split('_')[0]
@@ -493,12 +552,12 @@ class TTS(object):
     def Logout(self):
         self.login_state = False
 
-        resp = self.SendData('/sm/cwc/logoutcleanup.jsp?lang=en&mode=ess.do&essuser=true', save_referer=True)
+        resp = self.SendData(TTS_Path.login+'?lang=en&mode=ess.do&essuser=true', save_referer=True)
         resp = self.SendData('/sm/cwc/shortenSessionTimeout.jsp')
-        resp = self.SendData('/sm/goodbye.jsp', save_referer=True)
-        # self.DebugPrint(resp[0])
-        # self.DebugPrint(resp[1])
-
+        resp = self.SendData('/sm/cwc/logoutcleanup.jsp?lang=en&mode=ess.do&essuser=true', save_referer=True)
+        resp = self.SendData('/sm/goodbye.jsp?lang=en&mode=ess.do&essuser=true')
+        self.DebugPrint(resp[0])
+        self.DebugPrint(resp[1])
         self.DebugPrint('Loged out!!')
 
     def GetCSRF(self):

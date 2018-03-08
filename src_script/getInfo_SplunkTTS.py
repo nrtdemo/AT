@@ -9,8 +9,8 @@ from splunk import SPLUNK
 db = Database(host='127.0.0.1', username='root', password='', db='alarm_ticket')
 
 #SPLUNK
-# splunk_baseurl = 'https://10.4.0.136:8089'
-splunk_baseurl = 'https://192.168.100.2:8089'
+splunk_baseurl = 'https://10.4.0.136:8089'
+# splunk_baseurl = 'https://192.168.100.2:8089'
 splunk = SPLUNK('admin', 'P@ssw0rd', splunk_baseurl)
 
 #TTS
@@ -93,11 +93,11 @@ def insert_TTS(lst_catid):
             activity_table = activity_table[:-1]
             activity_table = '[' + activity_table + ']'
 
-            insert_query = """INSERT INTO `tts`(`ticketNo`,`incident_id`, `affected_item`, `cat_id`, `status`, `problem_status`, `downtime_start`, `downtime_time`, `owner_group`, `repairteam`, `oss_source`, `oss_destination`, `address`, `title`, `description`, `activity`) VALUES """
-            value = "\n('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}')".format(
+            insert_query = """INSERT INTO `tts`(`ticketNo`,`incident_id`, `affected_item`, `cat_id`, `status`, `problem_status`, `downtime_start`, `downtime_time`, `owner_group`, `repairteam`, `oss_source`, `oss_destination`, `address`, `title`, `description`, `activity`, `bandwidth`) VALUES """
+            value = "\n('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}')".format(
                 l['incident_id'], l['number'], l['affected_item'].encode('utf-8'), l['catid'].encode('utf-8'), l['status'], l['problem_status'],l['downtime_start'], l['downtime'],
                 l['owner_group'].encode('utf-8'), l['repairteam'].encode('utf-8'), l['oss_source'].encode('utf-8'), l['oss_destination'].encode('utf-8'),
-                ticket_info['instance/oss.address/oss.address'].encode('utf-8'), ticket_info['instance/brief.description'].encode('utf-8'), ticket_info['instance/action/action'].encode('utf-8'), activity_table
+                ticket_info['instance/oss.address/oss.address'].encode('utf-8'), ticket_info['instance/brief.description'].encode('utf-8'), ticket_info['instance/action/action'].encode('utf-8'), activity_table, ticket_info['instance/oss.bandwidth'].encode('utf-8')
             )
             query = "{0} {1}".format(insert_query, value)
             # PrintDebug(query)
@@ -113,7 +113,7 @@ def insert_TTS(lst_catid):
 
 def job_SPLUNK(searchQuery):
     print 'Doing SPLUNK...'
-    sid = splunk.CreateSearch(searchQuery, timerange='-24hr') #defind timerange query data
+    sid = splunk.CreateSearch(searchQuery, timerange='24hr') #defind timerange query data
     # sid = splunk.CreateSearch(searchQuery)  # defind timerange query data
     print (sid)
     rs = splunk.GetSearchStatus(sid)
