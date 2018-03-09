@@ -6,11 +6,12 @@ class Ticket(object):
 
     def __init__(self, val):
         # self.data["interaction"] = ""
-        # self.data["status"] = ""
+        self.data["status"] = ""
         # self.data["incident"] = ""
 
         self.data["customertype"] = ""
         self.data["recipients"] = "catma"
+
         self.data["informant"] = ""
         self.data["email"] = "catma@ait.co.th"
         self.data["phonenumber"] = "021041761"
@@ -31,6 +32,10 @@ class Ticket(object):
 
         self.data["projectname"] = ""
         self.data["partnername"] = ""
+
+        self.data["category"] = ""
+        self.data["subcategory"] = ""
+        self.data["product_type"] = ""
 
         self.data["impact"] = ""
         self.data["urgency"] = ""
@@ -56,6 +61,7 @@ class Ticket(object):
         else:
             raise ValueError("Only require to need Description")
         self.data["comment"] = ""
+
 
     def getData(self):
         return self.data
