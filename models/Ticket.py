@@ -1,7 +1,7 @@
 import collections
 
-class Ticket(object):
 
+class Ticket(object):
     data = collections.OrderedDict()
 
     def __init__(self, val):
@@ -62,5 +62,3 @@ class Ticket(object):
 
     def resetData(self):
         self.data = collections.OrderedDict()
-
-
