@@ -35,15 +35,15 @@ class template_AT(object):
 
     def print_menu(self):
         print '<nav class="navbar-default">'
-        print '<div class="container-fluid">'
-        print '<div class="navbar-header">'
-        print '<a class="navbar-brand" href="index.py">Alarm Ticket</a>'
-        print "</div>"
-        print '<ul class="nav navbar-nav">'
+        print ' <div class="container-fluid">'
+        print '     <div class="navbar-header">'
+        print '         <a class="navbar-brand" href="index.py">Alarm Ticket</a>'
+        print "     </div>"
+        print '     <ul class="nav navbar-nav">'
         # print '<li class="active"><a href="/home">Home</a></li>'
         # print '<li><a href="/splunk">Splunk</a></li>'
-        print "</ul>"
-        print "</div>"
+        print "     </ul>"
+        print " </div>"
         print "</nav>"
 
     def print_close(self):
@@ -69,3 +69,18 @@ class template_AT(object):
         print '<script src="AdminLTE-2.4.2/plugins/iCheck/icheck.min.js"></script>'
         print "</body>"
         print "</html>"
+
+    def redirect(self, path="index.py"):
+        redirectURL = path
+        print 'Content-Type: text/html'
+        print 'Location: %s' % redirectURL
+        print  # HTTP says you have to have a blank line between headers and content
+        print '<html>'
+        print '  <head>'
+        print '    <meta http-equiv="refresh" content="0;url=%s" />' % redirectURL
+        print '    <title>You are going to be redirected</title>'
+        print '  </head>'
+        print '  <body>'
+        print '    Redirecting... <a href="%s">Click here if you are not redirected</a>' % redirectURL
+        print '  </body>'
+        print '</html>'

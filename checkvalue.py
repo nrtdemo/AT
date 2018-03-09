@@ -1,74 +1,52 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import cgi
 import cgitb
-import json
-print "Content-type: application/json\n\n"
+
 cgitb.enable()
-def read_text():
-    raw = cgi.FieldStorage()
-
-    # form = cgi.FieldStorage()
-    # variable = ""
-    # value = ""
-    # r = ""
-    # for key in form.keys():
-    #     variable = str(key)
-    #     value = str(form.getvalue(variable))
-    #     r += variable + ":" + value + "\n"
-    # fieds = str(r)
 
 
+def send_value():
+    from models.Ticket import Ticket
+    from src_script.tts_v1 import TTS
 
-    # values={}
-    # values["interaction"]=raw.getvalue('interaction')
-    # values["customertype"] = raw.getvalue('customertype')
-    # values["status"] = raw.getvalue('status')
-    # values["recipients"] = raw.getvalue('recipients')
-    # values["incident"] = raw.getvalue('incident')
-    # values["informant"] = raw.getvalue('informant')
-    # values["catid"] = raw.getvalue('catid')
-    # values["email"] = raw.getvalue('email')
-    # values["source"] = raw.getvalue('source')
-    # values["recipients"] = raw.getvalue('recipients')
-    # values["phonenumber"] = raw.getvalue('phonenumber')
-    # values["address"] = raw.getvalue('address')
-    # values["sms"] = raw.getvalue('sms')
-    # values["projectname"] = raw.getvalue('projectname')
-    # values["bandwidth"] = raw.getvalue('bandwidth')
-    # values["recipients"] = raw.getvalue('recipients')
-    # values["partnername"] = raw.getvalue('partnername')
-    # values["impact"] = raw.getvalue('impact')
-    # values["urgency"] = raw.getvalue('urgency')
-    # values["affectedservice"] = raw.getvalue('affectedservice')
-    # values["affected_cl"] = raw.getvalue('affected_cl')
-    # values["faulttime"] = raw.getvalue('faulttime')
-    # values["recipients"] = raw.getvalue('recipients')
-    # values["uptime"] = raw.getvalue('uptime')
-    # values["assignment"] = raw.getvalue('assignment')
-    # values["totaltime"] = raw.getvalue('totaltime')
-    # values["EndToEnd_group"] = raw.getvalue('EndToEnd_group')
-    # values["sla_target_date"] = raw.getvalue('sla_target_date')
-    # values["EndToEnd_group"] = raw.getvalue('EndToEnd_group')
-    # values["repair_team"] = raw.getvalue('repair_team')
-    # values["title"] = raw.getvalue('title')
-    # values["description"] = raw.getvalue('description')
-    # values["comment"] = raw.getvalue('comment')
-    # print "{0}".format(values)
+    form = cgi.FieldStorage()
+    TTS_basehost = "122.155.137.214"
+    tts = TTS('catma', 'ait@1761', TTS_basehost)
+
+    for f in form:
+        print "{}: {}</br>".format(f, form[f].value)
+    # print "</br>{}</br>".format(tts.test_url().encode('utf-8'))
+    if 'description' in form and 'title' in form and 'bandwidth' in form:
+        ticket = Ticket(form)
+        ticket_info = ticket.getData()
+        for t in ticket_info:
+            print "<div class='row'><div class='col-lg-1'>{}</div><div class='col-lg-3'>{}</div></div>".format(t, ticket_info[t])
+    else:
+        print 'error'
 
 
+
+    # print getvalue['catid'].value
+    # tts.Open_Ticket(getvalue['catid'])
+
+    # if(getvalue['bandwidth'].value is ''):
+    #     #redirect('/cgi-enabled/openticket.py?cat_id=TBB147536')
+    #     print 'no bandwidth'
+    # elif(getvalue['title'].value is ''):
+    #     print 'no title'
+    # elif (getvalue['description'].value is ''):
+    #     print 'no description'
 
 
 if __name__ == '__main__':
-    # read_text()
-    raw = cgi.FieldStorage()
-    if raw.getvalue('form_ticket'):
-        text_content = raw.getvalue('cat_id')
-    else:
-        text_content = "Not entered"
+    from src_script.template import template_AT
 
-    print text_content
+    template = template_AT()
+    template.print_header()
+    template.print_menu()
 
-    cat_id=raw.getvalue('cat_id')
-    cat_id = raw.getvalue('cat_id')
-    print cat_id
+    send_value()
+
+    template.print_close()

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import cgitb
 from src_script.template import template_AT
@@ -21,7 +22,6 @@ def open_ticket():
         t.redirect()
     else:
         lst_detail = lst_detail[0]
-
         print '<div class="box">'
         print '<div class="box-form">'
         print '<div class="box-header">'
@@ -59,7 +59,7 @@ def open_ticket():
         print '</div>'
         print '<label class="control-label col-sm-2" for="informant"> Informant </label>'
         print '<div class="col-sm-4">'
-        print '<input type="text" class="form-control" id="informant" name="informant" value="catma">'
+        print '<input type="text" class="form-control" id="informant" name="informant" value="CATMA">'
         print '</div>'
         print '</div>'
 
@@ -108,9 +108,9 @@ def open_ticket():
         print '<div class="col-sm-4">'
         print '<input type="text" class="form-control" id="bandwidth" name="bandwidth" value="{0}">'.format(lst_detail['bandwidth'])
         print '</div>'
-        print '<label class="control-label col-sm-2"> area </label>'
+        print '<label class="control-label col-sm-2"> Category <font color="red">*</font> </label>'
         print '<div class="col-sm-4">'
-        print '<input type="text" class="form-control" id="category" name="category">'
+        print '<input type="text" class="form-control" id="category" name="category" value="\x49\x6E\x63\x69\x64\x65\x6E\x74\x20\x0A">'
         print '</div>'
         print '</div>'
 
@@ -119,9 +119,9 @@ def open_ticket():
         print '<div class="col-sm-4">'
         print '<input type="text" class="form-control" id="partnername" name="partnername">'
         print '</div>'
-        print '<label class="control-label col-sm-2"> subarea </label>'
+        print '<label class="control-label col-sm-2"> area </label>'
         print '<div class="col-sm-4">'
-        print '<input type="text" class="form-control" id="subcategory" name="subcategory">'
+        print '<input type="text" class="form-control" id="subcategory" name="subcategory" value="\x66\x61\x69\x6C\x75\x72\x65\x0A">'
         print '</div>'
         print '</div>'
 
@@ -130,9 +130,9 @@ def open_ticket():
         print '<div class="col-sm-4">'
         print '<input type="text" class="form-control" id="carrier.name" name="carrier.name">'
         print '</div>'
-        print '<label class="control-label col-sm-2"> Impact <font color="red">*</font> </label>'
+        print '<label class="control-label col-sm-2"> subarea </label>'
         print '<div class="col-sm-4">'
-        print '<input type="text" class="form-control" id="impact" name="impact">'
+        print '<input type="text" class="form-control" id="product_type" name="product_type" value="system down">'
         print '</div>'
         print '</div>'
 
@@ -141,16 +141,20 @@ def open_ticket():
         print '<div class="col-sm-4">'
         print '<input type="text" class="form-control" id="carrier.ticket" name="carrier.ticket">'
         print '</div>'
-        print '<label class="control-label col-sm-2"> Urgency <font color="red">*</font></label>'
+        print '<label class="control-label col-sm-2"> Impact <font color="red">*</font> </label>'
         print '<div class="col-sm-4">'
-        print '<input type="text" class="form-control" id="urgency" name="urgency">'
+        print '<input type="text" class="form-control" id="impact" name="impact" value="\x33\x20\x2D\x20\x4D\x75\x6C\x74\x69\x70\x6C\x65\x20\x55\x73\x65\x72\x73">'
         print '</div>'
         print '</div>'
 
         print '<div class="form-group">'
         print '<label class="control-label col-sm-2"> Affected Service <font color="red">*</font> </label>'
         print '<div class="col-sm-4">'
-        print '<input type="text" class="form-control" id="affectedservice" name="affectedservice">'
+        print '<input type="text" class="form-control" id="affectedservice" name="affectedservice" value="\xE0\xB8\x9A\xE0\xB8\xA3\xE0\xB8\xB4\xE0\xB8\x81\xE0\xB8\xB2\xE0\xB8\xA3\x20\x43\x41\x54\x20\x45\x50\x4C\x20\x2D\x20\x44\x6F\x6D\x65\x73\x74\x69\x63\x0A">'
+        print '</div>'
+        print '<label class="control-label col-sm-2"> Urgency <font color="red">*</font></label>'
+        print '<div class="col-sm-4">'
+        print '<input type="text" class="form-control" id="urgency" name="urgency" value="\x33\x20\x2D\x20\x41\x76\x65\x72\x61\x67\x65">'
         print '</div>'
         print '</div>'
 
@@ -159,21 +163,17 @@ def open_ticket():
         print '<div class="col-sm-4">'
         print '<input type="text" class="form-control" id="affected_cl" name="affected_cl">'
         print '</div>'
-        print '<label class="control-label col-sm-2"> Urgency </label>'
-        print '<div class="col-sm-4">'
-        print '<input type="text" class="form-control" id="severity" name="severity">'
-        print '</div>'
         print '</div>'
 
         print '<div class="form-group">'
         print '<label class="control-label col-sm-2"> Fault Time <font color="red">*</font></label>'
         print '<div class="col-sm-4">'
-        print '<input type="text" class="form-control" id="faulttime" name="faulttime" value="{0}">'.format(
-            datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).strftime('%d/%m/%Y %H:%M:%S'))
+        print '<input type="text" class="form-control" id="faulttime" name="faulttime" value="{0}">'.format(datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).strftime('%d/%m/%Y %H:%M:%S'))
         print '</div>'
         print '<label class="control-label col-sm-2"> Owner Group </label>'
         print '<div class="col-sm-4">'
-        print '<input type="text" class="form-control" id="owner.group" name="owner.group" value="{0}" readonly>'.format(lst_detail['owner_group'])
+        print '<input type="text" class="form-control" id="owner.group" name="owner.group" value="{0}" readonly>'.format(
+            lst_detail['owner_group'])
         print '</div>'
         print '</div>'
 
@@ -184,7 +184,7 @@ def open_ticket():
         print '</div>'
         print '<label class="control-label col-sm-2"> Assignment Group </label>'
         print '<div class="col-sm-4">'
-        print '<input type="text" class="form-control" id="assignment" name="assignment">'
+        print '<input type="text" class="form-control" id="assignment" name="assignment" value="\xE0\xB8\xA1\xE0\xB8\x82\x2E\x20\x43\x6F\x72\x65\x20\x4E\x65\x74\x77\x6F\x72\x6B\x2F\xE0\xB8\xA1\xE0\xB8\xA1\x2E">'
         print '</div>'
         print '</div>'
 
@@ -231,6 +231,7 @@ def open_ticket():
         print '     <button class="btn btn-default pull-right" type="submit">Submit</button>'
         print ' </div>'
         print '</div>'
+
 
         print '</form>'
 
