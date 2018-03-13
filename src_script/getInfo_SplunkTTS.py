@@ -22,8 +22,15 @@ tts = TTS('catma', 'ait@1761', TTS_basehost)
 def get_catid(l):
     cat_id = ''
     splitcatid = l['cat_id'].split('_')
+
     if len(splitcatid[0]) >= 9:
         cat_id = re.search('(\w+)', splitcatid[0])
+        if cat_id:
+            cat_id = cat_id.group(1)
+            if len(cat_id) < 9:
+                cat_id = l['host'] + l['src_interface']
+    elif len(splitcatid[1]) >= 9:
+        cat_id = re.search('(\w+)', splitcatid[1])
         if cat_id:
             cat_id = cat_id.group(1)
             if len(cat_id) < 9:
@@ -73,6 +80,7 @@ def insert_Splunk(lst_splunk):
             db.insert(insert_query)
             print "INSERT DONE"
 
+
 def insert_TTS(lst_catid):
     lst = []
     for c in lst_catid:
@@ -117,6 +125,7 @@ def insert_TTS(lst_catid):
             else:
                 print 'DONE'
     print 'ENDED TTS'
+
 
 def job_SPLUNK(searchQuery):
     print 'Doing SPLUNK...'
