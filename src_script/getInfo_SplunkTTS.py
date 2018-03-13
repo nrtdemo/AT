@@ -146,13 +146,7 @@ def PrintDebug(msg):
 
 
 if __name__ == "__main__":
-    search_link = 'cat_id="*TPK*" OR cat_id="*TBB*" eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" host="10.5.0.*" OR "10.126.0.*" src_interface="POS*" OR "HundredGigE*" OR "TenGigE*" OR "TenGigabitEthernet*" | stats count as flap, latest(port_status) AS port_status, latest(device_time) AS device_time, by host, hostname, src_interface, cat_id'
-<<<<<<< HEAD
-    job_SPLUNK(search_link)
-    job_TTS()
-
-    #tts.test_url()
-=======
+    search_link = 'cat_id="*TPK*" OR cat_id="*TBB*" eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" host="10.5.0.*" OR "10.126.0.*" src_interface="POS*" OR "HundredGigE*" OR "TenGigE*" OR "TenGigabitEthernet*" | stats count as flap, latest(port_status) AS port_status, latest(device_time) AS device_time by host, hostname, src_interface, cat_id'
     search_link_40G_100GbE = 'eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" cat_id="*TPK*" OR cat_id="*TBB*" host="10.126.0.*" src_interface="POS*" OR "HundredGigE*" | stats count as flap,latest(device_time) AS device_time,latest(port_status) AS port_status by host,hostname,src_interface,cat_id'
     search_link_PE_Bangkok_Flap = 'eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" cat_id="*TPK*" OR cat_id="*TBB*" host="10.5.0.*" | stats count as flap,latest(device_time) AS device_time,latest(port_status) AS port_status by host,hostname,src_interface,cat_id'
 
@@ -163,7 +157,6 @@ if __name__ == "__main__":
     t2 = threading.Thread(name='search_link_PE_Bangkok_Flap', target=job_SPLUNK, args=(search_link_PE_Bangkok_Flap,))
     t1.start()
     t2.start()
->>>>>>> d6dfe035a241ff9bb55a353d55a2f1026bdba225
 
     while t1.isAlive() or t2.isAlive():
         print 'Script is working!!'
