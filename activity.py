@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from src_script.template import template_AT
 import cgitb
+
+t = template_AT()
 cgitb.enable()
+
 
 def index():
     import cgi
@@ -16,19 +20,7 @@ def index():
     lst_catid = db.query(select_catid)
 
     if 'TicketNo' not in form or len(lst_catid) == 0:
-        redirectURL = "/cgi-enabled/index.py"
-        print 'Content-Type: text/html'
-        print 'Location: %s' % redirectURL
-        print  # HTTP says you have to have a blank line between headers and content
-        print '<html>'
-        print '  <head>'
-        print '    <meta http-equiv="refresh" content="0;url=%s" />' % redirectURL
-        print '    <title>You are going to be redirected</title>'
-        print '  </head>'
-        print '  <body>'
-        print '    Redirecting... <a href="%s">Click here if you are not redirected</a>' % redirectURL
-        print '  </body>'
-        print '</html>'
+        t.redirect()
     else:
         lst_catid = lst_catid[0]
         activity = json.loads(lst_catid['activity'])
@@ -134,10 +126,7 @@ def index():
 
 
 if __name__ == "__main__":
-    from src_script.template import template_AT
-    t = template_AT()
     t.print_header()
     t.print_menu()
     index()
     t.print_close()
-

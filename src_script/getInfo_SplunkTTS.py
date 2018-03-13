@@ -8,14 +8,15 @@ from splunk import SPLUNK
 
 db = Database(host='127.0.0.1', username='root', password='', db='alarm_ticket')
 
-#SPLUNK
+# SPLUNK
 splunk_baseurl = 'https://10.4.0.136:8089'
 # splunk_baseurl = 'https://192.168.100.2:8089'
 splunk = SPLUNK('admin', 'P@ssw0rd', splunk_baseurl)
 
-#TTS
+# TTS
 TTS_basehost = "122.155.137.214"
 tts = TTS('catma', 'ait@1761', TTS_basehost)
+
 
 def get_catid(l):
     cat_id = ''
@@ -35,6 +36,7 @@ def get_catid(l):
     else:
         cat_id = l['host'] + l['src_interface']
     return cat_id
+
 
 def insert_Splunk(lst_splunk):
     for l in lst_splunk:
@@ -70,10 +72,12 @@ def insert_Splunk(lst_splunk):
             db.insert(insert_query)
             print "INSERT DONE"
 
+
 def insert_TTS(lst_catid):
     lst = []
     for c in lst_catid:
-        lst.append(tts.Search(c['cat_id']))
+        if len(c['cat_id']) < 10:
+            lst.append(tts.Search(c['cat_id']))
 
     for l in lst:
         if l is not None:
@@ -95,25 +99,28 @@ def insert_TTS(lst_catid):
 
             insert_query = """INSERT INTO `tts`(`ticketNo`,`incident_id`, `affected_item`, `cat_id`, `status`, `problem_status`, `downtime_start`, `downtime_time`, `owner_group`, `repairteam`, `oss_source`, `oss_destination`, `address`, `title`, `description`, `activity`, `bandwidth`) VALUES """
             value = "\n('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}')".format(
-                l['incident_id'], l['number'], l['affected_item'].encode('utf-8'), l['catid'].encode('utf-8'), l['status'], l['problem_status'],l['downtime_start'], l['downtime'],
+                l['incident_id'], l['number'], l['affected_item'].encode('utf-8'), l['catid'].encode('utf-8'), l['status'], l['problem_status'], l['downtime_start'], l['downtime'],
                 l['owner_group'].encode('utf-8'), l['repairteam'].encode('utf-8'), l['oss_source'].encode('utf-8'), l['oss_destination'].encode('utf-8'),
-                ticket_info['instance/oss.address/oss.address'].encode('utf-8'), ticket_info['instance/brief.description'].encode('utf-8'), ticket_info['instance/action/action'].encode('utf-8'), activity_table, ticket_info['instance/oss.bandwidth'].encode('utf-8')
+                ticket_info['instance/oss.address/oss.address'].encode('utf-8'), ticket_info['instance/brief.description'].encode('utf-8'),
+                ticket_info['instance/action/action'].encode('utf-8'), activity_table, ticket_info['instance/oss.bandwidth'].encode('utf-8')
             )
             query = "{0} {1}".format(insert_query, value)
             # PrintDebug(query)
             resp_status = db.insert(query)
             if not resp_status:
                 update_query = """ UPDATE `tts` SET `affected_item`='{0}',`status`='{1}',`problem_status`='{2}',`downtime_start`='{3}',`downtime_time`='{4}', `description`='{6}', `activity`='{7}' WHERE `ticketNo`='{5}' """.format(
-                        l['affected_item'].encode('utf-8'), l['status'], l['problem_status'], l['downtime_start'], l['downtime'], l['incident_id'], ticket_info['instance/action/action'].encode('utf-8'), activity_table)
+                    l['affected_item'].encode('utf-8'), l['status'], l['problem_status'], l['downtime_start'], l['downtime'], l['incident_id'],
+                    ticket_info['instance/action/action'].encode('utf-8'), activity_table)
                 db.insert(update_query)
                 # PrintDebug(update_query)
                 # print 'UPDATE'
             else:
                 print 'DONE'
 
+
 def job_SPLUNK(searchQuery):
     print 'Doing SPLUNK...'
-    sid = splunk.CreateSearch(searchQuery, timerange='24hr') #defind timerange query data
+    sid = splunk.CreateSearch(searchQuery, timerange="7d")  # defind timerange query data
     # sid = splunk.CreateSearch(searchQuery)  # defind timerange query data
     print (sid)
     rs = splunk.GetSearchStatus(sid)
@@ -124,22 +131,24 @@ def job_SPLUNK(searchQuery):
     lst = splunk.GetSearchResult(sid)
     insert_Splunk(lst)
 
+
 def job_TTS():
     print 'Doing TTS...'
-    select_catid = """ SELECT `cat_id`,`host` FROM `splunk` WHERE port_status = 'Down' GROUP BY cat_id"""
+    select_catid = """ SELECT `cat_id`,`host` FROM `splunk` WHERE cat_id='TPK016627' GROUP BY cat_id"""
     lst_catid = db.query(select_catid)
     insert_TTS(lst_catid)
+
 
 def PrintDebug(msg):
     if True:
         print msg
 
+
 if __name__ == "__main__":
-    search_link = 'eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" host="10.126.0.*" src_interface="POS*" OR "HundredGigE*" | stats count as flap,latest(device_time) AS device_time,latest(port_status) AS port_status by host,src_interface,cat_id,hostname  |sort -count '
-    search_link_pe_flap_out_bangkok='eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" host="10.5.*.*" host!="10.5.0.*" src_interface="TenGig*" OR "Gigabit*" port_status!="administratively down"'
-    search_link_pe_flap_bangkok='eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" host="10.5.0.*" OR "10.126.0.*" src_interface="TenGig*" OR "Gigabit*" port_status!="administratively down"   hostname="*" host="10.5.0.11" src_interface="*"'
-    search_link_switch_layer_two='host!="10.6.*.*" host!="10.5.*.*" eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" src_interface="FastE*" OR src_interface="TenGig*" OR "Gigabit*" port_status!="administratively down"  hostname=3GHSPA_NAN6519 host="10.163.27.2" src_interface="*"'
+    search_link = 'cat_id="*TPK*" OR cat_id="*TBB*" eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" host="10.5.0.*" OR "10.126.0.*" src_interface="POS*" OR "HundredGigE*" OR "TenGigE*" OR "TenGigabitEthernet*" | stats count as flap, latest(port_status) AS port_status, latest(device_time) AS device_time, by host, hostname, src_interface, cat_id'
     job_SPLUNK(search_link)
     job_TTS()
+
+    #tts.test_url()
 
     # tts.Open_Ticket('TBB125502')

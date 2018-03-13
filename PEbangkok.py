@@ -10,11 +10,11 @@ def index():
     from src_script.MySQL import Database
     db = Database(host='localhost', username='root',
                   password='', db='alarm_ticket')
-    select_catid = """SELECT * FROM splunk LEFT JOIN tts ON (splunk.cat_id = tts.cat_id) GROUP BY src_interface, host, hostname, path"""
+    select_catid = """SELECT * FROM splunk LEFT JOIN tts ON (splunk.cat_id = tts.cat_id) WHERE host LIKE '10.5.0%' GROUP BY src_interface, host, hostname, path """
     lst_catid = db.query(select_catid)
 
     print '<div class="box">'
-    print '<div class="box-header"><h3 class="box-title">Monitor Link 40G&100GbE Up_Down</h3>'
+    print '<div class="box-header"><h3 class="box-title">Link PE Bangkok Flap 24hr</h3>'
     print '<div style="padding-bottom: 0;">'
     print '<div class="row">'
     print '<div class="col-xs-12">'
@@ -48,8 +48,6 @@ def index():
     print '         <th class="col-lg-1">Cat ID</th>'
     print '         <th class="col-lg-1">Source Interface</th>'
     print '         <th class="col-lg-1 text-center">Host</th>'
-    # print '<th class="col-lg-1">Hostname</th>'
-    # print '<th class="col-lg-1">device_time</th>'
     print '         <th class="col-lg-1 text-center">Port Status</th>'
     print '         <th class="col-lg-1">Path</th>'
     print '         <th class="col-lg-1">flap</th>'
@@ -114,3 +112,4 @@ if __name__ == "__main__":
     index()
 
     t.print_close()
+
