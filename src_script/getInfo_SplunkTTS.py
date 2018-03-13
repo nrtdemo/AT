@@ -1,6 +1,7 @@
 #!/usr/bin/python -u
 import time
 import re
+import threading
 
 from MySQL import Database
 from tts_v1 import TTS
@@ -72,7 +73,6 @@ def insert_Splunk(lst_splunk):
             db.insert(insert_query)
             print "INSERT DONE"
 
-
 def insert_TTS(lst_catid):
     lst = []
     for c in lst_catid:
@@ -116,11 +116,11 @@ def insert_TTS(lst_catid):
                 # print 'UPDATE'
             else:
                 print 'DONE'
-
+    print 'ENDED TTS'
 
 def job_SPLUNK(searchQuery):
     print 'Doing SPLUNK...'
-    sid = splunk.CreateSearch(searchQuery, timerange="7d")  # defind timerange query data
+    sid = splunk.CreateSearch(searchQuery, timerange="24hr")  # defind timerange query data
     # sid = splunk.CreateSearch(searchQuery)  # defind timerange query data
     print (sid)
     rs = splunk.GetSearchStatus(sid)
@@ -130,11 +130,12 @@ def job_SPLUNK(searchQuery):
         rs = splunk.GetSearchStatus(sid)
     lst = splunk.GetSearchResult(sid)
     insert_Splunk(lst)
+    print 'ENDED SPLUNK'
 
 
 def job_TTS():
     print 'Doing TTS...'
-    select_catid = """ SELECT `cat_id`,`host` FROM `splunk` WHERE cat_id='TPK016627' GROUP BY cat_id"""
+    select_catid = """ SELECT `cat_id`,`host` FROM `splunk` GROUP BY cat_id"""
     lst_catid = db.query(select_catid)
     insert_TTS(lst_catid)
 
@@ -146,9 +147,25 @@ def PrintDebug(msg):
 
 if __name__ == "__main__":
     search_link = 'cat_id="*TPK*" OR cat_id="*TBB*" eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" host="10.5.0.*" OR "10.126.0.*" src_interface="POS*" OR "HundredGigE*" OR "TenGigE*" OR "TenGigabitEthernet*" | stats count as flap, latest(port_status) AS port_status, latest(device_time) AS device_time, by host, hostname, src_interface, cat_id'
+<<<<<<< HEAD
     job_SPLUNK(search_link)
     job_TTS()
 
     #tts.test_url()
+=======
+    search_link_40G_100GbE = 'eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" cat_id="*TPK*" OR cat_id="*TBB*" host="10.126.0.*" src_interface="POS*" OR "HundredGigE*" | stats count as flap,latest(device_time) AS device_time,latest(port_status) AS port_status by host,hostname,src_interface,cat_id'
+    search_link_PE_Bangkok_Flap = 'eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" cat_id="*TPK*" OR cat_id="*TBB*" host="10.5.0.*" | stats count as flap,latest(device_time) AS device_time,latest(port_status) AS port_status by host,hostname,src_interface,cat_id'
 
-    # tts.Open_Ticket('TBB125502')
+    # job_SPLUNK(search_link)
+    # job_TTS()
+
+    t1 = threading.Thread(name='search_link_40G_100GbE', target=job_SPLUNK, args=(search_link_40G_100GbE,))
+    t2 = threading.Thread(name='search_link_PE_Bangkok_Flap', target=job_SPLUNK, args=(search_link_PE_Bangkok_Flap,))
+    t1.start()
+    t2.start()
+>>>>>>> d6dfe035a241ff9bb55a353d55a2f1026bdba225
+
+    while t1.isAlive() or t2.isAlive():
+        print 'Script is working!!'
+        time.sleep(30)
+    job_TTS()
