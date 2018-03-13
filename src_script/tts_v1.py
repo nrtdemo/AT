@@ -1,4 +1,5 @@
 #!/usr/bin/python -u
+# -*- coding: utf-8 -*-
 
 import urllib
 import httplib2
@@ -56,7 +57,7 @@ class TTS(object):
         self.DebugPrint(resp[0])
         self.DebugPrint(resp[1])
 
-    def Open_Ticket(self, catId):
+    def Open_Ticket(self, val):
         self.Auth()
         url = '/sm/cwc/nav.menu?name=navStart&id=ROOT%2FOpen%20New%20Ticket&{0}={1}'.format(
             self.csrfName, self.csrfValue)
@@ -69,6 +70,8 @@ class TTS(object):
         self.DebugPrint(resp[0])
         self.DebugPrint(resp[1])
         # protect open ticket, now is bug
+
+        pass
         return None
 
         url = "/sm/L10N/recordlist.jsp"
@@ -84,7 +87,7 @@ class TTS(object):
         data["transaction"] = "0"
         data["type"] = "detail"
         data["focus"] = "var%2Foss.search.value"
-        data["focusContents"] = catId
+        data["focusContents"] = val['catid']
         data["focusId"] = "X12"
         data["focusReadOnly"] = ""
         data["start"] = ""
@@ -108,7 +111,7 @@ class TTS(object):
         data["var%2Foss.dcss.allrecordcount"] = ""
         data["var%2Foss.dcss.showtext"] = ""
         resp_post = self.SendData(TTS_Path.search, data,
-                             AutoParseHTMLCharector=False)
+                                  AutoParseHTMLCharector=False)
         self.DebugPrint(resp_post[1])
 
         url = "/sm/L10N/recordlist.jsp"
@@ -142,7 +145,7 @@ class TTS(object):
         data["_multiSelection_selectionField"] = ""
         data["clientWidth"] = "1109"
         data["var%2Foss.search.fieldname"] = "id"
-        data["var%2Foss.search.value"] = catId
+        data["var%2Foss.search.value"] = val['catid']
         data["var%2Foss.dcss.allrecordcount"] = "1"
         data["var%2Foss.dcss.showtext"] = "1+to+1"
 
@@ -162,7 +165,6 @@ class TTS(object):
         data["transaction"] = "2"
         data["type"] = "detail"
         data["focus"] = "instance%2Faction%2Faction"
-
         data["focusContents"] = ""
         data["focusId"] = "X110"
         data["focusReadOnly"] = ""
@@ -182,10 +184,10 @@ class TTS(object):
         data["instance%2Fincident.id"] = ""
         data["instance%2Fcustomer.type"] = ""
         data["instance%2Fnumber"] = ""
-        data["instance%2Foss.informant"] = ""
-        data["instance%2Fcontact.email"] = ""
-        data["instance%2Fcatid"] = catId
-        data["instance%2Foss.contact.telephone"] = ""
+        data["instance%2Foss.informant"] = "CATMA"
+        data["instance%2Fcontact.email"] = "catma%40ait.co.th"
+        data["instance%2Fcatid"] = val['catid']
+        data["instance%2Foss.contact.telephone"] = "021041761"
         data["instance%2Foss.source"] = ""
         data["instance%2Foss.contact.sms"] = ""
         data["instance%2Foss.destination"] = ""
@@ -193,7 +195,7 @@ class TTS(object):
         data["instance%2Foss.address%2Foss.address"] = ""
         data["instance%2Fsource"] = ""
         data["instance%2Fcategory"] = "incident"
-        data["instance%2Foss.bandwidth"] = "100 Gbps"
+        data["instance%2Foss.bandwidth"] = ""
         data["instance%2Fgateway.type"] = ""
         data["instance%2Fsubcategory"] = "failure"
         data["instance%2Fpartners.name"] = ""
@@ -202,18 +204,18 @@ class TTS(object):
         data["instance%2Finitial.impact"] = "3"
         data["instance%2Fcarrier.ticket"] = ""
         data["instance%2Fseverity"] = "2"
-        data["instance%2Faffected.item"] = ""
+        data["instance%2Faffected.item"] = "%E0%B8%9A%E0%B8%A3%E0%B8%B4%E0%B8%81%E0%B8%B2%E0%B8%A3+CAT+EPL+-+Domestic"
         data["instance%2Flogical.name"] = ""
-        data["instance%2Fowner.group"] = ""
+        data["instance%2Fowner.group"] = "%E0%B8%A1%E0%B8%82.+Core+Network%2F%E0%B8%A1%E0%B8%A1."
         data["instance%2Fdowntime.start"] = datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).strftime('%d/%m/%Y %H:%M:%S')
-        data["instance%2Fassignment"] = ""
+        data["instance%2Fassignment"] = "%E0%B8%A1%E0%B8%82.+THAIPAK"
         data["instance%2Fdowntime.end"] = ""
         data["instance%2Fendtoend.group"] = ""
         data["instance%2Fdowntime"] = ""
         data["instance%2Frepairteam"] = ""
         data["instance%2Fnext.breach"] = ""
         # Need to require
-        data["instance%2Fbrief.description"] = "Down"
+        data["instance%2Fbrief.description"] = ""
         data["instance%2Faction%2Faction"] = ""
         data["instance%2Fcomment%2Fcomment"] = ""
 
@@ -303,7 +305,8 @@ class TTS(object):
         data["var%2Fpmc.update.start"] = ""
         data["var%2Fpmc.update.end"] = ""
         data["instance%2Fupdated.by"] = ""
-        data["var%2Fchoices%2FdynamicFormDef"] = "%3Cform%3E%3Ccheckbox+id%3D%22open%22+label%3D%22Open%22%2F%3E%3Ccheckbox+id%3D%22closed%22+label%3D%22Closed%22%2F%3E%3Ccheckbox+id%3D%22assigned%22+label%3D%22Assigned+to+me%22%2F%3E%3Ccheckbox+id%3D%22highpriority%22+label%3D%22High+Priority%22%2F%3E%3Ccheckbox+id%3D%22tl%22+label%3D%22Total+Loss+of+Service%22%2F%3E%3Ccheckbox+id%3D%22ucmdb%22+label%3D%22Generated+by+UCMDB+Integration%22%2F%3E%3C%2Fform%3E"
+        data[
+            "var%2Fchoices%2FdynamicFormDef"] = "%3Cform%3E%3Ccheckbox+id%3D%22open%22+label%3D%22Open%22%2F%3E%3Ccheckbox+id%3D%22closed%22+label%3D%22Closed%22%2F%3E%3Ccheckbox+id%3D%22assigned%22+label%3D%22Assigned+to+me%22%2F%3E%3Ccheckbox+id%3D%22highpriority%22+label%3D%22High+Priority%22%2F%3E%3Ccheckbox+id%3D%22tl%22+label%3D%22Total+Loss+of+Service%22%2F%3E%3Ccheckbox+id%3D%22ucmdb%22+label%3D%22Generated+by+UCMDB+Integration%22%2F%3E%3C%2Fform%3E"
         data["dynamicFormRef%2FF1373192486"] = "var%2Fchoices"
         data["var%2Fadv.close.start"] = ""
         data["var%2Fadv.close.end"] = ""
@@ -350,6 +353,7 @@ class TTS(object):
                 info[name] = infodvdvar.all()[0].innerHTML.strip()
             elif lem == 'input':
                 info[name] = str(infodvdvar).split('u\'value\', u\'')[1].split('\')')[0].encode('utf-8')
+                print info[name]
 
         parserTableNormalRow = parser.getElementsByAttr('class', 'TableNormalRow')
         id_activity_table = str(parserTableNormalRow).split('dtlr_')[1].split('_')[0]
@@ -382,23 +386,69 @@ class TTS(object):
         info['activity_table'] = datas
         return info
 
+    def test_url(self):
+        ttsurl = self.host
+        self.host = "192.168.186.132"
+        resp = self.SendData('/cgi-enabled/test.py')
+        self.host = ttsurl
+        # print resp[1]
+        data = resp[1]
+
+        parser = AdvancedHTMLParser.AdvancedHTMLParser()
+        parser.parseStr(data)
+        info = collections.OrderedDict()
+        infodvdvar = parser.getElementsByAttr('name', str("instance/oss.source"))
+        str(infodvdvar).split('u\'value\', u\'')[1].split('\')')[0].encode('utf-8')
+
+        m = re.search('u\'value\', u\'(.*)', str(infodvdvar))
+        if m:
+            # test = str(infodvdvar[0]).split('value=\"')[1].split('\"')[0]
+            # print test.decode('utf8')
+            test = u'\u0e01\u0e2a\u0e17 \u0e04\u0e25\u0e2d\u0e07\u0e2b\u0e25\u0e27\u0e07_\u0e04\u0e25\u0e2d\u0e07\u0e2b\u0e25\u0e27\u0e07'
+            value = infodvdvar[0]
+            print value
+
+            print type(value)
+            content = test
+            print type(content)
+
+            print "="*100
+
+            info['message'] = value
+        else:
+            info['message'] = "error"
+        return info
+
+        # if status closed get variable dvdvar or ref
+        # lem = str(infodvdvar).split('TagCollection([AdvancedTag(u\'')[1].split('\',')[0]
+        # if lem == 'textarea':
+        #     info[name] = infodvdvar.all()[0].innerHTML.strip()
+        # elif lem == 'input':
+        #     info[name] = str(infodvdvar).split('u\'value\', u\'')[1].split('\')')[0].encode('utf-8')
+
     def startdowntime(self, timerange):
         datetimemk = "01/01/2018 00:00:00"
         str_date = timerange[-1]
-        a_month = 2629746 # sec
-        a_yaer = 31556952 # sec
+        a_month = 2629746  # sec
+        a_yaer = 31556952  # sec
 
         datetimenow = datetime.datetime.now()
         time_left = timerange[1:-1]
+        if time_left is None:
+            str_date = ''
+
         if str_date == 'y':
             timemk = time.mktime(datetimenow.timetuple()) - (a_yaer * int(time_left))
             datetimemk = datetime.datetime.fromtimestamp(timemk).strftime('%d/%m/%Y %H:%M:%S')
-        else:
+        elif str_date == 'm':
             timemk = time.mktime(datetimenow.timetuple()) - (a_month * int(time_left))
+            datetimemk = datetime.datetime.fromtimestamp(timemk).strftime('%d/%m/%Y %H:%M:%S')
+        else:
+            timemk = time.mktime(datetimenow.timetuple()) - (a_yaer * int(1))
             datetimemk = datetime.datetime.fromtimestamp(timemk).strftime('%d/%m/%Y %H:%M:%S')
         return datetimemk
 
-    def Search(self, id, timerange="-6m"):
+    def Search(self, id, timerange="-1y"):
         self.Auth()
         data = collections.OrderedDict()
         url = '/sm/cwc/nav.menu?name=navStart&id=ROOT%2FSearch%20Ticket&{0}={1}'.format(
@@ -490,7 +540,8 @@ class TTS(object):
         data["var%2Fpmc.update.start"] = ""
         data["var%2Fpmc.update.end"] = ""
         data["instance%2Fupdated.by"] = ""
-        data["var%2Fchoices%2FdynamicFormDef"] = "%3Cform%3E%3Ccheckbox+id%3D%22open%22+label%3D%22Open%22%2F%3E%3Ccheckbox+id%3D%22closed%22+label%3D%22Closed%22%2F%3E%3Ccheckbox+id%3D%22assigned%22+label%3D%22Assigned+to+me%22%2F%3E%3Ccheckbox+id%3D%22highpriority%22+label%3D%22High+Priority%22%2F%3E%3Ccheckbox+id%3D%22tl%22+label%3D%22Total+Loss+of+Service%22%2F%3E%3Ccheckbox+id%3D%22ucmdb%22+label%3D%22Generated+by+UCMDB+Integration%22%2F%3E%3C%2Fform%3E"
+        data[
+            "var%2Fchoices%2FdynamicFormDef"] = "%3Cform%3E%3Ccheckbox+id%3D%22open%22+label%3D%22Open%22%2F%3E%3Ccheckbox+id%3D%22closed%22+label%3D%22Closed%22%2F%3E%3Ccheckbox+id%3D%22assigned%22+label%3D%22Assigned+to+me%22%2F%3E%3Ccheckbox+id%3D%22highpriority%22+label%3D%22High+Priority%22%2F%3E%3Ccheckbox+id%3D%22tl%22+label%3D%22Total+Loss+of+Service%22%2F%3E%3Ccheckbox+id%3D%22ucmdb%22+label%3D%22Generated+by+UCMDB+Integration%22%2F%3E%3C%2Fform%3E"
         data["dynamicFormRef%2FF1373192486"] = "var%2Fchoices"
         data["var%2Fadv.close.start"] = ""
         data["var%2Fadv.close.end"] = ""
@@ -552,7 +603,7 @@ class TTS(object):
     def Logout(self):
         self.login_state = False
 
-        resp = self.SendData(TTS_Path.login+'?lang=en&mode=ess.do&essuser=true', save_referer=True)
+        resp = self.SendData(TTS_Path.login + '?lang=en&mode=ess.do&essuser=true', save_referer=True)
         resp = self.SendData('/sm/cwc/shortenSessionTimeout.jsp')
         resp = self.SendData('/sm/cwc/logoutcleanup.jsp?lang=en&mode=ess.do&essuser=true', save_referer=True)
         resp = self.SendData('/sm/goodbye.jsp?lang=en&mode=ess.do&essuser=true')
@@ -616,5 +667,5 @@ class TTS(object):
         self.headers['Cookie'] = ';'.join(ncookies)
 
     def DebugPrint(self, msg):
-        if True:
+        if False:
             print msg
