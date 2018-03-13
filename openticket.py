@@ -225,9 +225,7 @@ def open_ticket():
     print ' </div>'
     print '</div>'
 
-
     print '</form>'
-
     print '</div>'
     print '</div>'
 

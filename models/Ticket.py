@@ -62,6 +62,8 @@ class Ticket(object):
             raise ValueError("Only require to need Description")
         self.data["comment"] = ""
 
+    # def redirect_page(self, form):
+    #
 
     def getData(self):
         return self.data
