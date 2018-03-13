@@ -353,7 +353,6 @@ class TTS(object):
                 info[name] = infodvdvar.all()[0].innerHTML.strip()
             elif lem == 'input':
                 info[name] = str(infodvdvar).split('u\'value\', u\'')[1].split('\')')[0].encode('utf-8')
-                print info[name]
 
         parserTableNormalRow = parser.getElementsByAttr('class', 'TableNormalRow')
         id_activity_table = str(parserTableNormalRow).split('dtlr_')[1].split('_')[0]

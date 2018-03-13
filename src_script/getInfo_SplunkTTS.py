@@ -120,21 +120,20 @@ def insert_TTS(lst_catid):
 
 def job_SPLUNK(searchQuery):
     print 'Doing SPLUNK...'
-    sid = splunk.CreateSearch(searchQuery, timerange="7d")  # defind timerange query data
+    sid = splunk.CreateSearch(searchQuery, timerange="24hr")  # defind timerange query data
     # sid = splunk.CreateSearch(searchQuery)  # defind timerange query data
     print (sid)
     rs = splunk.GetSearchStatus(sid)
     while not rs == 'DONE':
         print rs
-        time.sleep(15)
+        time.sleep(5)
         rs = splunk.GetSearchStatus(sid)
     lst = splunk.GetSearchResult(sid)
     insert_Splunk(lst)
 
-
 def job_TTS():
     print 'Doing TTS...'
-    select_catid = """ SELECT `cat_id`,`host` FROM `splunk` WHERE cat_id='TPK016627' GROUP BY cat_id"""
+    select_catid = """ SELECT `cat_id`,`host` FROM `splunk` GROUP BY cat_id"""
     lst_catid = db.query(select_catid)
     insert_TTS(lst_catid)
 
@@ -145,13 +144,11 @@ def PrintDebug(msg):
 
 
 if __name__ == "__main__":
-    search_link = 'eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" host="10.126.0.*" src_interface="POS*" OR "HundredGigE*" | stats count as flap,latest(device_time) AS device_time,latest(port_status) AS port_status by host,src_interface,cat_id,hostname | sort -count '
-    search_link_pe_flap_out_bangkok = 'eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" host="10.5.*.*" host!="10.5.0.*" src_interface="TenGig*" OR "Gigabit*" port_status!="administratively down"'
+    search_link = 'cat_id="*TPK*" OR cat_id="*TBB*" eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" host="10.5.0.*" OR "10.126.0.*" src_interface="POS*" OR "HundredGigE*" OR "TenGigE*" OR "TenGigabitEthernet*" | stats count as flap, latest(port_status) AS port_status, latest(device_time) AS device_time, by host, hostname, src_interface, cat_id'
+    search_link_40G_100GbE = 'eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" host="10.126.0.*" src_interface="POS*" OR "HundredGigE*" | stats count as flap,latest(device_time) AS device_time,latest(port_status) AS port_status by host,src_interface,cat_id,hostname'
+    search_link_pe_flap_out_bangkok = 'eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" host="10.5.*.*" host!="10.5.0.*" src_interface="TenGig*" OR "Gigabit*" port_status!="administratively down" by host'
     search_link_pe_flap_bangkok = 'eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" host="10.5.0.*" OR "10.126.0.*" src_interface="TenGig*" OR "Gigabit*" port_status!="administratively down"   hostname="*" host="10.5.0.11" src_interface="*"'
     search_link_switch_layer_two = 'host!="10.6.*.*" host!="10.5.*.*" eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" src_interface="FastE*" OR src_interface="TenGig*" OR "Gigabit*" port_status!="administratively down"  hostname=3GHSPA_NAN6519 host="10.163.27.2" src_interface="*"'
-    # job_SPLUNK(search_link)
-    # job_TTS()
 
-    tts.test_url()
-
-    # tts.Open_Ticket('TBB125502')
+    job_SPLUNK(search_link)
+    job_TTS()
