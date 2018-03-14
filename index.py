@@ -76,11 +76,11 @@ def index():
         # print '<td class="col-lg-1">{0}</td>'.format(l['hostname'])
         # print '<td class="col-lg-1">{0}</td>'.format(l['device_time'])
         if l['port_status'] == 'Down':
-            css_portstatus = 'danger'
+            print '         <td class="col-lg-1 port_status_down text-center"><div data-original-title="{1}" data-container="body" data-toggle="tooltip" data-placement="bottom" title="">{0}</div></td>'.format(
+                l['port_status'], l['device_time'])
         else:
-            css_portstatus = 'success'
-        print '         <td class="col-lg-1 text-center {1}"><div data-original-title="{2}" data-container="body" data-toggle="tooltip" data-placement="bottom" title="">{0}</div></td>'.format(
-            l['port_status'], css_portstatus, l['device_time'])
+            print '         <td class="col-lg-1 port_status_up text-center"><div data-original-title="{1}" data-container="body" data-toggle="tooltip" data-placement="bottom" title="">{0}</div></td>'.format(
+                l['port_status'], l['device_time'])
         print '         <td class="col-lg-1">{0}</td>'.format(
             l['path'])
         print '         <td class="col-lg-1">{0}</td>'.format(l['flap'])
