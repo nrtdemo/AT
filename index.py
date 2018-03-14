@@ -41,7 +41,7 @@ def index():
 
     print '<div class="box-body">'
     print '<div class="table-responsive">'
-    print '<table class="table table-bordered table-striped" id="alarmtickets">'
+    print '<table class="table table-bordered table-hover table-striped" id="alarmtickets">'
     print " <thead>"
     print '     <tr class="Bg-head-table">'
     print '         <th class="col-lg-1">Ticket No.</th>'
