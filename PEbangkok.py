@@ -73,7 +73,7 @@ def index():
             l['host'], l['hostname'])
         # print '<td class="col-lg-1">{0}</td>'.format(l['hostname'])
         # print '<td class="col-lg-1">{0}</td>'.format(l['device_time'])
-        if (l['port_status'] == 'down' or l['port_status'] == 'Down' ) :
+        if (l['port_status'] == 'down' or l['port_status'] == 'Down'):
             print '         <td class="col-lg-1 port_status_down text-center"><div data-original-title="{1}" data-container="body" data-toggle="tooltip" data-placement="bottom" title="">{0}</div></td>'.format(
                 l['port_status'], l['device_time'])
         else:
@@ -87,7 +87,7 @@ def index():
         else:
             print '         <td class="col-lg-1"></td>'
         print '         <td class="col-lg-1">{0}</td>'.format(l['affected_item'])
-        if l['port_status'] == 'down' or l['port_status'] == 'Down'  and (l['problem_status'] == 'Closed' or l['problem_status'] is None):
+        if l['port_status'] == 'down' or l['port_status'] == 'Down' and (l['problem_status'] == 'Closed' or l['problem_status'] is None):
             print '         <td class="col-lg-1"><a href="/cgi-enabled/openticket.py?cat_id={0}"><input type="button" class="btn btn-default" value="open ticket"></a></td>'.format(
                 l['cat_id'])
         else:
@@ -112,4 +112,3 @@ if __name__ == "__main__":
     index()
 
     t.print_close()
-
