@@ -32,3 +32,8 @@ $(document).ready(function () {
         alarmtickets_table.columns(4).search(filter_stat).draw();
     });
 });
+
+
+$(document).ready(function(){
+    $(".dropdown-toggle").dropdown();
+});

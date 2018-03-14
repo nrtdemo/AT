@@ -38,14 +38,24 @@ class template_AT(object):
         print ' <div class="container-fluid">'
         print '     <div class="navbar-header">'
         print '         <a class="navbar-brand" href="index.py">Alarm Ticket</a>'
-        print '         <a class="navbar-brand" href="PEbangkok.py">Link PE Bangkok Flap 24hr</a>'
-        print "     </div>"
-        print '     <ul class="nav navbar-nav">'
-        # print '<li class="active"><a href="/home">Home</a></li>'
-        # print '<li><a href="/splunk">Splunk</a></li>'
-        print "     </ul>"
+        print '     </div>'
+        # print '         <a class="navbar-brand" href="PEbangkok.py">Link PE Bangkok Flap 24hr</a>'
+        print """
+                    <ul class="nav navbar-nav">
+                           <li class="dropdown">
+                            <a class="dropdown-toggle navbar-brand" id="myDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                                Bangkok Link<span class="caret"></span></a>
+                                <ul class="dropdown-menu" aria-labelledby="myDropdown">
+                                    <li><a class="dropdown-item" href="index.py"> Link 40G&100GbE Up_Down</a></li>
+                                    <li><a class="dropdown-item" href="PEbangkok.py">Link PE Bangkok Flap 24hr</a></li>
+                                </ul>
+                           </li>
+                    </ul>
+               """
         print " </div>"
         print "</nav>"
+
+
 
     def print_close(self):
         print '<script src="js/app.js"></script>'
