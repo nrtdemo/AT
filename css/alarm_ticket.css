@@ -9,3 +9,12 @@
 .box-form {
     padding: 0 3% 0 3%;
 }
+
+.port_status_up{
+    background-color:rgb(101, 166, 55);
+}
+
+.port_status_down{
+    background-color:#ff4d4d;
+    /*bgcolor:#ff4d4d;*/
+}
