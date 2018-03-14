@@ -69,10 +69,6 @@ class TTS(object):
                              save_referer=True)
         self.DebugPrint(resp[0])
         self.DebugPrint(resp[1])
-        # protect open ticket, now is bug
-
-        pass
-        return None
 
         url = "/sm/L10N/recordlist.jsp"
         resp = self.SendData(url)
@@ -107,12 +103,16 @@ class TTS(object):
         data["_multiSelection_selectionField"] = ""
         data["clientWidth"] = "1109"
         data["var%2Foss.search.fieldname"] = "id"
-        data["var%2Foss.search.value"] = catId
+        data["var%2Foss.search.value"] = val['catid']
         data["var%2Foss.dcss.allrecordcount"] = ""
         data["var%2Foss.dcss.showtext"] = ""
         resp_post = self.SendData(TTS_Path.search, data,
                                   AutoParseHTMLCharector=False)
         self.DebugPrint(resp_post[1])
+        # protect open ticket, now is bug
+
+        pass
+        return None
 
         url = "/sm/L10N/recordlist.jsp"
         resp = self.SendData(url)
@@ -156,6 +156,27 @@ class TTS(object):
         self.DebugPrint(resp_post[0])
         self.DebugPrint(resp_post[1])
 
+        data_last_state = resp_post[1]
+        parser = AdvancedHTMLParser.AdvancedHTMLParser()
+        parser.parseStr(data_last_state)
+        info = collections.OrderedDict()
+        list_search = [
+            ['name', 'instance/oss.source'],
+            ['name', 'instance/oss.destination'],
+            ['name', 'instance/oss.address/oss.address'],
+            ['name', 'instance/oss.bandwidth']
+        ]
+        for l in list_search:
+            key = l[0]
+            value = l[1]
+            infoinput = parser.getElementsByAttr(key, value)
+            # if status closed get variable dvdvar or ref
+            lem = str(infoinput).split('TagCollection([AdvancedTag(u\'')[1].split('\',')[0]
+            if lem == 'textarea':
+                info[value] = infoinput.all()[0].innerHTML.strip()
+            elif lem == 'input':
+                info[value] = str(infoinput).split('u\'value\', u\'')[1].split('\')')[0].decode('unicode-escape')
+
         data = collections.OrderedDict()
         data["row"] = ""
         data["__x"] = ""
@@ -188,14 +209,14 @@ class TTS(object):
         data["instance%2Fcontact.email"] = "catma%40ait.co.th"
         data["instance%2Fcatid"] = val['catid']
         data["instance%2Foss.contact.telephone"] = "021041761"
-        data["instance%2Foss.source"] = ""
+        data["instance%2Foss.source"] = urllib.quote(info['instance/oss.source'].encode('utf-8'))
         data["instance%2Foss.contact.sms"] = ""
-        data["instance%2Foss.destination"] = ""
+        data["instance%2Foss.destination"] = urllib.quote(info['instance/oss.destination'].encode('utf-8'))
         data["instance%2Foss.contact.fax"] = ""
-        data["instance%2Foss.address%2Foss.address"] = ""
+        data["instance%2Foss.address%2Foss.address"] = urllib.quote(info['instance/oss.address/oss.address'].encode('utf-8'))
         data["instance%2Fsource"] = ""
         data["instance%2Fcategory"] = "incident"
-        data["instance%2Foss.bandwidth"] = ""
+        data["instance%2Foss.bandwidth"] = urllib.quote(info['instance/oss.bandwidth'].encode('utf-8'))
         data["instance%2Fgateway.type"] = ""
         data["instance%2Fsubcategory"] = "failure"
         data["instance%2Fpartners.name"] = ""
@@ -353,7 +374,7 @@ class TTS(object):
                 info[name] = infodvdvar.all()[0].innerHTML.strip()
             elif lem == 'input':
                 info[name] = str(infodvdvar).split('u\'value\', u\'')[1].split('\')')[0].encode('utf-8')
-
+            print info[name].encode('utf-8')
         parserTableNormalRow = parser.getElementsByAttr('class', 'TableNormalRow')
         id_activity_table = str(parserTableNormalRow).split('dtlr_')[1].split('_')[0]
         row_count = len(str(parserTableNormalRow).split('dtlr_' + id_activity_table))
@@ -385,45 +406,104 @@ class TTS(object):
         info['activity_table'] = datas
         return info
 
-    def test_url(self):
+    def test_url(self, val):
         ttsurl = self.host
         self.host = "192.168.186.132"
         resp = self.SendData('/cgi-enabled/test.py')
         self.host = ttsurl
-        # print resp[1]
         data = resp[1]
 
         parser = AdvancedHTMLParser.AdvancedHTMLParser()
         parser.parseStr(data)
         info = collections.OrderedDict()
-        infodvdvar = parser.getElementsByAttr('name', str("instance/oss.source"))
-        str(infodvdvar).split('u\'value\', u\'')[1].split('\')')[0].encode('utf-8')
 
-        m = re.search('u\'value\', u\'(.*)', str(infodvdvar))
-        if m:
-            # test = str(infodvdvar[0]).split('value=\"')[1].split('\"')[0]
-            # print test.decode('utf8')
-            test = u'\u0e01\u0e2a\u0e17 \u0e04\u0e25\u0e2d\u0e07\u0e2b\u0e25\u0e27\u0e07_\u0e04\u0e25\u0e2d\u0e07\u0e2b\u0e25\u0e27\u0e07'
-            value = infodvdvar[0]
-            print value
+        list_search = [
+            ['name', 'instance/oss.source'],
+            ['name', 'instance/oss.destination'],
+            ['name', 'instance/oss.address/oss.address'],
+            ['name', 'instance/oss.bandwidth']
+        ]
 
-            print type(value)
-            content = test
-            print type(content)
+        file = open('/var/www/html/cgi-enabled/testfile.txt', 'w')
 
-            print "="*100
-
-            info['message'] = value
-        else:
-            info['message'] = "error"
-        return info
-
-        # if status closed get variable dvdvar or ref
-        # lem = str(infodvdvar).split('TagCollection([AdvancedTag(u\'')[1].split('\',')[0]
-        # if lem == 'textarea':
-        #     info[name] = infodvdvar.all()[0].innerHTML.strip()
-        # elif lem == 'input':
-        #     info[name] = str(infodvdvar).split('u\'value\', u\'')[1].split('\')')[0].encode('utf-8')
+        for l in list_search:
+            key = l[0]
+            value = l[1]
+            infoinput = parser.getElementsByAttr(key, value)
+            # if status closed get variable dvdvar or ref
+            lem = str(infoinput).split('TagCollection([AdvancedTag(u\'')[1].split('\',')[0]
+            if lem == 'textarea':
+                info[value] = infoinput.all()[0].innerHTML.strip()
+            elif lem == 'input':
+                info[value] = str(infoinput).split('u\'value\', u\'')[1].split('\')')[0].decode('unicode-escape')
+            print 'type:{} value:{}'.format(type(info[value]), info[value].encode('utf-8'))
+            print '{}'.format(urllib.quote(info[value].encode('utf-8')))
+            file.write('type:{} value:{}\n'.format(type(info[value]), info[value].encode('utf-8')))
+        file.close()
+        threadid = 1
+        data = collections.OrderedDict()
+        data["row"] = ""
+        data["__x"] = ""
+        data["thread"] = threadid
+        data["resetnotebook"] = ""
+        data["event"] = "10"
+        data["transaction"] = "2"
+        data["type"] = "detail"
+        data["focus"] = "instance%2Faction%2Faction"
+        data["focusContents"] = ""
+        data["focusId"] = "X110"
+        data["focusReadOnly"] = ""
+        data["start"] = ""
+        data["count"] = ""
+        data["more"] = ""
+        data["tablename"] = ""
+        data["window"] = ""
+        data["close"] = ""
+        data["_blankFields"] = ""
+        data["_uncheckedBoxes"] = ""
+        data["_tpzEventSource"] = ""
+        data["formchanged"] = ""
+        data["formname"] = "IM.open.incident"
+        data[self.csrfName] = self.csrfValue
+        data["clientWidth"] = "1343"
+        data["instance%2Fincident.id"] = ""
+        data["instance%2Fcustomer.type"] = ""
+        data["instance%2Fnumber"] = ""
+        data["instance%2Foss.informant"] = "CATMA"
+        data["instance%2Fcontact.email"] = "catma%40ait.co.th"
+        data["instance%2Fcatid"] = val['catid']
+        data["instance%2Foss.contact.telephone"] = "021041761"
+        data["instance%2Foss.source"] = urllib.quote(info['instance/oss.source'].encode('utf-8'))
+        data["instance%2Foss.contact.sms"] = ""
+        data["instance%2Foss.destination"] = urllib.quote(info['instance/oss.destination'].encode('utf-8'))
+        data["instance%2Foss.contact.fax"] = ""
+        data["instance%2Foss.address%2Foss.address"] = urllib.quote(info['instance/oss.address/oss.address'].encode('utf-8'))
+        data["instance%2Fsource"] = ""
+        data["instance%2Fcategory"] = "incident"
+        data["instance%2Foss.bandwidth"] = urllib.quote(info['instance/oss.bandwidth'].encode('utf-8'))
+        data["instance%2Fgateway.type"] = ""
+        data["instance%2Fsubcategory"] = "failure"
+        data["instance%2Fpartners.name"] = ""
+        data["instance%2Fproduct.type"] = "system down"
+        data["instance%2Fcarrier.name"] = ""
+        data["instance%2Finitial.impact"] = "3"
+        data["instance%2Fcarrier.ticket"] = ""
+        data["instance%2Fseverity"] = "2"
+        data["instance%2Faffected.item"] = "%E0%B8%9A%E0%B8%A3%E0%B8%B4%E0%B8%81%E0%B8%B2%E0%B8%A3+CAT+EPL+-+Domestic"
+        data["instance%2Flogical.name"] = ""
+        data["instance%2Fowner.group"] = "%E0%B8%A1%E0%B8%82.+Core+Network%2F%E0%B8%A1%E0%B8%A1."
+        data["instance%2Fdowntime.start"] = datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).strftime('%d/%m/%Y %H:%M:%S')
+        data["instance%2Fassignment"] = "%E0%B8%A1%E0%B8%82.+THAIPAK"
+        data["instance%2Fdowntime.end"] = ""
+        data["instance%2Fendtoend.group"] = ""
+        data["instance%2Fdowntime"] = ""
+        data["instance%2Frepairteam"] = ""
+        data["instance%2Fnext.breach"] = ""
+        # Need to require
+        data["instance%2Fbrief.description"] = ""
+        data["instance%2Faction%2Faction"] = ""
+        data["instance%2Fcomment%2Fcomment"] = ""
+        print data
 
     def startdowntime(self, timerange):
         datetimemk = "01/01/2018 00:00:00"

@@ -10,8 +10,8 @@ from splunk import SPLUNK
 db = Database(host='127.0.0.1', username='root', password='', db='alarm_ticket')
 
 # SPLUNK
-splunk_baseurl = 'https://10.4.0.136:8089'
-# splunk_baseurl = 'https://192.168.100.2:8089'
+# splunk_baseurl = 'https://10.4.0.136:8089'
+splunk_baseurl = 'https://192.168.100.2:8089'
 splunk = SPLUNK('admin', 'P@ssw0rd', splunk_baseurl)
 
 # TTS
