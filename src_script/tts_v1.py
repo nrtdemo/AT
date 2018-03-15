@@ -1,6 +1,7 @@
 #!/usr/bin/python -u
 # -*- coding: utf-8 -*-
 
+
 import urllib
 import httplib2
 import collections
@@ -186,7 +187,9 @@ class TTS(object):
         data["transaction"] = "2"
         data["type"] = "detail"
         data["focus"] = "instance%2Faction%2Faction"
-        data["focusContents"] = ""
+        # Need to require
+        data["focusContents"] = val['description']
+
         data["focusId"] = "X110"
         data["focusReadOnly"] = ""
         data["start"] = ""
@@ -236,9 +239,9 @@ class TTS(object):
         data["instance%2Frepairteam"] = ""
         data["instance%2Fnext.breach"] = ""
         # Need to require
-        data["instance%2Fbrief.description"] = ""
-        data["instance%2Faction%2Faction"] = ""
-        data["instance%2Fcomment%2Fcomment"] = ""
+        data["instance%2Fbrief.description"] = val['title']
+        data["instance%2Faction%2Faction"] = val['description']
+        data["instance%2Fcomment%2Fcomment"] = val['comment']
 
         url = '''/sm/service.do?{0}={1}'''.format(self.csrfName, self.csrfValue)
         resp = self.SendData(TTS_Path.search, data, AdvancedHTMLParser=False)
@@ -374,7 +377,7 @@ class TTS(object):
                 info[name] = infodvdvar.all()[0].innerHTML.strip()
             elif lem == 'input':
                 info[name] = str(infodvdvar).split('u\'value\', u\'')[1].split('\')')[0].encode('utf-8')
-            print info[name].encode('utf-8')
+
         parserTableNormalRow = parser.getElementsByAttr('class', 'TableNormalRow')
         id_activity_table = str(parserTableNormalRow).split('dtlr_')[1].split('_')[0]
         row_count = len(str(parserTableNormalRow).split('dtlr_' + id_activity_table))
@@ -406,12 +409,22 @@ class TTS(object):
         info['activity_table'] = datas
         return info
 
-    def test_url(self, val):
+    def test_url(self):
+        handler = open('/var/www/html/cgi-enabled/testfile.txt', 'wb')
+        handler.write('TEST')
+        handler.close()
+
         ttsurl = self.host
         self.host = "192.168.186.132"
+        print self.host
         resp = self.SendData('/cgi-enabled/test.py')
+        print resp
         self.host = ttsurl
         data = resp[1]
+
+        return data
+
+
 
         parser = AdvancedHTMLParser.AdvancedHTMLParser()
         parser.parseStr(data)
@@ -425,7 +438,6 @@ class TTS(object):
         ]
 
         file = open('/var/www/html/cgi-enabled/testfile.txt', 'w')
-
         for l in list_search:
             key = l[0]
             value = l[1]
@@ -440,6 +452,7 @@ class TTS(object):
             print '{}'.format(urllib.quote(info[value].encode('utf-8')))
             file.write('type:{} value:{}\n'.format(type(info[value]), info[value].encode('utf-8')))
         file.close()
+
         threadid = 1
         data = collections.OrderedDict()
         data["row"] = ""

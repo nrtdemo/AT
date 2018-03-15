@@ -63,7 +63,10 @@ class Ticket(object):
             self.data["description"] = val['description'].value
         else:
             raise ValueError("Only require to need Description")
-        self.data["comment"] = ""
+        if val['comment'] is not None and val['comment'].value != '':
+            self.data["comment"] = val['comment'].value
+        else:
+            self.data["comment"] = ""
 
 
     def getData(self):

@@ -10,8 +10,8 @@ from splunk import SPLUNK
 db = Database(host='127.0.0.1', username='root', password='', db='alarm_ticket')
 
 # SPLUNK
-# splunk_baseurl = 'https://10.4.0.136:8089'
-splunk_baseurl = 'https://192.168.100.2:8089'
+splunk_baseurl = 'https://10.4.0.136:8089'
+# splunk_baseurl = 'https://192.168.100.2:8089'
 splunk = SPLUNK('admin', 'P@ssw0rd', splunk_baseurl)
 
 # TTS
@@ -20,7 +20,7 @@ tts = TTS('catma', 'ait@1761', TTS_basehost)
 
 
 def get_catid(l):
-    cat_id = ''
+    cat_id = l['host'] + l['src_interface']
     splitcatid = l['cat_id'].split('_')
 
     if len(splitcatid[0]) >= 9:
@@ -41,8 +41,6 @@ def get_catid(l):
             cat_id = sub_catid.group(1)
             if len(cat_id) < 9:
                 cat_id = l['host'] + l['src_interface']
-    else:
-        cat_id = l['host'] + l['src_interface']
     return cat_id
 
 
