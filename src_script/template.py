@@ -43,7 +43,7 @@ class template_AT(object):
         print """
                     <ul class="nav navbar-nav">
                            <li class="dropdown">
-                            <a class="dropdown-toggle navbar-brand" id="myDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                            <a href="#" class="dropdown-toggle navbar-brand" id="myDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
                                 Bangkok Link<span class="caret"></span></a>
                                 <ul class="dropdown-menu" aria-labelledby="myDropdown">
                                     <li><a class="dropdown-item" href="index.py"> Link 40G&100GbE Up_Down</a></li>
