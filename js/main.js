@@ -1,13 +1,13 @@
 $(document).ready(function () {
     console.log("ready!");
     var alarmtickets_table = $('#alarmtickets').DataTable({
-        order: [[4, 'asc'], [ 0, 'desc' ]],
+        order: [[4, 'asc'], [0, 'desc']],
         pageLength: 50
     });
 
-    $(function () {
-        $("[data-toggle='tooltip']").tooltip();
-    });
+    $("[data-toggle='tooltip']").tooltip();
+
+    $(".dropdown-toggle").dropdown();
 
     $('input').iCheck({
         checkboxClass: 'icheckbox_square-blue',
@@ -33,7 +33,34 @@ $(document).ready(function () {
     });
 });
 
+$('#form_openticket').on('submit', function (e) {
+    var request;
+    e.preventDefault();
 
-$(document).ready(function(){
-    $(".dropdown-toggle").dropdown();
+    var $form = $(this);
+
+    // Let's select and cache all the fields
+    var $inputs = $form.find("input, select, button, textarea");
+
+    // Serialize the data in the form
+    var serializedData = $form.serialize();
+
+    // Disabled form elements will not be serialized.
+    $inputs.prop("disabled", true);
+
+    $.ajax({
+        type: 'POST',
+        url: "./checkvalue.py",
+        data: serializedData, //passing some input here
+        // dataType: "text",
+        success: function (response) {
+            alert('success');
+        }
+    }).done(function (data) {
+        console.log(data);
+        alert(data);
+    }).always(function () {
+        // Reenable the inputs
+        $inputs.prop("disabled", false);
+    });
 });

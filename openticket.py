@@ -28,8 +28,8 @@ def open_ticket():
         print '<h2> open ticket </h2>'
         print '</div>'
         print '<div class="box-body">'
-
-        print '<form class="form-horizontal" action="/cgi-enabled/checkvalue.py" method="post" name="ticket_form">'
+        # action="/cgi-enabled/checkvalue.py" method="post" name="ticket_form"
+        print '<form class="form-horizontal" id="form_openticket">'
         print '<div class="form-group">'
         print '<label class="control-label col-sm-2" for="interaction"> interaction ID(Ticket) </label>'
         print '<div class="col-sm-4">'
