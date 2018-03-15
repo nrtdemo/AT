@@ -12,8 +12,10 @@
 
 .port_status_up{
     background-color: rgb(101, 166, 55);
+    color: rgb(0, 0, 0);
 }
 
 .port_status_down{
     background-color: rgb(214, 86, 60);
+    color: rgb(255, 255, 255);
 }
