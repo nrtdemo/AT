@@ -11,6 +11,8 @@ import AdvancedHTMLParser
 import time
 import datetime
 import pytz
+import os
+import stat
 
 httplib2.debuglevel = 0
 
@@ -110,10 +112,6 @@ class TTS(object):
         resp_post = self.SendData(TTS_Path.search, data,
                                   AutoParseHTMLCharector=False)
         self.DebugPrint(resp_post[1])
-        # protect open ticket, now is bug
-
-        pass
-        return None
 
         url = "/sm/L10N/recordlist.jsp"
         resp = self.SendData(url)
@@ -177,6 +175,9 @@ class TTS(object):
                 info[value] = infoinput.all()[0].innerHTML.strip()
             elif lem == 'input':
                 info[value] = str(infoinput).split('u\'value\', u\'')[1].split('\')')[0].decode('unicode-escape')
+
+        print resp_post[1]
+        return
 
         data = collections.OrderedDict()
         data["row"] = ""
@@ -409,22 +410,14 @@ class TTS(object):
         info['activity_table'] = datas
         return info
 
-    def test_url(self):
-        handler = open('/var/www/html/cgi-enabled/testfile.txt', 'wb')
-        handler.write('TEST')
-        handler.close()
+    def test_url(self, val):
+        self.Auth()
 
         ttsurl = self.host
         self.host = "192.168.186.132"
-        print self.host
         resp = self.SendData('/cgi-enabled/test.py')
-        print resp
         self.host = ttsurl
         data = resp[1]
-
-        return data
-
-
 
         parser = AdvancedHTMLParser.AdvancedHTMLParser()
         parser.parseStr(data)
@@ -437,7 +430,7 @@ class TTS(object):
             ['name', 'instance/oss.bandwidth']
         ]
 
-        file = open('/var/www/html/cgi-enabled/testfile.txt', 'w')
+        # file = open('/var/www/html/cgi-enabled/testfile.txt', 'w')
         for l in list_search:
             key = l[0]
             value = l[1]
@@ -448,10 +441,10 @@ class TTS(object):
                 info[value] = infoinput.all()[0].innerHTML.strip()
             elif lem == 'input':
                 info[value] = str(infoinput).split('u\'value\', u\'')[1].split('\')')[0].decode('unicode-escape')
-            print 'type:{} value:{}'.format(type(info[value]), info[value].encode('utf-8'))
-            print '{}'.format(urllib.quote(info[value].encode('utf-8')))
-            file.write('type:{} value:{}\n'.format(type(info[value]), info[value].encode('utf-8')))
-        file.close()
+            # print 'type:{} value:{}'.format(type(info[value]), info[value].encode('utf-8'))
+            # print '{}'.format(urllib.quote(info[value].encode('utf-8')))
+            # file.write('type:{} value:{}\n'.format(type(info[value]), info[value].encode('utf-8')))
+        # file.close()
 
         threadid = 1
         data = collections.OrderedDict()
@@ -513,9 +506,9 @@ class TTS(object):
         data["instance%2Frepairteam"] = ""
         data["instance%2Fnext.breach"] = ""
         # Need to require
-        data["instance%2Fbrief.description"] = ""
-        data["instance%2Faction%2Faction"] = ""
-        data["instance%2Fcomment%2Fcomment"] = ""
+        data["instance%2Fbrief.description"] = val['title']
+        data["instance%2Faction%2Faction"] = val['description']
+        data["instance%2Fcomment%2Fcomment"] = val['comment']
         print data
 
     def startdowntime(self, timerange):

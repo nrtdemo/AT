@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 # enable debugging
 
-import sys
 import cgitb
 import cgi
 
@@ -15,10 +14,9 @@ from src_script.tts_v1 import TTS
 TTS_basehost = "122.155.137.214"
 tts = TTS('catma', 'ait@1761', TTS_basehost)
 
-print tts.test_url()
 if __name__ == "__main__":
     if 'catid' in form and 'description' in form and 'title' in form and 'bandwidth' in form:
         print "Content-type: application/x-www-form-urlencoded\n\n"
         ticket_info = Ticket(form).getData()
-        print tts.test_url(ticket_info)
-
+        tts.test_url(ticket_info)
+        # tts.Open_Ticket(ticket_info)
