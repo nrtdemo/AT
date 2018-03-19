@@ -330,8 +330,7 @@ class TTS(object):
         data["var%2Fpmc.update.start"] = ""
         data["var%2Fpmc.update.end"] = ""
         data["instance%2Fupdated.by"] = ""
-        data[
-            "var%2Fchoices%2FdynamicFormDef"] = "%3Cform%3E%3Ccheckbox+id%3D%22open%22+label%3D%22Open%22%2F%3E%3Ccheckbox+id%3D%22closed%22+label%3D%22Closed%22%2F%3E%3Ccheckbox+id%3D%22assigned%22+label%3D%22Assigned+to+me%22%2F%3E%3Ccheckbox+id%3D%22highpriority%22+label%3D%22High+Priority%22%2F%3E%3Ccheckbox+id%3D%22tl%22+label%3D%22Total+Loss+of+Service%22%2F%3E%3Ccheckbox+id%3D%22ucmdb%22+label%3D%22Generated+by+UCMDB+Integration%22%2F%3E%3C%2Fform%3E"
+        data["var%2Fchoices%2FdynamicFormDef"] = "%3Cform%3E%3Ccheckbox+id%3D%22open%22+label%3D%22Open%22%2F%3E%3Ccheckbox+id%3D%22closed%22+label%3D%22Closed%22%2F%3E%3Ccheckbox+id%3D%22assigned%22+label%3D%22Assigned+to+me%22%2F%3E%3Ccheckbox+id%3D%22highpriority%22+label%3D%22High+Priority%22%2F%3E%3Ccheckbox+id%3D%22tl%22+label%3D%22Total+Loss+of+Service%22%2F%3E%3Ccheckbox+id%3D%22ucmdb%22+label%3D%22Generated+by+UCMDB+Integration%22%2F%3E%3C%2Fform%3E"
         data["dynamicFormRef%2FF1373192486"] = "var%2Fchoices"
         data["var%2Fadv.close.start"] = ""
         data["var%2Fadv.close.end"] = ""
@@ -625,8 +624,7 @@ class TTS(object):
         data["var%2Fpmc.update.start"] = ""
         data["var%2Fpmc.update.end"] = ""
         data["instance%2Fupdated.by"] = ""
-        data[
-            "var%2Fchoices%2FdynamicFormDef"] = "%3Cform%3E%3Ccheckbox+id%3D%22open%22+label%3D%22Open%22%2F%3E%3Ccheckbox+id%3D%22closed%22+label%3D%22Closed%22%2F%3E%3Ccheckbox+id%3D%22assigned%22+label%3D%22Assigned+to+me%22%2F%3E%3Ccheckbox+id%3D%22highpriority%22+label%3D%22High+Priority%22%2F%3E%3Ccheckbox+id%3D%22tl%22+label%3D%22Total+Loss+of+Service%22%2F%3E%3Ccheckbox+id%3D%22ucmdb%22+label%3D%22Generated+by+UCMDB+Integration%22%2F%3E%3C%2Fform%3E"
+        data["var%2Fchoices%2FdynamicFormDef"] = "%3Cform%3E%3Ccheckbox+id%3D%22open%22+label%3D%22Open%22%2F%3E%3Ccheckbox+id%3D%22closed%22+label%3D%22Closed%22%2F%3E%3Ccheckbox+id%3D%22assigned%22+label%3D%22Assigned+to+me%22%2F%3E%3Ccheckbox+id%3D%22highpriority%22+label%3D%22High+Priority%22%2F%3E%3Ccheckbox+id%3D%22tl%22+label%3D%22Total+Loss+of+Service%22%2F%3E%3Ccheckbox+id%3D%22ucmdb%22+label%3D%22Generated+by+UCMDB+Integration%22%2F%3E%3C%2Fform%3E"
         data["dynamicFormRef%2FF1373192486"] = "var%2Fchoices"
         data["var%2Fadv.close.start"] = ""
         data["var%2Fadv.close.end"] = ""
