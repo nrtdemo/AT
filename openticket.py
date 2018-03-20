@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import collections
 import cgitb
 from src_script.template import template_AT
 
@@ -18,7 +19,28 @@ def open_ticket():
     query_detail = """SELECT * FROM tts WHERE cat_id = '{0}'""".format(form["cat_id"].value)
     lst_detail = db.query(query_detail)
 
-    lst_detail = lst_detail[0]
+    if len(lst_detail) > 0 :
+        lst_detail = lst_detail[0]
+    else:
+        lst_detail = collections.OrderedDict()
+        lst_detail['ticketNo']= None
+        lst_detail['incident_id'] = None
+        lst_detail['affected_item'] = None
+        lst_detail['cat_id'] = None
+        lst_detail['status'] = None
+        lst_detail['problem_status'] = None
+        lst_detail['downtime_start'] = None
+        lst_detail['downtime_time'] = None
+        lst_detail['owner_group'] = None
+        lst_detail['repairteam'] = None
+        lst_detail['oss_source'] = None
+        lst_detail['oss_destination'] = None
+        lst_detail['address'] = None
+        lst_detail['title'] = None
+        lst_detail['description'] = None
+        lst_detail['activity'] = None
+        lst_detail['bandwidth'] = None
+
     print '<div class="box">'
     print '<div class="box-form">'
     print '<div class="box-header">'
@@ -41,76 +63,44 @@ def open_ticket():
     print '<div class="form-group">'
     print '<label class="control-label col-sm-2" for="catid"> CAT ID <font color="red">*</font></label>'
     print '<div class="col-sm-6">'
-    print '<input type="text" readonly  class="form-control" id="catid" name="catid" value="{0}">'.format(lst_detail['cat_id'])
+    print '<input type="text" readonly  class="form-control" id="catid" name="catid" value="{0}">'.format(form.getvalue('cat_id'))
     print '</div>'
     print '</div>'
 
-    if lst_detail['oss_source']== None:
-        print '<div class="form-group">'
-        print '<label class="control-label col-sm-2"> Name <font color="red">*</font></label>'
-        print '<div class="col-sm-6">'
-        print '<input type="text" class="form-control" id="source" name="source" value="">'
-        print '</div>'
-        print '</div>'
-    else:
-        print '<div class="form-group">'
-        print '<label class="control-label col-sm-2"> Name <font color="red">*</font></label>'
-        print '<div class="col-sm-6">'
-        print '<input type="text" class="form-control" id="source" name="source" value="{0}" readonly>'.format(
-            lst_detail['oss_source'])
-        print '</div>'
-        print '</div>'
 
-    if lst_detail['oss_destination']=='':
-        print '<div class="form-group">'
-        print '<label class="control-label col-sm-2"> Destination</label>'
-        print '<div class="col-sm-6">'
-        print '<input type="text" class="form-control" id="destination" name="destination" value="">'
-        print '</div>'
-        print '</div>'
-    else:
-        print '<div class="form-group">'
-        print '<label class="control-label col-sm-2"> Destination</label>'
-        print '<div class="col-sm-6">'
-        print '<input type="text" class="form-control" id="destination" name="destination" value="{0}" readonly>'.format(
-            lst_detail['oss_destination'])
-        print '</div>'
-        print '</div>'
+    print '<div class="form-group">'
+    print '<label class="control-label col-sm-2"> Name <font color="red">*</font></label>'
+    print '<div class="col-sm-6">'
+    print '<input type="text" class="form-control" id="source" name="source" value="{0}" readonly>'.format(
+        lst_detail['oss_source'])
+    print '</div>'
+    print '</div>'
 
-    if lst_detail['address'] == '':
-        print '<div class="form-group">'
-        print '<label class="control-label col-sm-2"> Address </label>'
-        print '<div class="col-sm-6">'
-        print '<textarea type="text" class="form-control" id="address" name="address" rows="5"></textarea>'
-        print '</div>'
-        print '</div>'
-    else:
-        print '<div class="form-group">'
-        print '<label class="control-label col-sm-2"> Address </label>'
-        print '<div class="col-sm-6">'
-        print '<textarea type="text" class="form-control" id="address" name="address" rows="5" readonly>{0}</textarea>'.format(
-            lst_detail['address'])
-        print '</div>'
-        print '</div>'
+    print '<div class="form-group">'
+    print '<label class="control-label col-sm-2"> Destination</label>'
+    print '<div class="col-sm-6">'
+    print '<input type="text" class="form-control" id="destination" name="destination" value="{0}" readonly>'.format(
+        lst_detail['oss_destination'])
+    print '</div>'
+    print '</div>'
 
 
-    if lst_detail['bandwidth'] == '':
-        print '<div class="form-group">'
-        print '<label class="control-label col-sm-2"> Bandwidth <font color="red">*</font> </label>'
-        print '<div class="col-sm-6">'
-        print '<input type="text" class="form-control" id="bandwidth" name="bandwidth" value="">'
-        print '</div>'
-        print '</div>'
-    else:
-        print '<div class="form-group">'
-        print '<label class="control-label col-sm-2"> Bandwidth <font color="red">*</font> </label>'
-        print '<div class="col-sm-6">'
-        print '<input type="text" class="form-control" id="bandwidth" name="bandwidth" value="{0}" readonly>'.format(
-            lst_detail['bandwidth'])
-        print '</div>'
-        print '</div>'
+    print '<div class="form-group">'
+    print '<label class="control-label col-sm-2"> Address </label>'
+    print '<div class="col-sm-6">'
+    print '<textarea type="text" class="form-control" id="address" name="address" rows="5" readonly>{0}</textarea>'.format(
+        lst_detail['address'])
+    print '</div>'
+    print '</div>'
 
 
+    print '<div class="form-group">'
+    print '<label class="control-label col-sm-2"> Bandwidth <font color="red">*</font> </label>'
+    print '<div class="col-sm-6">'
+    print '<input type="text" class="form-control" id="bandwidth" name="bandwidth" value="{0}" readonly>'.format(
+        lst_detail['bandwidth'])
+    print '</div>'
+    print '</div>'
 
     print '<div class="form-group">'
     print '<label class="control-label col-sm-2"> Fault Time <font color="red">*</font></label>'
@@ -121,21 +111,14 @@ def open_ticket():
     print '</div>'
 
 
-    if lst_detail['owner_group'] == '':
-        print '<div class="form-group">'
-        print '<label class="control-label col-sm-2"> Owner Group <font color="red">*</font></label>'
-        print '<div class="col-sm-6">'
-        print '<input type="text" class="form-control" id="owner.group" name="owner.group" value="">'
-        print '</div>'
-        print '</div>'
-    else:
-        print '<div class="form-group">'
-        print '<label class="control-label col-sm-2"> Owner Group <font color="red">*</font></label>'
-        print '<div class="col-sm-6">'
-        print '<input type="text" class="form-control" id="owner.group" name="owner.group" value="{0}" readonly>'.format(
-            lst_detail['owner_group'])
-        print '</div>'
-        print '</div>'
+    print '<div class="form-group">'
+    print '<label class="control-label col-sm-2"> Owner Group <font color="red">*</font></label>'
+    print '<div class="col-sm-6">'
+    print '<input type="text" class="form-control" id="owner.group" name="owner.group" value="{0}" readonly>'.format(
+        lst_detail['owner_group'])
+    print '</div>'
+    print '</div>'
+
     print '</div>'
 
     print '<div class="column">'
