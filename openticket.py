@@ -17,7 +17,10 @@ def open_ticket():
     form = cgi.FieldStorage()
     db = Database(host='localhost', username='root', password='', db='alarm_ticket')
     query_detail = """SELECT * FROM tts WHERE cat_id = '{0}'""".format(form["cat_id"].value)
+    query_splunk = """SELECT * FROM splunk WHERE cat_id = '{0}'""".format(form["cat_id"].value)
     lst_detail = db.query(query_detail)
+    lst_splunk = db.query(query_splunk)
+    lst_splunk=lst_splunk[0]
 
     if len(lst_detail) > 0:
         lst_detail = lst_detail[0]
@@ -64,6 +67,30 @@ def open_ticket():
     print '<label class="control-label col-sm-3 text-right" for="catid"> CAT ID <font color="red">*</font></label>'
     print '<div class="col-sm-9">'
     print '<input type="text" readonly  class="form-control" id="catid" name="catid" value="{0}">'.format(form.getvalue('cat_id'))
+    print '</div>'
+    print '</div>'
+
+    print '<div class="form-group row">'
+    print '<label class="control-label col-sm-3 text-right" for="catid"> Hostname </label>'
+    print '<div class="col-sm-9">'
+    print '<input type="text" readonly  class="form-control" id="hostname" name="hostname" value="{0}">'.format(
+       lst_splunk['hostname'])
+    print '</div>'
+    print '</div>'
+
+    print '<div class="form-group row">'
+    print '<label class="control-label col-sm-3 text-right" for="catid"> IP</label>'
+    print '<div class="col-sm-9">'
+    print '<input type="text" readonly  class="form-control" id="ip" name="ip" value="{0}">'.format(
+        lst_splunk['host'])
+    print '</div>'
+    print '</div>'
+
+    print '<div class="form-group row">'
+    print '<label class="control-label col-sm-3 text-right" for="catid"> Source Interface </label>'
+    print '<div class="col-sm-9">'
+    print '<input type="text" readonly  class="form-control" id="interface" name="interface" value="{0}">'.format(
+        lst_splunk['src_interface'])
     print '</div>'
     print '</div>'
 
@@ -169,9 +196,9 @@ def open_ticket():
     print '<div class="col-sm-10">'
     print """<textarea type="text" class="form-control" id="description" name="description" rows="10">พบ Link_Down
 ข้อมูลต้นทาง
-   Nodename :
-   IP  :
-   Interface :
+   Nodename :{0}
+   IP  :{1}
+   Interface :{2}
    Location : 
    TX power : 
    RX power: 
@@ -184,7 +211,7 @@ def open_ticket():
    Location : 
    TX power : 
    RX power: 
-   Log :</textarea>"""
+   Log :</textarea>""".format(lst_splunk['hostname'], lst_splunk['host'], lst_splunk['src_interface'])
     print '</div>'
     print '</div>'
 
