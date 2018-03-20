@@ -8,6 +8,9 @@
 
 .box-form {
     padding: 0 3% 0 3%;
+    border: #0a0a0a;
+    solid-color:  #0a0a0a;
+
 }
 
 .port_status_up{
@@ -19,3 +22,16 @@
     background-color: rgb(214, 86, 60);
     color: rgb(255, 255, 255);
 }
+
+.box-group-title{
+    float: left;
+    width: 50%;
+    padding: 10px;
+    height: 300px;
+}
+
+.column {
+    float: left;
+    width: 50%;
+}
+
