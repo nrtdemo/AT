@@ -124,27 +124,92 @@ def open_ticket():
     print '<div class="column">'
     print '<div class="form-group">'
     print '<label class="control-label col-sm-2"> Title <font color="red">*</font></label>'
-    print '<div class="col-sm-6">'
-    print '<input type="text" class="form-control" id="title" name="title">'
+    print '<div class="col-sm-8">'
+    print """
+        <select class="form-control">
+        <option value="Down">Down</option>
+        <option value="Up-Down/Bouncing/Flapping/TimeOut/Drop/Loss">Up-Down/Bouncing/Flapping/TimeOut/Drop/Loss</option>
+        <option value="Error">Error</option>
+        <option value="ช้า/Delay/Low Speed/ใช้งานได้ไม่เต็ม Bandwidth">ช้า/Delay/Low Speed/ใช้งานได้ไม่เต็ม Bandwidth</option>
+        <option value="ลูกค้าขอเช็ค Alarm<">ลูกค้าขอเช็ค Alarm</option>
+        <option value="ลูกค้าขอ Monitor">ลูกค้าขอ Monitor</option>
+        <option value="ลูกค้าขอ Test">ลูกค้าขอ Test</option>
+        <option value="SmartSignOn ใช้งานไม่ได้">SmartSignOn ใช้งานไม่ได้</option>
+        <option value="C internet Login ไม่ได้">C internet Login ไม่ได้</option>
+        <option value="C internet เปิดเว็บไม่ได้">C internet เปิดเว็บไม่ได้</option>'
+        <option value="C internet รับ-ส่ง Email Outlook ไม่ได้">C internet รับ-ส่ง Email Outlook ไม่ได้</option>
+        <option value="C internet ค่า Ping Time สูง">C internet ค่า Ping Time สูง</option>
+        <option value="Config อุปกรณ์ไม่ได้">Config อุปกรณ์ไม่ได้</option>
+        <option value="ทำ VPN ไม่ได้">ทำ VPN ไม่ได้</option>
+        <option value="ทำ Load balance ไม่ได้">ทำ Load balance ไม่ได้</option>
+        <option value="ภัยพิบัติ">ภัยพิบัติ</option>
+        <option value="Phishing">Phishing</option>
+        <option value="Attack">Attack</option>
+        <option value="IP Phishing">IP Phishing</option>
+        <option value="IP Attack">IP Attack</option>
+        <option value="IP Hacking">IP Hacking</option>
+        <option value="IP RBL">IP RBL</option>
+        <option value="High Latency">High Latency</option>
+        <option value="สาเหตุอื่นๆ">สาเหตุอื่นๆ</option>
+        <option value="Down 3G">Down 3G</option>
+        <option value="Down 3G/SA1">Down 3G/SA1</option>
+        <option value="Down 3G/SA2">Down 3G/SA2</option>
+        <option value="Down 3G/SA3">Down 3G/SA3</option>
+        <option value="Down 3G/SA4">Down 3G/SA4</option>
+        <option value="Down 3G/NSA1">Down 3G/NSA1</option>
+        <option value="Down 3G/NSA2">Down 3G/NSA2</option>
+        <option value="Down 3G/NSA3">Down 3G/NSA3</option>
+        <option value="Down 3G/NSA4">Down 3G/NSA4</option>
+        <option value="Help check: Link status (Up/Down)">Help check: Link status (Up/Down)</option>
+        <option value="Help check: Power of equipment status (On/Off)">Help check: Power of equipment status (On/Off)</option>
+        <option value="Help check: Power system down">Help check: Power system down</option>
+        </select>
+    """
     print '</div>'
     print '</div>'
 
     print '<div class="form-group">'
     print '<label class="control-label col-sm-2"> Description <font color="red">*</font></label>'
-    print '<div class="col-sm-6">'
-    print '<textarea type="text" class="form-control" id="description" name="description" rows="5"></textarea>'
+    print '<div class="col-sm-8">'
+    print """
+    <textarea type="text" class="form-control" id="description" name="description" rows="10">
+    พบ
+    Link_Down
+    ข้อมูลต้นทาง
+    Nodename:
+    IP:
+    Interface:
+    Location:
+    TX
+    power:
+    RX
+    power:
+    Log:
+        
+    ข้อมูลปลายทาง
+    Nodename:
+    IP:
+    Interface:
+    Location:
+    TX
+    power:
+    RX
+    power:
+    Log:
+    </textarea>
+    """
     print '</div>'
     print '</div>'
 
     print '<div class="form-group">'
     print '<label class="control-label col-sm-2"> comment </label>'
-    print '<div class="col-sm-6">'
+    print '<div class="col-sm-8">'
     print '<textarea type="text" class="form-control" id="comment" name="comment" rows="5"></textarea>'
     print '</div>'
     print '</div>'
 
     print '<div class="form-group">'
-    print ' <div class="col-sm-8">'
+    print ' <div class="col-sm-10">'
     print '     <button class="btn btn-default pull-right" type="submit">Submit</button>'
     print ' </div>'
     print '</div>'
