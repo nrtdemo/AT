@@ -11,8 +11,6 @@ import AdvancedHTMLParser
 import time
 import datetime
 import pytz
-import os
-import stat
 
 httplib2.debuglevel = 0
 
@@ -176,9 +174,6 @@ class TTS(object):
             elif lem == 'input':
                 info[value] = str(infoinput).split('u\'value\', u\'')[1].split('\')')[0].decode('unicode-escape')
 
-        print resp_post[1]
-        return
-
         data = collections.OrderedDict()
         data["row"] = ""
         data["__x"] = ""
@@ -245,7 +240,7 @@ class TTS(object):
         data["instance%2Fcomment%2Fcomment"] = val['comment']
 
         url = '''/sm/service.do?{0}={1}'''.format(self.csrfName, self.csrfValue)
-        resp = self.SendData(TTS_Path.search, data, AdvancedHTMLParser=False)
+        resp = self.SendData(TTS_Path.search, data, AutoParseHTMLCharector=False)
         url = "/sm/L10N/recordlist.jsp"
         resp = self.SendData(url)
 
@@ -750,5 +745,5 @@ class TTS(object):
         self.headers['Cookie'] = ';'.join(ncookies)
 
     def DebugPrint(self, msg):
-        if False:
+        if True:
             print msg
