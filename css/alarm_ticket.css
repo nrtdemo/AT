@@ -1,4 +1,4 @@
-.Bg-head-table{
+.Bg-head-table {
     background: #F2F2F2;
 }
 
@@ -9,21 +9,21 @@
 .box-form {
     padding: 0 3% 0 3%;
     border: #0a0a0a;
-    solid-color:  #0a0a0a;
+    solid-color: #0a0a0a;
 
 }
 
-.port_status_up{
+.port_status_up {
     background-color: rgb(101, 166, 55);
     color: rgb(0, 0, 0);
 }
 
-.port_status_down{
+.port_status_down {
     background-color: rgb(214, 86, 60);
     color: rgb(255, 255, 255);
 }
 
-.box-group-title{
+.box-group-title {
     float: left;
     width: 50%;
     padding: 10px;
@@ -33,4 +33,3 @@
 .column {
     float: left;
 }
-
