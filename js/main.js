@@ -5,16 +5,6 @@ $(document).ready(function () {
         pageLength: 50
     });
 
-    $("[data-toggle='tooltip']").tooltip();
-
-    $(".dropdown-toggle").dropdown();
-
-    $('input').iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue',
-        increaseArea: '20%' // optional
-    });
-
     $(".status-filter").on('ifChecked ifUnchecked', function (event) {
         var that = this;
         $(".status-filter").each(function (index) {
@@ -31,7 +21,18 @@ $(document).ready(function () {
         }
         alarmtickets_table.columns(4).search(filter_stat).draw();
     });
+
+    $("[data-toggle='tooltip']").tooltip();
+
+    $(".dropdown-toggle").dropdown();
+
+    $('input').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue',
+        increaseArea: '20%' // optional
+    });
 });
+
 
 $('#form_openticket').on('submit', function (e) {
     var request;
@@ -55,6 +56,7 @@ $('#form_openticket').on('submit', function (e) {
         // dataType: "text",
         success: function (response) {
             alert('success');
+            console.log(response);
         }
     }).done(function (data) {
         console.log(data);
@@ -63,4 +65,5 @@ $('#form_openticket').on('submit', function (e) {
         // Reenable the inputs
         $inputs.prop("disabled", false);
     });
+
 });
