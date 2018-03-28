@@ -219,7 +219,7 @@ class TTS(object):
         data["instance%2Fgateway.type"] = ""
         data["instance%2Fsubcategory"] = "failure"
         data["instance%2Fpartners.name"] = ""
-        data["instance%2Fproduct.type"] = "system down"
+        data["instance%2Fproduct.type"] = urllib.quote("system down")
         data["instance%2Fcarrier.name"] = ""
         data["instance%2Finitial.impact"] = "3"
         data["instance%2Fcarrier.ticket"] = ""
@@ -227,7 +227,7 @@ class TTS(object):
         data["instance%2Faffected.item"] = "%E0%B8%9A%E0%B8%A3%E0%B8%B4%E0%B8%81%E0%B8%B2%E0%B8%A3+CAT+EPL+-+Domestic"
         data["instance%2Flogical.name"] = ""
         data["instance%2Fowner.group"] = "%E0%B8%A1%E0%B8%82.+Core+Network%2F%E0%B8%A1%E0%B8%A1."
-        data["instance%2Fdowntime.start"] = datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).strftime('%d/%m/%Y %H:%M:%S')
+        data["instance%2Fdowntime.start"] = urllib.quote(datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).strftime('%d/%m/%Y %H:%M:%S'))
         data["instance%2Fassignment"] = "%E0%B8%A1%E0%B8%82.+THAIPAK"
         data["instance%2Fdowntime.end"] = ""
         data["instance%2Fendtoend.group"] = ""
@@ -239,13 +239,12 @@ class TTS(object):
         data["instance%2Faction%2Faction"] = urllib.quote(val['description'])
         data["instance%2Fcomment%2Fcomment"] = urllib.quote(val['comment'])
 
-        url = '''/sm/service.do?{0}={1}'''.format(self.csrfName, self.csrfValue)
         resp_post = self.SendData(TTS_Path.search, data, AutoParseHTMLCharector=False)
         url = "/sm/L10N/recordlist.jsp"
         resp = self.SendData(url)
-
+        print data
+        print resp_post[1]
         self.Logout()
-        return resp_post
 
     def Get_TicketInfo(self, ticketNo):
         self.Auth()
@@ -326,7 +325,8 @@ class TTS(object):
         data["var%2Fpmc.update.start"] = ""
         data["var%2Fpmc.update.end"] = ""
         data["instance%2Fupdated.by"] = ""
-        data["var%2Fchoices%2FdynamicFormDef"] = "%3Cform%3E%3Ccheckbox+id%3D%22open%22+label%3D%22Open%22%2F%3E%3Ccheckbox+id%3D%22closed%22+label%3D%22Closed%22%2F%3E%3Ccheckbox+id%3D%22assigned%22+label%3D%22Assigned+to+me%22%2F%3E%3Ccheckbox+id%3D%22highpriority%22+label%3D%22High+Priority%22%2F%3E%3Ccheckbox+id%3D%22tl%22+label%3D%22Total+Loss+of+Service%22%2F%3E%3Ccheckbox+id%3D%22ucmdb%22+label%3D%22Generated+by+UCMDB+Integration%22%2F%3E%3C%2Fform%3E"
+        data[
+            "var%2Fchoices%2FdynamicFormDef"] = "%3Cform%3E%3Ccheckbox+id%3D%22open%22+label%3D%22Open%22%2F%3E%3Ccheckbox+id%3D%22closed%22+label%3D%22Closed%22%2F%3E%3Ccheckbox+id%3D%22assigned%22+label%3D%22Assigned+to+me%22%2F%3E%3Ccheckbox+id%3D%22highpriority%22+label%3D%22High+Priority%22%2F%3E%3Ccheckbox+id%3D%22tl%22+label%3D%22Total+Loss+of+Service%22%2F%3E%3Ccheckbox+id%3D%22ucmdb%22+label%3D%22Generated+by+UCMDB+Integration%22%2F%3E%3C%2Fform%3E"
         data["dynamicFormRef%2FF1373192486"] = "var%2Fchoices"
         data["var%2Fadv.close.start"] = ""
         data["var%2Fadv.close.end"] = ""
@@ -485,7 +485,7 @@ class TTS(object):
         data["instance%2Fgateway.type"] = ""
         data["instance%2Fsubcategory"] = "failure"
         data["instance%2Fpartners.name"] = ""
-        data["instance%2Fproduct.type"] = "system down"
+        data["instance%2Fproduct.type"] = urllib.quote("system down")
         data["instance%2Fcarrier.name"] = ""
         data["instance%2Finitial.impact"] = "3"
         data["instance%2Fcarrier.ticket"] = ""
@@ -493,7 +493,7 @@ class TTS(object):
         data["instance%2Faffected.item"] = "%E0%B8%9A%E0%B8%A3%E0%B8%B4%E0%B8%81%E0%B8%B2%E0%B8%A3+CAT+EPL+-+Domestic"
         data["instance%2Flogical.name"] = ""
         data["instance%2Fowner.group"] = "%E0%B8%A1%E0%B8%82.+Core+Network%2F%E0%B8%A1%E0%B8%A1."
-        data["instance%2Fdowntime.start"] = datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).strftime('%d/%m/%Y %H:%M:%S')
+        data["instance%2Fdowntime.start"] = urllib.quote(datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).strftime('%d/%m/%Y %H:%M:%S'))
         data["instance%2Fassignment"] = "%E0%B8%A1%E0%B8%82.+THAIPAK"
         data["instance%2Fdowntime.end"] = ""
         data["instance%2Fendtoend.group"] = ""
@@ -620,7 +620,8 @@ class TTS(object):
         data["var%2Fpmc.update.start"] = ""
         data["var%2Fpmc.update.end"] = ""
         data["instance%2Fupdated.by"] = ""
-        data["var%2Fchoices%2FdynamicFormDef"] = "%3Cform%3E%3Ccheckbox+id%3D%22open%22+label%3D%22Open%22%2F%3E%3Ccheckbox+id%3D%22closed%22+label%3D%22Closed%22%2F%3E%3Ccheckbox+id%3D%22assigned%22+label%3D%22Assigned+to+me%22%2F%3E%3Ccheckbox+id%3D%22highpriority%22+label%3D%22High+Priority%22%2F%3E%3Ccheckbox+id%3D%22tl%22+label%3D%22Total+Loss+of+Service%22%2F%3E%3Ccheckbox+id%3D%22ucmdb%22+label%3D%22Generated+by+UCMDB+Integration%22%2F%3E%3C%2Fform%3E"
+        data[
+            "var%2Fchoices%2FdynamicFormDef"] = "%3Cform%3E%3Ccheckbox+id%3D%22open%22+label%3D%22Open%22%2F%3E%3Ccheckbox+id%3D%22closed%22+label%3D%22Closed%22%2F%3E%3Ccheckbox+id%3D%22assigned%22+label%3D%22Assigned+to+me%22%2F%3E%3Ccheckbox+id%3D%22highpriority%22+label%3D%22High+Priority%22%2F%3E%3Ccheckbox+id%3D%22tl%22+label%3D%22Total+Loss+of+Service%22%2F%3E%3Ccheckbox+id%3D%22ucmdb%22+label%3D%22Generated+by+UCMDB+Integration%22%2F%3E%3C%2Fform%3E"
         data["dynamicFormRef%2FF1373192486"] = "var%2Fchoices"
         data["var%2Fadv.close.start"] = ""
         data["var%2Fadv.close.end"] = ""
