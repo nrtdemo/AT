@@ -184,7 +184,7 @@ class TTS(object):
         data["type"] = "detail"
         data["focus"] = "instance%2Faction%2Faction"
         # Need to require
-        data["focusContents"] = val['description']
+        data["focusContents"] = urllib.quote(val['description'])
 
         data["focusId"] = "X110"
         data["focusReadOnly"] = ""
@@ -235,16 +235,17 @@ class TTS(object):
         data["instance%2Frepairteam"] = ""
         data["instance%2Fnext.breach"] = ""
         # Need to require
-        data["instance%2Fbrief.description"] = val['title']
-        data["instance%2Faction%2Faction"] = val['description']
-        data["instance%2Fcomment%2Fcomment"] = val['comment']
+        data["instance%2Fbrief.description"] = urllib.quote(val['title'])
+        data["instance%2Faction%2Faction"] = urllib.quote(val['description'])
+        data["instance%2Fcomment%2Fcomment"] = urllib.quote(val['comment'])
 
         url = '''/sm/service.do?{0}={1}'''.format(self.csrfName, self.csrfValue)
-        resp = self.SendData(TTS_Path.search, data, AutoParseHTMLCharector=False)
+        resp_post = self.SendData(TTS_Path.search, data, AutoParseHTMLCharector=False)
         url = "/sm/L10N/recordlist.jsp"
         resp = self.SendData(url)
 
         self.Logout()
+        return resp_post
 
     def Get_TicketInfo(self, ticketNo):
         self.Auth()
@@ -450,7 +451,7 @@ class TTS(object):
         data["transaction"] = "2"
         data["type"] = "detail"
         data["focus"] = "instance%2Faction%2Faction"
-        data["focusContents"] = ""
+        data["focusContents"] = urllib.quote(val['description'])
         data["focusId"] = "X110"
         data["focusReadOnly"] = ""
         data["start"] = ""
@@ -500,9 +501,9 @@ class TTS(object):
         data["instance%2Frepairteam"] = ""
         data["instance%2Fnext.breach"] = ""
         # Need to require
-        data["instance%2Fbrief.description"] = val['title']
-        data["instance%2Faction%2Faction"] = val['description']
-        data["instance%2Fcomment%2Fcomment"] = val['comment']
+        data["instance%2Fbrief.description"] = urllib.quote(val['title'])
+        data["instance%2Faction%2Faction"] = urllib.quote(val['description'])
+        data["instance%2Fcomment%2Fcomment"] = urllib.quote(val['comment'])
         print data
 
     def startdowntime(self, timerange):
@@ -745,5 +746,5 @@ class TTS(object):
         self.headers['Cookie'] = ';'.join(ncookies)
 
     def DebugPrint(self, msg):
-        if True:
+        if False:
             print msg
