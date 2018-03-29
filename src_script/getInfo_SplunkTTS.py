@@ -1,5 +1,6 @@
 #!/usr/bin/python -u
 import time
+import datetime
 import re
 import threading
 
@@ -130,11 +131,9 @@ def job_SPLUNK(searchQuery):
     sid = splunk.CreateSearch(searchQuery, timerange="24hr")  # defind timerange query data
     # sid = splunk.CreateSearch(searchQuery)  # defind timerange query data
     print (sid)
-    rs = splunk.GetSearchStatus(sid)
-    while not rs == 'DONE':
-        print rs
-        time.sleep(15)
-        rs = splunk.GetSearchStatus(sid)
+    print splunk.GetSearchStatus(sid)
+    while not splunk.GetSearchStatus(sid) == 'DONE':
+        pass
     lst = splunk.GetSearchResult(sid)
     insert_Splunk(lst)
     print 'ENDED SPLUNK'
@@ -162,10 +161,21 @@ if __name__ == "__main__":
 
     t1 = threading.Thread(name='search_link_40G_100GbE', target=job_SPLUNK, args=(search_link_40G_100GbE,))
     t2 = threading.Thread(name='search_link_PE_Bangkok_Flap', target=job_SPLUNK, args=(search_link_PE_Bangkok_Flap,))
+
+    start_time = time.strftime('%H:%M:%S')
+    dt_started = datetime.datetime.utcnow()
+    print dt_started
     t1.start()
-    t2.start()
+    # t2.start()
 
     while t1.isAlive() or t2.isAlive():
-        print 'Script is working!!'
-        time.sleep(30)
+        # print 'Script is working!!'
+        # time.sleep(30)
+        pass
     job_TTS()
+
+    print 'start time : ' + start_time
+    print 'end : ' + time.strftime('%H:%M:%S')
+    dt_ended = datetime.datetime.utcnow()
+    duration = (dt_ended - dt_started).total_seconds() / 60
+    print duration
