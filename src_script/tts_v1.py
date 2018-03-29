@@ -154,6 +154,7 @@ class TTS(object):
         self.DebugPrint(resp_post[1])
 
         data_last_state = resp_post[1]
+
         parser = AdvancedHTMLParser.AdvancedHTMLParser()
         parser.parseStr(data_last_state)
         info = collections.OrderedDict()
@@ -161,7 +162,9 @@ class TTS(object):
             ['name', 'instance/oss.source'],
             ['name', 'instance/oss.destination'],
             ['name', 'instance/oss.address/oss.address'],
-            ['name', 'instance/oss.bandwidth']
+            ['name', 'instance/oss.bandwidth'],
+            ['name', 'instance/oss.informant'],
+            ['name', 'instance/downtime.start']
         ]
         for l in list_search:
             key = l[0]
@@ -177,6 +180,110 @@ class TTS(object):
         data = collections.OrderedDict()
         data["row"] = ""
         data["__x"] = ""
+        data["thread"] = "6"
+        data["resetnotebook"] = ""
+        data["event"] = "805"
+        data["transaction"] = "0"
+        data["type"] = "detail"
+        data["focus"] = "instance%2Fbrief.description"
+        data["focusContents"] = "Down"
+        data["focusId"] = "X108"
+        data["focusReadOnly"] = ""
+        data["start"] = ""
+        data["count"] = ""
+        data["more"] = ""
+        data["tablename"] = ""
+        data["window"] = ""
+        data["close"] = ""
+        data["_blankFields"] = ""
+        data["_uncheckedBoxes"] = ""
+        data["_tpzEventSource"] = ""
+        data["formchanged"] = ""
+        data["formname"] = "IM.open.incident"
+        data[self.csrfName] = self.csrfValue
+        data["clientWidth"] = "1343"
+        data["instance%2Fincident.id"] = ""
+        data["instance%2Fcustomer.type"] = ""
+        data["instance%2Fnumber"] = ""
+        data["instance%2Foss.informant"] = urllib.quote(info['instance/oss.informant'].encode('utf-8'))
+        data["instance%2Fcontact.email"] = ""
+        data["instance%2Fcatid"] = val['catid']
+        data["instance%2Foss.contact.telephone"] = ""
+        data["instance%2Foss.source"] = urllib.quote(info['instance/oss.source'].encode('utf-8'))
+        data["instance%2Foss.contact.sms"] = ""
+        data["instance%2Foss.destination"] = urllib.quote(info['instance/oss.destination'].encode('utf-8'))
+        data["instance%2Foss.contact.fax"] = ""
+        data["instance%2Foss.address%2Foss.address"] = urllib.quote(info['instance/oss.address/oss.address'].encode('utf-8'))
+        data["instance%2Fsource"] = ""
+        data["instance%2Fcategory"] = "incident"
+        data["instance%2Foss.bandwidth"] = urllib.quote(info['instance/oss.bandwidth'].encode('utf-8'))
+        data["instance%2Fgateway.type"] = ""
+        data["instance%2Fsubcategory"] = "failure"
+        data["instance%2Fpartners.name"] = ""
+        data["instance%2Fproduct.type"] = "system+down"
+        data["instance%2Fcarrier.name"] = ""
+        data["instance%2Finitial.impact"] = "3"
+        data["instance%2Fcarrier.ticket"] = ""
+        data["instance%2Fseverity"] = "3"
+        data["instance%2Faffected.item"] = "%E0%B8%9A%E0%B8%A3%E0%B8%B4%E0%B8%81%E0%B8%B2%E0%B8%A3+CAT+EPL+-+Domestic"
+        data["instance%2Flogical.name"] = ""
+        data["instance%2Fowner.group"] = "%E0%B8%A1%E0%B8%82.+Core+Network%2F%E0%B8%A1%E0%B8%A1."
+        data["instance%2Fdowntime.start"] = urllib.quote(info['instance/downtime.start'].encode('utf-8'))
+        data["instance%2Fassignment"] = "%E0%B8%A1%E0%B8%82.+Core+Network%2F%E0%B8%A1%E0%B8%A1."
+        data["instance%2Fdowntime.end"] = ""
+        data["instance%2Fendtoend.group"] = ""
+        data["instance%2Fdowntime"] = ""
+        data["instance%2Frepairteam"] = ""
+        data["instance%2Fnext.breach"] = ""
+        data["instance%2Fbrief.description"] = "Down"
+        data["instance%2Faction%2Faction"] = ""
+        data["instance%2Fcomment%2Fcomment"] = ""
+        resp_post = self.SendData(TTS_Path.search, data, AutoParseHTMLCharector=False)
+        url = "/sm/L10N/recordlist.jsp"
+        resp = self.SendData(url)
+        self.DebugPrint(resp_post[1])
+
+        data = collections.OrderedDict()
+        data["row"] = ""
+        data["__x"] = ""
+        data["thread"] = "6"
+        data["resetnotebook"] = ""
+        data["event"] = "5"
+        data["transaction"] = "1"
+        data["type"] = "detail"
+        data["focus"] = "var%2Ffault.down.detail5"
+        data["focusContents"] = ""
+        data["focusId"] = "X16"
+        data["focusReadOnly"] = ""
+        data["start"] = ""
+        data["count"] = ""
+        data["more"] = ""
+        data["tablename"] = ""
+        data["window"] = ""
+        data["close"] = ""
+        data["_blankFields"] = ""
+        data["_uncheckedBoxes"] = ""
+        data["_tpzEventSource"] = ""
+        data["formchanged"] = ""
+        data["formname"] = "wizard-wizard.fault.down"
+        data[self.csrfName] = self.csrfValue
+        data["clientWidth"] = "1343"
+        data["var%2Ffault.down.detail1"] = ""
+        data["var%2Ffault.down.detail2"] = ""
+        data["var%2Ffault.down.detail3"] = ""
+        data["var%2Ffault.down.detail4"] = ""
+        data["var%2Ffault.down.detail5"] = ""
+        data["var%2Ffault.down.detail6"] = ""
+        data["var%2Ffault.down.detail7"] = ""
+        resp_post = self.SendData(TTS_Path.search, data, AutoParseHTMLCharector=False)
+        url = "/sm/L10N/recordlist.jsp"
+        resp = self.SendData(url)
+        self.DebugPrint(resp_post[1])
+
+        # last progress
+        data = collections.OrderedDict()
+        data["row"] = ""
+        data["__x"] = ""
         data["thread"] = threadid
         data["resetnotebook"] = ""
         data["event"] = "10"
@@ -185,7 +292,6 @@ class TTS(object):
         data["focus"] = "instance%2Faction%2Faction"
         # Need to require
         data["focusContents"] = urllib.quote(val['description'])
-
         data["focusId"] = "X110"
         data["focusReadOnly"] = ""
         data["start"] = ""
@@ -227,7 +333,7 @@ class TTS(object):
         data["instance%2Faffected.item"] = "%E0%B8%9A%E0%B8%A3%E0%B8%B4%E0%B8%81%E0%B8%B2%E0%B8%A3+CAT+EPL+-+Domestic"
         data["instance%2Flogical.name"] = ""
         data["instance%2Fowner.group"] = "%E0%B8%A1%E0%B8%82.+Core+Network%2F%E0%B8%A1%E0%B8%A1."
-        data["instance%2Fdowntime.start"] = urllib.quote(datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).strftime('%d/%m/%Y %H:%M:%S'))
+        data["instance%2Fdowntime.start"] = urllib.quote(info['instance/downtime.start'].encode('utf-8'))
         data["instance%2Fassignment"] = "%E0%B8%A1%E0%B8%82.+THAIPAK"
         data["instance%2Fdowntime.end"] = ""
         data["instance%2Fendtoend.group"] = ""
@@ -238,12 +344,41 @@ class TTS(object):
         data["instance%2Fbrief.description"] = urllib.quote(val['title'])
         data["instance%2Faction%2Faction"] = urllib.quote(val['description'])
         data["instance%2Fcomment%2Fcomment"] = urllib.quote(val['comment'])
-
         resp_post = self.SendData(TTS_Path.search, data, AutoParseHTMLCharector=False)
         url = "/sm/L10N/recordlist.jsp"
         resp = self.SendData(url)
-        print data
-        print resp_post[1]
+        self.DebugPrint(resp_post[1])
+
+        data = collections.OrderedDict()
+        data["row"] = ""
+        data["__x"] = ""
+        data["thread"] = "6"
+        data["resetnotebook"] = ""
+        data["event"] = "0"
+        data["transaction"] = "3"
+        data["type"] = "messagebox"
+        data["focus"] = ""
+        data["focusContents"] = ""
+        data["focusId"] = ""
+        data["focusReadOnly"] = ""
+        data["start"] = ""
+        data["count"] = ""
+        data["more"] = ""
+        data["tablename"] = ""
+        data["window"] = ""
+        data["close"] = ""
+        data["_blankFields"] = ""
+        data["_uncheckedBoxes"] = ""
+        data["_tpzEventSource"] = ""
+        data["formchanged"] = ""
+        data["formname"] = ""
+        data[self.csrfName] = self.csrfValue
+        data["clientWidth"] = "1343"
+        resp_post = self.SendData(TTS_Path.search, data, AutoParseHTMLCharector=False)
+        url = "/sm/L10N/recordlist.jsp"
+        resp = self.SendData(url)
+        self.DebugPrint(resp_post[1])
+
         self.Logout()
 
     def Get_TicketInfo(self, ticketNo):
