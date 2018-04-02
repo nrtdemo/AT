@@ -70,11 +70,11 @@ class TTS(object):
                              save_referer=True)
         self.DebugPrint(resp[0])
         self.DebugPrint(resp[1])
-
         url = "/sm/L10N/recordlist.jsp"
         resp = self.SendData(url)
         self.DebugPrint(resp[0])
         self.DebugPrint(resp[1])
+
         data = collections.OrderedDict()
         data["row"] = ""
         data["__x"] = ""
@@ -110,9 +110,9 @@ class TTS(object):
         resp_post = self.SendData(TTS_Path.search, data,
                                   AutoParseHTMLCharector=False)
         self.DebugPrint(resp_post[1])
-
         url = "/sm/L10N/recordlist.jsp"
         resp = self.SendData(url)
+
         data = collections.OrderedDict()
         data["row"] = ""
         data["__x"] = ""
@@ -145,7 +145,6 @@ class TTS(object):
         data["var%2Foss.search.value"] = val['catid']
         data["var%2Foss.dcss.allrecordcount"] = "1"
         data["var%2Foss.dcss.showtext"] = "1+to+1"
-
         resp_post = self.SendData(TTS_Path.search, data,
                                   AutoParseHTMLCharector=False)
         url = "/sm/L10N/recordlist.jsp"
@@ -154,7 +153,6 @@ class TTS(object):
         self.DebugPrint(resp_post[1])
 
         data_last_state = resp_post[1]
-
         parser = AdvancedHTMLParser.AdvancedHTMLParser()
         parser.parseStr(data_last_state)
         info = collections.OrderedDict()
