@@ -4,6 +4,9 @@
 import cgitb
 import cgi
 import collections
+import datetime
+import time
+import pytz
 from MySQL import Database
 
 form = cgi.FieldStorage()
@@ -13,43 +16,42 @@ db = Database(host='127.0.0.1', username='root', password='', db='alarm_ticket')
 
 
 def addactive(catid):
-    select_active = db.query("SELECT * FROM online_active WHERE catid = '{}' LIMIT 1".format(catid))
-    if len(select_active) == 0:
-        db.insert("""INSERT INTO online_active (catid) VALUE ('{}')""".format(catid))
+    select_active = db.query("SELECT * FROM online_active WHERE catid = '{}'".format(catid))
+    if len(select_active) > 0:
+        select_active = select_active[0]
+        now = datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).strftime('%Y-%m-%d %H:%M:%S')
+        db.insert("""UPDATE online_active SET timestamp = '{1}' WHERE catid = '{0}'""".format(catid, now))
     else:
-        select_active = select_active[0]
-        db.insert("""UPDATE online_active SET active = '{1}' WHERE catid = '{0}'""".format(catid, select_active['active'] + 1))
-
-
-def reduceactive(catid):
-    select_active = db.query("SELECT * FROM online_active WHERE catid = '{}' LIMIT 1".format(catid))
-    if not len(select_active) == 0:
-        select_active = select_active[0]
-        active_count = select_active['active']
-        if active_count == 0:
-            db.insert("""UPDATE online_active SET active = '{1}' WHERE catid = '{0}'""".format(catid, 0))
-        else:
-            db.insert("""UPDATE online_active SET active = '{1}' WHERE catid = '{0}'""".format(catid, active_count - 1))
-
+        now = datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).strftime('%Y-%m-%d %H:%M:%S')
+        db.insert("""INSERT INTO online_active (catid, timestamp) VALUE ('{0}', '{1}')""".format(catid, now))
 
 def getactive(catid):
     data = collections.OrderedDict()
     data['catid'] = catid
-    data['active'] = 0
+    data['timestamp'] = '1997-01-01 00:00:00'
 
     select_active = db.query("SELECT * FROM online_active WHERE catid = '{}' LIMIT 1".format(catid))
     if not len(select_active) == 0:
         select_active = select_active[0]
-        data['active'] = select_active['active']
+        data['timestamp'] = select_active['timestamp']
+        t = datetime.datetime.strptime(str(data['timestamp']), '%Y-%m-%d %H:%M:%S')
+        while abs(time.mktime(t.timetuple()) - time.mktime(datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).timetuple())) < 60:
+            data['active'] = True
     return data
 
 
 if __name__ == "__main__":
+    print "Content-type: application/x-www-form-urlencoded\n\n"
+    # print "Content-type: text/html\n\n"
+    # print
+    # t = datetime.datetime.strptime(str(db.query("SELECT * FROM online_active WHERE catid = '{}' LIMIT 1".format('TBB160382'))[0]['timestamp']), '%Y-%m-%d %H:%M:%S')
+    # print abs(time.mktime(t.timetuple()) - time.mktime(datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).timetuple()))
     type_func = form['type'].value
-
     if type_func == 'get':
         pass
-    elif type_func == 'add':
-        pass
+        # print getactive(form['CatID'].value)
+    elif type_func == 'report':
+        addactive(form['CatID'].value)
     elif type_func == 'reduce':
         pass
+
