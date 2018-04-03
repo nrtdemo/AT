@@ -152,6 +152,8 @@ class TTS(object):
         self.DebugPrint(resp_post[0])
         self.DebugPrint(resp_post[1])
 
+        # self.Logout()
+
         data_last_state = resp_post[1]
         parser = AdvancedHTMLParser.AdvancedHTMLParser()
         parser.parseStr(data_last_state)
@@ -178,7 +180,7 @@ class TTS(object):
         data = collections.OrderedDict()
         data["row"] = ""
         data["__x"] = ""
-        data["thread"] = "6"
+        data["thread"] = threadid
         data["resetnotebook"] = ""
         data["event"] = "805"
         data["transaction"] = "0"
@@ -203,6 +205,7 @@ class TTS(object):
         data["instance%2Fincident.id"] = ""
         data["instance%2Fcustomer.type"] = ""
         data["instance%2Fnumber"] = ""
+        # urllib.quote(info['instance/oss.informant'].encode('utf-8'))
         data["instance%2Foss.informant"] = urllib.quote(info['instance/oss.informant'].encode('utf-8'))
         data["instance%2Fcontact.email"] = ""
         data["instance%2Fcatid"] = val['catid']
@@ -244,14 +247,14 @@ class TTS(object):
         data = collections.OrderedDict()
         data["row"] = ""
         data["__x"] = ""
-        data["thread"] = "6"
+        data["thread"] = threadid
         data["resetnotebook"] = ""
         data["event"] = "5"
         data["transaction"] = "1"
         data["type"] = "detail"
-        data["focus"] = "var%2Ffault.down.detail5"
-        data["focusContents"] = ""
-        data["focusId"] = "X16"
+        data["focus"] = "var%2Ffault.down1"
+        data["focusContents"] = "true"
+        data["focusId"] = "X2"
         data["focusReadOnly"] = ""
         data["start"] = ""
         data["count"] = ""
@@ -265,7 +268,7 @@ class TTS(object):
         data["formchanged"] = ""
         data["formname"] = "wizard-wizard.fault.down"
         data[self.csrfName] = self.csrfValue
-        data["clientWidth"] = "1343"
+        data["clientWidth"] = "1109"
         data["var%2Ffault.down.detail1"] = ""
         data["var%2Ffault.down.detail2"] = ""
         data["var%2Ffault.down.detail3"] = ""
@@ -350,7 +353,7 @@ class TTS(object):
         data = collections.OrderedDict()
         data["row"] = ""
         data["__x"] = ""
-        data["thread"] = "6"
+        data["thread"] = threadid
         data["resetnotebook"] = ""
         data["event"] = "0"
         data["transaction"] = "3"
@@ -880,5 +883,5 @@ class TTS(object):
         self.headers['Cookie'] = ';'.join(ncookies)
 
     def DebugPrint(self, msg):
-        if False:
+        if True:
             print msg
