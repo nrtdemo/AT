@@ -561,7 +561,6 @@ class TTS(object):
             ['name', 'instance/oss.bandwidth']
         ]
 
-        # file = open('/var/www/html/cgi-enabled/testfile.txt', 'w')
         for l in list_search:
             key = l[0]
             value = l[1]
@@ -574,8 +573,6 @@ class TTS(object):
                 info[value] = str(infoinput).split('u\'value\', u\'')[1].split('\')')[0].decode('unicode-escape')
             # print 'type:{} value:{}'.format(type(info[value]), info[value].encode('utf-8'))
             # print '{}'.format(urllib.quote(info[value].encode('utf-8')))
-            # file.write('type:{} value:{}\n'.format(type(info[value]), info[value].encode('utf-8')))
-        # file.close()
 
         threadid = 1
         data = collections.OrderedDict()
@@ -883,5 +880,5 @@ class TTS(object):
         self.headers['Cookie'] = ';'.join(ncookies)
 
     def DebugPrint(self, msg):
-        if True:
+        if False:
             print msg
