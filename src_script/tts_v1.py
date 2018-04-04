@@ -70,11 +70,11 @@ class TTS(object):
                              save_referer=True)
         self.DebugPrint(resp[0])
         self.DebugPrint(resp[1])
-
         url = "/sm/L10N/recordlist.jsp"
         resp = self.SendData(url)
         self.DebugPrint(resp[0])
         self.DebugPrint(resp[1])
+
         data = collections.OrderedDict()
         data["row"] = ""
         data["__x"] = ""
@@ -110,9 +110,9 @@ class TTS(object):
         resp_post = self.SendData(TTS_Path.search, data,
                                   AutoParseHTMLCharector=False)
         self.DebugPrint(resp_post[1])
-
         url = "/sm/L10N/recordlist.jsp"
         resp = self.SendData(url)
+
         data = collections.OrderedDict()
         data["row"] = ""
         data["__x"] = ""
@@ -145,7 +145,6 @@ class TTS(object):
         data["var%2Foss.search.value"] = val['catid']
         data["var%2Foss.dcss.allrecordcount"] = "1"
         data["var%2Foss.dcss.showtext"] = "1+to+1"
-
         resp_post = self.SendData(TTS_Path.search, data,
                                   AutoParseHTMLCharector=False)
         url = "/sm/L10N/recordlist.jsp"
@@ -153,8 +152,9 @@ class TTS(object):
         self.DebugPrint(resp_post[0])
         self.DebugPrint(resp_post[1])
 
-        data_last_state = resp_post[1]
+        # self.Logout()
 
+        data_last_state = resp_post[1]
         parser = AdvancedHTMLParser.AdvancedHTMLParser()
         parser.parseStr(data_last_state)
         info = collections.OrderedDict()
@@ -180,7 +180,7 @@ class TTS(object):
         data = collections.OrderedDict()
         data["row"] = ""
         data["__x"] = ""
-        data["thread"] = "6"
+        data["thread"] = threadid
         data["resetnotebook"] = ""
         data["event"] = "805"
         data["transaction"] = "0"
@@ -205,6 +205,7 @@ class TTS(object):
         data["instance%2Fincident.id"] = ""
         data["instance%2Fcustomer.type"] = ""
         data["instance%2Fnumber"] = ""
+        # urllib.quote(info['instance/oss.informant'].encode('utf-8'))
         data["instance%2Foss.informant"] = urllib.quote(info['instance/oss.informant'].encode('utf-8'))
         data["instance%2Fcontact.email"] = ""
         data["instance%2Fcatid"] = val['catid']
@@ -246,14 +247,14 @@ class TTS(object):
         data = collections.OrderedDict()
         data["row"] = ""
         data["__x"] = ""
-        data["thread"] = "6"
+        data["thread"] = threadid
         data["resetnotebook"] = ""
         data["event"] = "5"
         data["transaction"] = "1"
         data["type"] = "detail"
-        data["focus"] = "var%2Ffault.down.detail5"
-        data["focusContents"] = ""
-        data["focusId"] = "X16"
+        data["focus"] = "var%2Ffault.down1"
+        data["focusContents"] = "true"
+        data["focusId"] = "X2"
         data["focusReadOnly"] = ""
         data["start"] = ""
         data["count"] = ""
@@ -267,7 +268,7 @@ class TTS(object):
         data["formchanged"] = ""
         data["formname"] = "wizard-wizard.fault.down"
         data[self.csrfName] = self.csrfValue
-        data["clientWidth"] = "1343"
+        data["clientWidth"] = "1109"
         data["var%2Ffault.down.detail1"] = ""
         data["var%2Ffault.down.detail2"] = ""
         data["var%2Ffault.down.detail3"] = ""
@@ -352,7 +353,7 @@ class TTS(object):
         data = collections.OrderedDict()
         data["row"] = ""
         data["__x"] = ""
-        data["thread"] = "6"
+        data["thread"] = threadid
         data["resetnotebook"] = ""
         data["event"] = "0"
         data["transaction"] = "3"
@@ -560,7 +561,6 @@ class TTS(object):
             ['name', 'instance/oss.bandwidth']
         ]
 
-        # file = open('/var/www/html/cgi-enabled/testfile.txt', 'w')
         for l in list_search:
             key = l[0]
             value = l[1]
@@ -573,8 +573,6 @@ class TTS(object):
                 info[value] = str(infoinput).split('u\'value\', u\'')[1].split('\')')[0].decode('unicode-escape')
             # print 'type:{} value:{}'.format(type(info[value]), info[value].encode('utf-8'))
             # print '{}'.format(urllib.quote(info[value].encode('utf-8')))
-            # file.write('type:{} value:{}\n'.format(type(info[value]), info[value].encode('utf-8')))
-        # file.close()
 
         threadid = 1
         data = collections.OrderedDict()

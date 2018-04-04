@@ -43,6 +43,7 @@ def open_ticket():
         lst_detail['description'] = None
         lst_detail['activity'] = None
         lst_detail['bandwidth'] = None
+    print '<input type=hidden id=CatID name=CatID value="{}">'.format(form["cat_id"].value)
 
     print '<div class="box">'
     print '<div class="box-form">'

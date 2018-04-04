@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import cgitb
+import datetime
+import time
+import pytz
 
 cgitb.enable()
 
@@ -10,7 +13,10 @@ def index():
     from src_script.MySQL import Database
     db = Database(host='localhost', username='root',
                   password='', db='alarm_ticket')
-    select_catid = """SELECT * FROM splunk LEFT JOIN (SELECT * FROM tts ORDER BY ticketNo DESC) AS tts ON (splunk.cat_id = tts.cat_id) WHERE host LIKE '10.126.%' GROUP BY src_interface, host, hostname, path"""
+    select_catid = """SELECT * FROM splunk 
+                        LEFT JOIN (SELECT * FROM tts ORDER BY ticketNo DESC) AS tts ON (splunk.cat_id = tts.cat_id)
+                        LEFT join online_active ON (splunk.cat_id = online_active.catid) 
+                        WHERE host LIKE '10.126.%' GROUP BY src_interface, host, hostname, path"""
     lst_catid = db.query(select_catid)
 
     print '<div class="box">'
@@ -90,6 +96,15 @@ def index():
             print '         <td class="col-lg-1"></td>'
         print '         <td class="col-lg-1">{0}</td>'.format(l['affected_item'])
         if l['port_status'] == 'Down' and (l['problem_status'] == 'Closed' or l['problem_status'] is None):
+            if l['timestamp'] is not None:
+                t = datetime.datetime.strptime(str(l['timestamp']), '%Y-%m-%d %H:%M:%S')
+                timediff = abs((time.mktime(t.timetuple()) + 3600) - time.mktime(datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).timetuple()))
+                if timediff < 120:
+                    status = 'active'
+                else:
+                    status = 'inative'
+            else:
+                status = 'inactive'
             print '         <td class="col-lg-1"><a href="/cgi-enabled/openticket.py?cat_id={0}"><input type="button" class="btn btn-default" value="open ticket"></a></td>'.format(
                 l['cat_id'])
         else:

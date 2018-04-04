@@ -31,6 +31,12 @@ $(document).ready(function () {
         radioClass: 'iradio_square-blue',
         increaseArea: '20%' // optional
     });
+
+    //Call the functions
+    doReport();
+
+    //... then set the interval
+    setInterval(doReport, 30000);// Report user presence every 30sec
 });
 
 
@@ -67,3 +73,47 @@ $('#form_openticket').on('submit', function (e) {
     });
 
 });
+
+function doReport() {
+    var k = getXMLHttpRequestObject();
+    if (k != false) {
+        url = "src_script/active.py?type=report&CatID=" + document.getElementById("CatID").value;
+        k.open("POST", url, true);
+        k.onreadystatechange = function () {
+            if (k.readyState == 4) {
+                //...Do nothing...
+            }
+        };
+        k.send();
+    }
+    else {
+        alert("Cant create XMLHttpRequest");
+    }
+}
+
+
+//Getting the right XMLHttpRequest object
+function getXMLHttpRequestObject() {
+    xmlhttp = 0;
+    try {
+        // Try to create object for Chrome, Firefox, Safari, IE7+, etc.
+        xmlhttp = new XMLHttpRequest();
+    }
+    catch (e) {
+        try {
+            // Try to create object for later versions of IE.
+            xmlhttp = new ActiveXObject('MSXML2.XMLHTTP');
+        }
+        catch (e) {
+            try {
+                // Try to create object for early versions of IE.
+                xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+            }
+            catch (e) {
+                // Could not create an XMLHttpRequest object.
+                return false;
+            }
+        }
+    }
+    return xmlhttp;
+}
