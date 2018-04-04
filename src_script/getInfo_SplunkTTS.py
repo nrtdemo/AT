@@ -166,7 +166,7 @@ if __name__ == "__main__":
     dt_started = datetime.datetime.utcnow()
     print dt_started
     t1.start()
-    # t2.start()
+    t2.start()
 
     while t1.isAlive() or t2.isAlive():
         # print 'Script is working!!'
