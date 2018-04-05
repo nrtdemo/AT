@@ -25,102 +25,150 @@ def index():
         lst_catid = lst_catid[0]
         activity = json.loads(lst_catid['activity'])
 
-        print '<div class ="box">'
-        print '<div class ="box-body container">'
-        print '<div class ="box-form">'
+        print '<div class="box">'
+        print '<div class="box-body container">'
 
-        print '<div class ="row form-group">'
-        print '<div class ="col-lg-2 text-right">Ticket No:</div>'
-        print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['ticketNo'])
-        print '<div class ="col-lg-2 text-right" > Downtime start:</div>'
-        print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['downtime_start'])
+        print '<div class="col-lg-6">'
+        print """
+                <div class="row form-group">
+                    <div class="col-lg-3">Ticket No:</div>
+                    <div class="col-lg-9">{0}</div>
+                </div>
+                """.format(lst_catid['ticketNo'])
+
+        print """
+                <div class="row form-group">
+                    <div class="col-lg-3">Incident id:</div>
+                    <div class="col-lg-9">{0}</div>
+                </div>
+                """.format(lst_catid['incident_id'])
+        print """
+                <div class="row form-group">
+                    <div class="col-lg-3">Cat id:</div>
+                    <div class="col-lg-9">{0}</div>
+                </div>
+                """.format(lst_catid['cat_id'])
+        print """
+                <div class="row form-group">
+                    <div class="col-lg-3">Affected item:</div>
+                    <div class="col-lg-9">{0}</div>
+                </div>
+                """.format(lst_catid['affected_item'])
+        print """
+                <div class="row form-group">
+                    <div class="col-lg-3">Status:</div>
+                    <div class="col-lg-9">{0}</div>
+                </div>
+                """.format(lst_catid['status'])
+        print """
+                <div class="row form-group">
+                    <div class="col-lg-3">Problem status:</div>
+                    <div class="col-lg-9">{0}</div>
+                </div>
+                """.format(lst_catid['problem_status'])
+        print """
+                <div class="row form-group">
+                    <div class="col-lg-3">Address:</div>
+                    <div class="col-lg-9">{0}</div>
+                </div>
+                """.format(lst_catid['address'])
         print '</div>'
 
-        print '<div class ="row form-group" >'
-        print '<div class ="col-lg-2 text-right" > Incident id:</div>'
-        print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['incident_id'])
-        print '<div class ="col-lg-2 text-right" > Downtime:</div>'
-        print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['downtime_time'])
+        print '<div class="col-lg-6">'
+        print """
+               <div class="row form-group">
+                   <div class="col-lg-3">Downtime start:</div>
+                   <div class="col-lg-9">{0}</div>
+               </div>
+               """.format(lst_catid['downtime_start'])
+        print """
+               <div class="row form-group">
+                   <div class="col-lg-3">Downtime:</div>
+                   <div class="col-lg-9">{0}</div>
+               </div>
+               """.format(lst_catid['downtime_time'])
+        print """
+               <div class="row form-group">
+                   <div class="col-lg-3">Owner group:</div>
+                   <div class="col-lg-9">{0}</div>
+               </div>
+               """.format(lst_catid['owner_group'])
+        print """
+               <div class="row form-group">
+                   <div class="col-lg-3">Repairteam:</div>
+                   <div class="col-lg-9">{0}</div>
+               </div>
+               """.format(lst_catid['repairteam'])
+        print """
+               <div class="row form-group">
+                   <div class="col-lg-3">Source:</div>
+                   <div class="col-lg-9">{0}</div>
+               </div>
+               """.format(lst_catid['oss_source'])
+        print """
+               <div class="row form-group">
+                   <div class="col-lg-3">Destination:</div>
+                   <div class="col-lg-9">{0}</div>
+               </div>
+               """.format(lst_catid['oss_destination'])
+        print """
+               <div class="row form-group">
+                   <div class="col-lg-3">Bandwidth:</div>
+                   <div class="col-lg-9">{0}</div>
+               </div>
+               """.format(lst_catid['bandwidth'])
         print '</div>'
 
-        print '<div class ="row form-group" >'
-        print '<div class ="col-lg-2 text-right"> Affected item:</div>'
-        print '<div class ="col-lg-4">{0}</div>'.format(lst_catid['affected_item'])
-        print '<div class ="col-lg-2 text-right"> Owner group:</div>'
-        print '<div class ="col-lg-4">{0}</div>'.format(lst_catid['owner_group'])
+        # INFORMATION LINK
+        print '<div class="col-lg-12">'
+        print '<div class="row form-group">'
+        print '<div class="col-lg-2" >Title:</div>'
+        print '<div class="col-lg-10"><input type="text" class="form-control" value="{0}" readonly></div>'.format(lst_catid['title'])
         print '</div>'
 
-        print '<div class ="row form-group">'
-        print '<div class ="col-lg-2 text-right" > Cat id:</div>'
-        print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['cat_id'])
-        print '<div class ="col-lg-2 text-right" > Repairteam: </div>'
-        print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['repairteam'])
-        print '</div>'
-
-        print '<div class ="row form-group" >'
-        print '<div class ="col-lg-2 text-right" > Status:</div>'
-        print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['status'])
-        print '<div class ="col-lg-2 text-right" > Source:</div>'
-        print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['oss_source'])
-        print '</div>'
-
-        print '<div class ="row form-group">'
-        print '<div class ="col-lg-2 text-right"> Problem status:</div>'
-        print '<div class ="col-lg-4" >{0}</div>'.format(lst_catid['problem_status'])
-        print '<div class ="col-lg-2 text-right"> Destination:</div>'
-        print '<div class ="col-lg-4">{0}</div>'.format(lst_catid['oss_destination'])
-        print '</div>'
-
-        print '<div class ="row form-group">'
-        print '<div class ="col-lg-2 text-right" > Address:</div>'
-        print '<div class ="col-lg-4 " >{0}</div>'.format(lst_catid['address'])
-        print '<div class ="col-lg-2 text-right" > Bandwidth:</div>'
-        print '<div class ="col-lg-4 " >{0}</div>'.format(lst_catid['bandwidth'])
-        print '</div>'
-
-        print '<div class ="row form-group">'
-        print '<div class ="col-lg-2 text-right"> Title:</div>'
-        print '<div class ="col-lg-10 ">{0}</div>'.format(lst_catid['title'])
-        print '</div>'
-
-        print '<div class ="row form-group">'
-        print '<div class ="col-lg-2 text-right" > Description:</div>'
-        print '<div class ="col-lg-10 ">'
-        print '<textarea class="form-control" rows="20" readonly >{0}</textarea>'.format(lst_catid['description'])
+        print '<div class="row form-group">'
+        print '<div class="col-lg-2" >Description:</div>'
+        print '<div class="col-lg-10"><textarea class="form-control" rows="20" readonly >{0}</textarea></div>'.format(lst_catid['description'])
         print '</div>'
         print '</div>'
 
-        print '<div class ="row form-group">'
-        print '<div class ="col-lg-2 text-right"> Activities:</div>'
-        print '<div class ="col-lg-10 table-responsive">'
-        print '<table class ="table table-bordered table-striped">'
-        print '<thead>'
-        print '<tr class ="Bg-head-table">'
-        print '<th class ="col-lg-1 text-center"> Number </th>'
-        print '<th class ="col-lg-2 text-center"> Datetime </th>'
-        print '<th class ="col-lg-2 text-center"> Operator </th>'
-        print '<th class ="col-lg-2 text-center"> Division </th>'
-        print '<th class ="col-lg-3 text-center"> Description </th>'
-        print '<th class ="col-lg-1 text-center"> Type </th>'
-        print '</tr>'
-        print '</thead>'
-
-        print '<tbody>'
+        # TABLE ACTIVITY
+        print '<div class="column col-lg-12">'
+        print """
+        <div class="row form-group">
+            <div class="col-lg-2"> Activities:</div>
+            <div class="col-lg-10 table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr class="Bg-head-table">
+                            <th class="col-lg-1 text-center"> Number </th>
+                            <th class="col-lg-2 text-center"> Datetime </th>
+                            <th class="col-lg-2 text-center"> Operator </th>
+                            <th class="col-lg-2 text-center"> Division </th>
+                            <th class="col-lg-3 text-center"> Description </th>
+                            <th class="col-lg-1 text-center"> Type </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        """
         for i in activity:
             print '<tr>'
-            print '<td class ="text-center" >{0}</td>'.format(i['number'])
-            print '<td class ="text-center" >{0}</td>'.format(i['datestamp'])
+            print '<td class="text-center" >{0}</td>'.format(i['number'])
+            print '<td class="text-center" >{0}</td>'.format(i['datestamp'])
             print "<td>{0}</td>".format(i['operator'].encode('utf-8'))
             print "<td>{0}</td>".format(i['division'].encode('utf-8'))
             print "<td>{0}</td>".format(i['description'].encode('utf-8'))
             print "<td>{0}</td>".format(i['type'])
             print "</tr>"
-        print "</tbody>"
-        print "</table>"
+        print """
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        """
+        print "</div>"
 
-        print "</div>"
-        print "</div>"
-        print "</div>"
+        ###############################
         print "</div>"
         print "</div>"
 
