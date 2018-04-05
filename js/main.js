@@ -1,9 +1,18 @@
 $(document).ready(function () {
     console.log("ready!");
-    var alarmtickets_table = $('#alarmtickets').DataTable({
-        order: [[4, 'asc'], [0, 'desc']],
-        pageLength: 50
-    });
+
+    startRefresh();
+    init_func();
+
+    //Call the functions
+    doReport();
+
+    //... then set the interval
+    setInterval(doReport, 30000);// Report user presence every 30sec
+});
+
+function init_func() {
+    var alarmtickets_table = $('#alarmtickets').DataTable();
 
     $(".status-filter").on('ifChecked ifUnchecked', function (event) {
         var that = this;
@@ -31,14 +40,7 @@ $(document).ready(function () {
         radioClass: 'iradio_square-blue',
         increaseArea: '20%' // optional
     });
-
-    //Call the functions
-    doReport();
-
-    //... then set the interval
-    setInterval(doReport, 30000);// Report user presence every 30sec
-});
-
+}
 
 $('#form_openticket').on('submit', function (e) {
     var request;
@@ -73,6 +75,19 @@ $('#form_openticket').on('submit', function (e) {
     });
 
 });
+
+function startRefresh() {
+    setTimeout(startRefresh, 5 * 1000 * 60);
+    var search = window.location.search
+    $.get('refresh.py' + search, function (data) {
+        $('#content_info').html(data);
+        if ($.fn.dataTable.isDataTable('#alarmtickets')) {
+            table = $('#alarmtickets').DataTable();
+            table.order([4, 'asc'], [0, 'desc']).draw();
+            table.page.len(50).draw();
+        }
+    });
+}
 
 function doReport() {
     var k = getXMLHttpRequestObject();
