@@ -109,12 +109,12 @@ class PE(object):
                     t = datetime.datetime.strptime(str(l['timestamp']), '%Y-%m-%d %H:%M:%S')
                     timediff = abs((time.mktime(t.timetuple()) + 3600) - time.mktime(datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).timetuple()))
                     if timediff < 120:
-                        status = 'active'
+                        status = 'disabled'
                     else:
-                        status = 'not active'
+                        status = ''
                 else:
-                    status = 'not active'
-                print '         <td class="col-lg-1"><a href="/cgi-enabled/openticket.py?cat_id={0}"><input type="button" class="btn btn-default" value="open ticket"></a><br/>{1}</td>'.format(
+                    status = ''
+                print '         <td class="col-lg-1"><a href="/cgi-enabled/openticket.py?cat_id={0}"><input type="button" class="btn btn-default" value="open ticket" {1}></a></td>'.format(
                     l['cat_id'], status)
             else:
                 print '         <td class="col-lg-1"></td>'
