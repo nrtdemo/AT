@@ -46,8 +46,8 @@ class template_AT(object):
                             <a href="#" class="dropdown-toggle navbar-brand" id="myDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
                                 Bangkok Link<span class="caret"></span></a>
                                 <ul class="dropdown-menu" aria-labelledby="myDropdown">
-                                    <li><a class="dropdown-item" href="index.py"> Link 40G&100GbE Up_Down</a></li>
-                                    <li><a class="dropdown-item" href="PEbangkok.py">Link PE Bangkok Flap 24hr</a></li>
+                                    <li><a class="dropdown-item" href="index.py?link=40G100G"> Link 40G&100GbE Up_Down</a></li>
+                                    <li><a class="dropdown-item" href="index.py?link=PE">Link PE Bangkok Flap 24hr</a></li>
                                 </ul>
                            </li>
                     </ul>
