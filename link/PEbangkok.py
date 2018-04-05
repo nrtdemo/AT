@@ -86,15 +86,15 @@ class PE(object):
             else:
                 print '         <td class="col-lg-1"></td>'
             print '         <td class="col-lg-1">{0}</td>'.format(l['src_interface'])
-            print '         <td class="col-lg-1 text-center"><div data-original-title="{1}" data-container="body" data-toggle="tooltip" data-placement="bottom" title="">{0}</div></td>'.format(
+            print '         <td class="col-lg-1 text-center"><div data-toggle="tooltip" data-placement="bottom" title="{1}">{0}</div></td>'.format(
                 l['host'], l['hostname'])
             # print '<td class="col-lg-1">{0}</td>'.format(l['hostname'])
             # print '<td class="col-lg-1">{0}</td>'.format(l['device_time'])
             if (l['port_status'] == 'down' or l['port_status'] == 'Down'):
-                print '         <td class="col-lg-1 port_status_down text-center"><div data-original-title="{1}" data-container="body" data-toggle="tooltip" data-placement="bottom" title="">{0}</div></td>'.format(
+                print '         <td class="col-lg-1 port_status_down text-center"><div data-toggle="tooltip" data-placement="bottom" title="{1}">{0}</div></td>'.format(
                     l['port_status'], l['device_time'])
             else:
-                print '         <td class="col-lg-1 port_status_up text-center"><div data-original-title="{1}" data-container="body" data-toggle="tooltip" data-placement="bottom" title="">{0}</div></td>'.format(
+                print '         <td class="col-lg-1 port_status_up text-center"><div data-toggle="tooltip" data-placement="bottom" title="{1}">{0}</div></td>'.format(
                     l['port_status'], l['device_time'])
             print '         <td class="col-lg-1">{0}</td>'.format(
                 l['path'])

@@ -84,6 +84,8 @@ function startRefresh() {
         if ($.fn.dataTable.isDataTable('#alarmtickets')) {
             table = $('#alarmtickets').DataTable();
             table.order([4, 'asc'], [0, 'desc']).draw();
+            table.page.len(100).draw();
+            $("[data-toggle='tooltip']").tooltip();
             table.page.len(50).draw();
         }
     });
