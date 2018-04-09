@@ -77,7 +77,7 @@ $('#form_openticket').on('submit', function (e) {
 });
 
 function startRefresh() {
-    setTimeout(startRefresh, 5 * 1000 * 60);
+    setTimeout(startRefresh, 0.5 * 1000 * 60);
     var search = window.location.search;
     $.get('refresh.py' + search, function (data) {
         $('#content_info').html(data);
