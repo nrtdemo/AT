@@ -102,7 +102,7 @@ class TTS(object):
         data["_multiSelection"] = ""
         data["_multiSelection_tableId"] = ""
         data["_multiSelection_selectionField"] = ""
-        data["clientWidth"] = "1109"
+        data["clientWidth"] = "1343"
         data["var%2Foss.search.fieldname"] = "id"
         data["var%2Foss.search.value"] = val['catid']
         data["var%2Foss.dcss.allrecordcount"] = ""
@@ -140,7 +140,7 @@ class TTS(object):
         data["_multiSelection"] = ""
         data["_multiSelection_tableId"] = ""
         data["_multiSelection_selectionField"] = ""
-        data["clientWidth"] = "1109"
+        data["clientWidth"] = "1343"
         data["var%2Foss.search.fieldname"] = "id"
         data["var%2Foss.search.value"] = val['catid']
         data["var%2Foss.dcss.allrecordcount"] = "1"
@@ -185,7 +185,7 @@ class TTS(object):
         data["event"] = "805"
         data["transaction"] = "0"
         data["type"] = "detail"
-        data["focus"] = "instance%2Fbrief.description"
+        data["focus"] = urllib.quote("instance/brief.description")
         data["focusContents"] = "Down"
         data["focusId"] = "X108"
         data["focusReadOnly"] = ""
@@ -221,16 +221,16 @@ class TTS(object):
         data["instance%2Fgateway.type"] = ""
         data["instance%2Fsubcategory"] = "failure"
         data["instance%2Fpartners.name"] = ""
-        data["instance%2Fproduct.type"] = "system+down"
+        data["instance%2Fproduct.type"] = urllib.quote("system down")
         data["instance%2Fcarrier.name"] = ""
         data["instance%2Finitial.impact"] = "3"
         data["instance%2Fcarrier.ticket"] = ""
         data["instance%2Fseverity"] = "3"
-        data["instance%2Faffected.item"] = "%E0%B8%9A%E0%B8%A3%E0%B8%B4%E0%B8%81%E0%B8%B2%E0%B8%A3+CAT+EPL+-+Domestic"
+        data["instance%2Faffected.item"] = urllib.quote("บริการ CAT EPL - Domestic")
         data["instance%2Flogical.name"] = ""
-        data["instance%2Fowner.group"] = "%E0%B8%A1%E0%B8%82.+Core+Network%2F%E0%B8%A1%E0%B8%A1."
+        data["instance%2Fowner.group"] = urllib.quote("มข. Core Network/มม.")
         data["instance%2Fdowntime.start"] = urllib.quote(info['instance/downtime.start'].encode('utf-8'))
-        data["instance%2Fassignment"] = "%E0%B8%A1%E0%B8%82.+Core+Network%2F%E0%B8%A1%E0%B8%A1."
+        data["instance%2Fassignment"] = urllib.quote("มข. Core Network/มม.")
         data["instance%2Fdowntime.end"] = ""
         data["instance%2Fendtoend.group"] = ""
         data["instance%2Fdowntime"] = ""
@@ -252,7 +252,7 @@ class TTS(object):
         data["event"] = "5"
         data["transaction"] = "1"
         data["type"] = "detail"
-        data["focus"] = "var%2Ffault.down1"
+        data["focus"] = urllib.quote("var/fault.down1")
         data["focusContents"] = "true"
         data["focusId"] = "X2"
         data["focusReadOnly"] = ""
@@ -268,7 +268,7 @@ class TTS(object):
         data["formchanged"] = ""
         data["formname"] = "wizard-wizard.fault.down"
         data[self.csrfName] = self.csrfValue
-        data["clientWidth"] = "1109"
+        data["clientWidth"] = "1343"
         data["var%2Ffault.down.detail1"] = ""
         data["var%2Ffault.down.detail2"] = ""
         data["var%2Ffault.down.detail3"] = ""
@@ -312,7 +312,7 @@ class TTS(object):
         data["instance%2Fcustomer.type"] = ""
         data["instance%2Fnumber"] = ""
         data["instance%2Foss.informant"] = "CATMA"
-        data["instance%2Fcontact.email"] = "catma%40ait.co.th"
+        data["instance%2Fcontact.email"] = urllib.quote("catma@ait.co.th")
         data["instance%2Fcatid"] = val['catid']
         data["instance%2Foss.contact.telephone"] = "021041761"
         data["instance%2Foss.source"] = urllib.quote(info['instance/oss.source'].encode('utf-8'))
@@ -331,11 +331,11 @@ class TTS(object):
         data["instance%2Finitial.impact"] = "3"
         data["instance%2Fcarrier.ticket"] = ""
         data["instance%2Fseverity"] = "2"
-        data["instance%2Faffected.item"] = "%E0%B8%9A%E0%B8%A3%E0%B8%B4%E0%B8%81%E0%B8%B2%E0%B8%A3+CAT+EPL+-+Domestic"
+        data["instance%2Faffected.item"] = urllib.quote("บริการ CAT EPL - Domestic")
         data["instance%2Flogical.name"] = ""
-        data["instance%2Fowner.group"] = "%E0%B8%A1%E0%B8%82.+Core+Network%2F%E0%B8%A1%E0%B8%A1."
+        data["instance%2Fowner.group"] = urllib.quote("มข. Core Network/มม.")
         data["instance%2Fdowntime.start"] = urllib.quote(info['instance/downtime.start'].encode('utf-8'))
-        data["instance%2Fassignment"] = "%E0%B8%A1%E0%B8%82.+THAIPAK"
+        data["instance%2Fassignment"] = urllib.quote("มข. THAIPAK")
         data["instance%2Fdowntime.end"] = ""
         data["instance%2Fendtoend.group"] = ""
         data["instance%2Fdowntime"] = ""
@@ -880,5 +880,5 @@ class TTS(object):
         self.headers['Cookie'] = ';'.join(ncookies)
 
     def DebugPrint(self, msg):
-        if False:
+        if True:
             print msg
