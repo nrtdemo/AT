@@ -241,7 +241,7 @@ class TTS(object):
         data["instance%2Fcomment%2Fcomment"] = ""
         resp_post = self.SendData(TTS_Path.search, data, AutoParseHTMLCharector=False)
         url = "/sm/L10N/recordlist.jsp"
-        resp = self.SendData(url)
+        self.SendData(url)
         self.DebugPrint(resp_post[1])
 
         data = collections.OrderedDict()
@@ -278,7 +278,7 @@ class TTS(object):
         data["var%2Ffault.down.detail7"] = ""
         resp_post = self.SendData(TTS_Path.search, data, AutoParseHTMLCharector=False)
         url = "/sm/L10N/recordlist.jsp"
-        resp = self.SendData(url)
+        self.SendData(url)
         self.DebugPrint(resp_post[1])
 
         # last progress
@@ -290,10 +290,9 @@ class TTS(object):
         data["event"] = "10"
         data["transaction"] = "2"
         data["type"] = "detail"
-        data["focus"] = "instance%2Faction%2Faction"
-        # Need to require
+        data["focus"] = urllib.quote("instance/action/action")
         data["focusContents"] = urllib.quote(val['description'])
-        data["focusId"] = "X110"
+        data["focusId"] = "X112"
         data["focusReadOnly"] = ""
         data["start"] = ""
         data["count"] = ""
@@ -312,15 +311,16 @@ class TTS(object):
         data["instance%2Fcustomer.type"] = ""
         data["instance%2Fnumber"] = ""
         data["instance%2Foss.informant"] = "CATMA"
-        data["instance%2Fcontact.email"] = urllib.quote("catma@ait.co.th")
         data["instance%2Fcatid"] = val['catid']
-        data["instance%2Foss.contact.telephone"] = "021041761"
+        data["instance%2Fcontact.email"] = urllib.quote("catma@ait.co.th")
         data["instance%2Foss.source"] = urllib.quote(info['instance/oss.source'].encode('utf-8'))
-        data["instance%2Foss.contact.sms"] = ""
+        data["instance%2Foss.contact.telephone"] = "021041761"
         data["instance%2Foss.destination"] = urllib.quote(info['instance/oss.destination'].encode('utf-8'))
-        data["instance%2Foss.contact.fax"] = ""
+        data["instance%2Foss.contact.sms"] = ""
         data["instance%2Foss.address%2Foss.address"] = urllib.quote(info['instance/oss.address/oss.address'].encode('utf-8'))
+        data["instance%2Foss.contact.fax"] = ""
         data["instance%2Fsource"] = ""
+        data["instance%2Fproject.name"] = ""
         data["instance%2Fcategory"] = "incident"
         data["instance%2Foss.bandwidth"] = urllib.quote(info['instance/oss.bandwidth'].encode('utf-8'))
         data["instance%2Fgateway.type"] = ""
@@ -341,13 +341,13 @@ class TTS(object):
         data["instance%2Fdowntime"] = ""
         data["instance%2Frepairteam"] = ""
         data["instance%2Fnext.breach"] = ""
-        # Need to require
         data["instance%2Fbrief.description"] = urllib.quote(val['title'])
         data["instance%2Faction%2Faction"] = urllib.quote(val['description'])
         data["instance%2Fcomment%2Fcomment"] = urllib.quote(val['comment'])
+
         resp_post = self.SendData(TTS_Path.search, data, AutoParseHTMLCharector=False)
         url = "/sm/L10N/recordlist.jsp"
-        resp = self.SendData(url)
+        self.SendData(url)
         self.DebugPrint(resp_post[1])
 
         data = collections.OrderedDict()
@@ -355,8 +355,8 @@ class TTS(object):
         data["__x"] = ""
         data["thread"] = threadid
         data["resetnotebook"] = ""
-        data["event"] = "0"
-        data["transaction"] = "3"
+        data["event"] = "3"
+        data["transaction"] = "1"
         data["type"] = "messagebox"
         data["focus"] = ""
         data["focusContents"] = ""
