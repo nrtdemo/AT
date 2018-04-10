@@ -80,15 +80,78 @@ function startRefresh() {
     setTimeout(startRefresh, 0.5 * 1000 * 60);
     var search = window.location.search;
     $.get('refresh.py' + search, function (data) {
-        $('#content_info').html(data);
+
         if ($.fn.dataTable.isDataTable('#alarmtickets')) {
+
             table = $('#alarmtickets').DataTable();
+
+            table.clear().draw();
+            data.forEach(function (item, index, arr) {
+                var css_port_status = "class='text-center'";
+                var devicetime = item[9];
+                var hostname = item[10];
+                var TicketNo = '', catId = '';
+                if (item[0] != 'None') {
+                    TicketNo = item[0];
+                }
+                if (item[1].length < 12) {
+                    catId = item[1];
+                }
+
+                var timenow = new Date() / 1000 | 0;
+                var timestamp = new Date(item[11]) / 1000;
+                var linkbtn = '';
+                if (item[4].toLowerCase() == "down") {
+                    css_port_status = "class='port_status_down text-center'"
+                    var ddTime = '';
+                    if (item[7] == 'Closed' || item[7] == 'None') {
+                        if (timenow - timestamp < 120) {
+                            ddTime = 'active';
+                        } else {
+                            ddTime = 'not active';
+                        }
+                        linkbtn = '<a href="openticket.py?cat_id=' + catId + '"><input type="button" class="btn btn-default" value="open ticket"></a><br/>' + ddTime + '<br/>'
+                    }
+                } else if (item[4].toLowerCase() == "up") {
+                    css_port_status = "class='port_status_up text-center'"
+                }
+
+                var jRow = $("<tr>").append(
+                    "<td><a href='activity.py?TicketNo=" + TicketNo + "'>" + TicketNo + "</a></td>",
+                    "<td>" + catId + "</td>",
+                    "<td>" + item[2] + "</td>",
+                    "<td><div data-toggle='tooltip' data-placement='bottom' title='" + hostname + "'>" + item[3] + "</div></td>",
+                    "<td " + css_port_status + "><div data-toggle='tooltip' data-placement='bottom' title='" + devicetime + "'>" + item[4] + "</div></td>",
+                    "<td>" + item[5] + "</td>",
+                    "<td>" + item[6] + "</td>",
+                    "<td>" + item[7] + "</td>",
+                    "<td>" + item[8] + "</td>",
+                    "<td>" + linkbtn + "</td>"
+                    )
+                ;
+                table.row.add(jRow).draw();
+            });
+
+            resetData(table);
             table.order([4, 'asc'], [0, 'desc']).draw();
             table.page.len(100).draw();
             $("[data-toggle='tooltip']").tooltip();
             table.page.len(50).draw();
         }
+
     });
+}
+
+function resetData(tablename) {
+    var table = tablename;
+    table.rows().every(function () {
+        var d = this.data();
+
+        d.counter++; // update data source for the row
+
+        this.invalidate(); // invalidate the data DataTables has cached for this row
+    });
+    table.draw();
 }
 
 function doReport() {
@@ -107,7 +170,6 @@ function doReport() {
         alert("Cant create XMLHttpRequest");
     }
 }
-
 
 //Getting the right XMLHttpRequest object
 function getXMLHttpRequestObject() {

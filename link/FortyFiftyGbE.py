@@ -5,6 +5,7 @@ import cgitb
 import datetime
 import time
 import pytz
+import json
 
 cgitb.enable()
 
@@ -63,6 +64,26 @@ class FF(object):
         print "</div>"
         print "</div>"
 
+    def jsonlink(self):
+        from src_script.MySQL import Database
+
+        db = Database(host='localhost', username='root',
+                      password='', db='alarm_ticket')
+        select_catid = """SELECT * FROM splunk
+                                    LEFT JOIN (SELECT * FROM tts ORDER BY ticketNo DESC) AS tts ON (splunk.cat_id = tts.cat_id)
+                                    LEFT join online_active ON (splunk.cat_id = online_active.catid)
+                                    WHERE host LIKE '10.126.%' GROUP BY src_interface, host, hostname, path"""
+        lst_catid = db.query(select_catid)
+        json_data = []
+        ''' ticketNo, cat_id, src_interface, host, port_status, path, flap, problem_status, affected_item'''
+        for r in lst_catid:
+            tmp = """[ "{0}", "{1}", "{2}", "{3}", "{4}", "{5}", "{6}", "{7}", "{8}", "{9}", "{10}", "{11}" ] """.format(
+                r['ticketNo'], r['cat_id'], r['src_interface'], r['host'], r['port_status'], r['path'], r['flap'],
+                r['problem_status'], r['affected_item'], r['device_time'], r['hostname'], r['timestamp']
+            )
+            json_data.append(json.loads(tmp))
+        print json.dumps(json_data)
+
     def link(self):
         from src_script.MySQL import Database
 
@@ -77,7 +98,7 @@ class FF(object):
         for l in lst_catid:
             print '<tr>'
             if l['incident_id'] is not None:
-                print '         <td class="col-lg-1"><a href="/cgi-enabled/activity.py?TicketNo={0}">{0}</a></td>'.format(
+                print '         <td class="col-lg-1"><a href="activity.py?TicketNo={0}">{0}</a></td>'.format(
                     l['ticketNo'])
             else:
                 print '         <td class="col-lg-1"></td>'
@@ -114,7 +135,7 @@ class FF(object):
                         status = 'not active'
                 else:
                     status = 'not active'
-                print '         <td class="col-lg-1"><a href="/cgi-enabled/openticket.py?cat_id={0}"><input type="button" class="btn btn-default" value="open ticket"></a><br/>{1}</td>'.format(
+                print '         <td class="col-lg-1"><a href="openticket.py?cat_id={0}"><input type="button" class="btn btn-default" value="open ticket"></a><br/>{1}</td>'.format(
                     l['cat_id'], status)
             else:
                 print '         <td class="col-lg-1"></td>'

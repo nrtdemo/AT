@@ -10,13 +10,16 @@ form = cgi.FieldStorage()
 cgitb.enable()
 
 if __name__ == "__main__":
-    print "Content-type: text/html\n\n"
+    print "Content-type: application/json\n\n"
     print
     if 'link' in form:
         Link = form['link'].value
         if Link == "40G100G":
-            FF().link()
+            ff = FF()
+            ff.jsonlink()
         if Link == "PE":
-            PE().link()
+            pe = PE()
+            pe.jsonlink()
     else:
-        FF().link()
+        ff = FF()
+        ff.jsonlink()
