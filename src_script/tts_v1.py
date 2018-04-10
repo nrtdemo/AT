@@ -187,7 +187,7 @@ class TTS(object):
         data["type"] = "detail"
         data["focus"] = urllib.quote("instance/brief.description")
         data["focusContents"] = "Down"
-        data["focusId"] = "X108"
+        data["focusId"] = "X110"
         data["focusReadOnly"] = ""
         data["start"] = ""
         data["count"] = ""
@@ -205,17 +205,17 @@ class TTS(object):
         data["instance%2Fincident.id"] = ""
         data["instance%2Fcustomer.type"] = ""
         data["instance%2Fnumber"] = ""
-        # urllib.quote(info['instance/oss.informant'].encode('utf-8'))
-        data["instance%2Foss.informant"] = urllib.quote(info['instance/oss.informant'].encode('utf-8'))
-        data["instance%2Fcontact.email"] = ""
+        data["instance%2Foss.informant"] = "CATMA"
         data["instance%2Fcatid"] = val['catid']
-        data["instance%2Foss.contact.telephone"] = ""
+        data["instance%2Fcontact.email"] = urllib.quote("catma@ait.co.th")
         data["instance%2Foss.source"] = urllib.quote(info['instance/oss.source'].encode('utf-8'))
-        data["instance%2Foss.contact.sms"] = ""
+        data["instance%2Foss.contact.telephone"] = "021041761"
         data["instance%2Foss.destination"] = urllib.quote(info['instance/oss.destination'].encode('utf-8'))
-        data["instance%2Foss.contact.fax"] = ""
+        data["instance%2Foss.contact.sms"] = ""
         data["instance%2Foss.address%2Foss.address"] = urllib.quote(info['instance/oss.address/oss.address'].encode('utf-8'))
+        data["instance%2Foss.contact.fax"] = ""
         data["instance%2Fsource"] = ""
+        data["instance%2Fproject.name"] = ""
         data["instance%2Fcategory"] = "incident"
         data["instance%2Foss.bandwidth"] = urllib.quote(info['instance/oss.bandwidth'].encode('utf-8'))
         data["instance%2Fgateway.type"] = ""
@@ -225,19 +225,19 @@ class TTS(object):
         data["instance%2Fcarrier.name"] = ""
         data["instance%2Finitial.impact"] = "3"
         data["instance%2Fcarrier.ticket"] = ""
-        data["instance%2Fseverity"] = "3"
+        data["instance%2Fseverity"] = "2"
         data["instance%2Faffected.item"] = urllib.quote("บริการ CAT EPL - Domestic")
         data["instance%2Flogical.name"] = ""
         data["instance%2Fowner.group"] = urllib.quote("มข. Core Network/มม.")
         data["instance%2Fdowntime.start"] = urllib.quote(info['instance/downtime.start'].encode('utf-8'))
-        data["instance%2Fassignment"] = urllib.quote("มข. Core Network/มม.")
+        data["instance%2Fassignment"] = urllib.quote("มข. THAIPAK")
         data["instance%2Fdowntime.end"] = ""
         data["instance%2Fendtoend.group"] = ""
         data["instance%2Fdowntime"] = ""
         data["instance%2Frepairteam"] = ""
         data["instance%2Fnext.breach"] = ""
-        data["instance%2Fbrief.description"] = "Down"
-        data["instance%2Faction%2Faction"] = ""
+        data["instance%2Fbrief.description"] = urllib.quote(val['title'])
+        data["instance%2Faction%2Faction"] = urllib.quote(val['description'])
         data["instance%2Fcomment%2Fcomment"] = ""
         resp_post = self.SendData(TTS_Path.search, data, AutoParseHTMLCharector=False)
         url = "/sm/L10N/recordlist.jsp"
@@ -343,7 +343,7 @@ class TTS(object):
         data["instance%2Fnext.breach"] = ""
         data["instance%2Fbrief.description"] = urllib.quote(val['title'])
         data["instance%2Faction%2Faction"] = urllib.quote(val['description'])
-        data["instance%2Fcomment%2Fcomment"] = urllib.quote(val['comment'])
+        data["instance%2Fcomment%2Fcomment"] = ""
 
         resp_post = self.SendData(TTS_Path.search, data, AutoParseHTMLCharector=False)
         url = "/sm/L10N/recordlist.jsp"
@@ -356,7 +356,7 @@ class TTS(object):
         data["thread"] = threadid
         data["resetnotebook"] = ""
         data["event"] = "3"
-        data["transaction"] = "1"
+        data["transaction"] = "3"
         data["type"] = "messagebox"
         data["focus"] = ""
         data["focusContents"] = ""
