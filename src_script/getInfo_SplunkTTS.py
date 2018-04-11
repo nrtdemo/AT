@@ -141,9 +141,14 @@ def job_SPLUNK(searchQuery):
 
 def job_TTS():
     print 'Doing TTS...'
-    select_catid = """ SELECT `cat_id`,`host` FROM `splunk` GROUP BY cat_id"""
-    lst_catid = db.query(select_catid)
-    insert_TTS(lst_catid)
+
+    select_is_none_ticketNo = db.query(""" SELECT splunk.cat_id, port_status, ticketNo FROM splunk 
+                                            LEFT JOIN (SELECT cat_id, ticketNo FROM tts ORDER BY ticketNo DESC) AS tts ON (splunk.cat_id = tts.cat_id)
+                                            WHERE ticketNo is null or lower(port_status) = 'down'
+                                            GROUP BY splunk.cat_id
+                                            ORDER BY port_status asc """)
+    insert_TTS(select_is_none_ticketNo)
+    print 'Ticket {} units'.format(len(select_is_none_ticketNo))
 
 
 def PrintDebug(msg):
