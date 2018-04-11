@@ -120,20 +120,21 @@ def index():
         print '</div>'
 
         # INFORMATION LINK
-        print '<div class="col-lg-12">'
-        print '<div class="row form-group">'
-        print '<div class="col-lg-2" >Title:</div>'
-        print '<div class="col-lg-10"><input type="text" class="form-control" value="{0}" readonly></div>'.format(lst_catid['title'])
-        print '</div>'
-
-        print '<div class="row form-group">'
-        print '<div class="col-lg-2" >Description:</div>'
-        print '<div class="col-lg-10"><textarea class="form-control" rows="20" readonly >{0}</textarea></div>'.format(lst_catid['description'])
-        print '</div>'
-        print '</div>'
+        print '''
+        <div class="col-lg-12">
+            <div class="row form-group">
+                <div class="col-lg-2" >Title:</div>
+                <div class="col-lg-10"><input type="text" class="form-control" value="{}" readonly></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-lg-2" >Description:</div>
+                <div class="col-lg-10"><textarea class="form-control" rows="20" readonly >{}</textarea></div>
+            </div>
+        </div>
+        '''.format(lst_catid['title'], lst_catid['description'])
 
         # TABLE ACTIVITY
-        print '<div class="column col-lg-12">'
+        print '<div class="col-lg-12">'
         print """
         <div class="row form-group">
             <div class="col-lg-2"> Activities:</div>

@@ -90,10 +90,10 @@ class PE(object):
         db = Database(host='localhost', username='root',
                       password='', db='alarm_ticket')
         select_catid = """SELECT * FROM splunk 
-                            LEFT JOIN tts ON (splunk.cat_id = tts.cat_id)
+                            LEFT JOIN (SELECT * FROM tts ORDER BY ticketNo DESC) AS tts ON (splunk.cat_id = tts.cat_id)
                             LEFT join online_active ON (splunk.cat_id = online_active.catid) 
-                            WHERE host LIKE '10.5.0%' GROUP BY src_interface, host, hostname, path
-                            ORDER BY ticketNo desc
+                            WHERE host LIKE '10.5.0%' 
+                            GROUP BY src_interface, host, hostname, path
                             """
         lst_catid = db.query(select_catid)
 

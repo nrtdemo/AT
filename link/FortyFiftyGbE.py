@@ -92,7 +92,8 @@ class FF(object):
         select_catid = """SELECT * FROM splunk
                             LEFT JOIN (SELECT * FROM tts ORDER BY ticketNo DESC) AS tts ON (splunk.cat_id = tts.cat_id)
                             LEFT join online_active ON (splunk.cat_id = online_active.catid)
-                            WHERE host LIKE '10.126.%' GROUP BY src_interface, host, hostname, path"""
+                            WHERE host LIKE '10.126.%' 
+                            GROUP BY src_interface, host, hostname, path"""
         lst_catid = db.query(select_catid)
 
         for l in lst_catid:

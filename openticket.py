@@ -225,10 +225,13 @@ def open_ticket():
 
     print '<div class="form-group row">'
     print '''
-    <div class="col-lg-12">
     <div class="pull-right">
-         <button class="btn btn-default pull-right" type="submit">Submit</button>
-    </div>
+        <div class="col-lg-6">
+            <a class="btn btn-default pull-right" href="index.py">Cancel</a>
+        </div>
+        <div class="col-lg-6">
+            <button class="btn btn-default pull-right" type="submit">Submit</button>
+        </div>
     </div>'''
     print '</div>'
 

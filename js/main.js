@@ -105,7 +105,7 @@ function startRefresh() {
                     css_port_status = "class='port_status_down text-center'"
                     var ddTime = '';
                     if (item[7] == 'Closed' || item[7] == 'None') {
-                        if (timenow - timestamp < 120) {
+                        if (timenow - timestamp < 30) {
                             ddTime = 'active';
                         } else {
                             ddTime = 'not active';
