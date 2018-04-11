@@ -102,7 +102,7 @@ class TTS(object):
         data["_multiSelection"] = ""
         data["_multiSelection_tableId"] = ""
         data["_multiSelection_selectionField"] = ""
-        data["clientWidth"] = "1343"
+        data["clientWidth"] = ""
         data["var%2Foss.search.fieldname"] = "id"
         data["var%2Foss.search.value"] = val['catid']
         data["var%2Foss.dcss.allrecordcount"] = ""
@@ -140,7 +140,7 @@ class TTS(object):
         data["_multiSelection"] = ""
         data["_multiSelection_tableId"] = ""
         data["_multiSelection_selectionField"] = ""
-        data["clientWidth"] = "1343"
+        data["clientWidth"] = ""
         data["var%2Foss.search.fieldname"] = "id"
         data["var%2Foss.search.value"] = val['catid']
         data["var%2Foss.dcss.allrecordcount"] = "1"
@@ -201,7 +201,7 @@ class TTS(object):
         data["formchanged"] = ""
         data["formname"] = "IM.open.incident"
         data[self.csrfName] = self.csrfValue
-        data["clientWidth"] = "1343"
+        data["clientWidth"] = ""
         data["instance%2Fincident.id"] = ""
         data["instance%2Fcustomer.type"] = ""
         data["instance%2Fnumber"] = ""
@@ -268,7 +268,7 @@ class TTS(object):
         data["formchanged"] = ""
         data["formname"] = "wizard-wizard.fault.down"
         data[self.csrfName] = self.csrfValue
-        data["clientWidth"] = "1343"
+        data["clientWidth"] = ""
         data["var%2Ffault.down.detail1"] = ""
         data["var%2Ffault.down.detail2"] = ""
         data["var%2Ffault.down.detail3"] = ""
@@ -306,7 +306,7 @@ class TTS(object):
         data["formchanged"] = ""
         data["formname"] = "IM.open.incident"
         data[self.csrfName] = self.csrfValue
-        data["clientWidth"] = "1343"
+        data["clientWidth"] = ""
         data["instance%2Fincident.id"] = ""
         data["instance%2Fcustomer.type"] = ""
         data["instance%2Fnumber"] = ""
@@ -374,7 +374,7 @@ class TTS(object):
         data["formchanged"] = ""
         data["formname"] = ""
         data[self.csrfName] = self.csrfValue
-        data["clientWidth"] = "1343"
+        data["clientWidth"] = ""
         resp_post = self.SendData(TTS_Path.search, data, AutoParseHTMLCharector=False)
         url = "/sm/L10N/recordlist.jsp"
         resp = self.SendData(url)
@@ -854,6 +854,7 @@ class TTS(object):
                 data = '&'.join(datas)
             self.DebugPrint(data)
             headers['Content-Type'] = 'application/x-www-form-urlencoded'
+            headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36 OPR/52.0.2871.40'
             resp = httplib2.Http().request(url, 'POST', headers=self.headers, body=data)
         else:
             resp = httplib2.Http().request(url, 'GET', headers=self.headers)
@@ -880,5 +881,5 @@ class TTS(object):
         self.headers['Cookie'] = ';'.join(ncookies)
 
     def DebugPrint(self, msg):
-        if True:
+        if False:
             print msg
