@@ -104,13 +104,19 @@ function startRefresh() {
                 if (item[4].toLowerCase() == "down") {
                     css_port_status = "class='port_status_down text-center'"
                     var ddTime = '';
+                    var msgddTime = '';
+                    var hreflink = '';
                     if (item[7] == 'Closed' || item[7] == 'None') {
                         if (timenow - timestamp < 30) {
-                            ddTime = 'active';
+                            ddTime = ' disabled';
+                            msgddTime = 'data-toggle="tooltip" data-placement="left" title="There are currently active users." ';
+                            hreflink = '';
                         } else {
-                            ddTime = 'not active';
+                            ddTime = '';
+                            msgddTime = '';
+                            hreflink = 'href="openticket.py?cat_id=' + catId + '" ';
                         }
-                        linkbtn = '<a href="openticket.py?cat_id=' + catId + '"><input type="button" class="btn btn-default" value="open ticket"></a><br/>' + ddTime + '<br/>'
+                        linkbtn = '<a class="btn btn-default" ' + hreflink + msgddTime + ddTime + '>open ticket</a>'
                     }
                 } else if (item[4].toLowerCase() == "up") {
                     css_port_status = "class='port_status_up text-center'"
