@@ -54,25 +54,26 @@ $('#form_openticket').on('submit', function (e) {
     // Serialize the data in the form
     var serializedData = $form.serialize();
 
+    alert('This feature does not work. Apologize for this inconvenience.');
     // Disabled form elements will not be serialized.
-    $inputs.prop("disabled", true);
-
-    $.ajax({
-        type: 'POST',
-        url: "./checkvalue.py",
-        data: serializedData, //passing some input here
-        // dataType: "text",
-        success: function (response) {
-            alert('success');
-            console.log(response);
-        }
-    }).done(function (data) {
-        console.log(data);
-        alert(data);
-    }).always(function () {
-        // Reenable the inputs
-        $inputs.prop("disabled", false);
-    });
+    // $inputs.prop("disabled", true);
+    //
+    // $.ajax({
+    //     type: 'POST',
+    //     url: "./checkvalue.py",
+    //     data: serializedData, //passing some input here
+    //     // dataType: "text",
+    //     success: function (response) {
+    //         alert('success');
+    //         console.log(response);
+    //     }
+    // }).done(function (data) {
+    //     console.log(data);
+    //     alert(data);
+    // }).always(function () {
+    //     // Reenable the inputs
+    //     $inputs.prop("disabled", false);
+    // });
 
 });
 
