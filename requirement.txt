@@ -1,0 +1,5 @@
+pytz
+requests
+AdvancedHTMLParser==8.0.1
+httplib2
+MySQL-python==1.2.5
