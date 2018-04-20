@@ -11,6 +11,7 @@ import AdvancedHTMLParser
 import time
 import datetime
 import pytz
+import requests
 
 httplib2.debuglevel = 0
 
@@ -60,6 +61,7 @@ class TTS(object):
 
     def Open_Ticket(self, val):
         self.Auth()
+        s = requests.session()
         url = '/sm/cwc/nav.menu?name=navStart&id=ROOT%2FOpen%20New%20Ticket&{0}={1}'.format(
             self.csrfName, self.csrfValue)
         resp = self.SendData(url)
@@ -102,7 +104,7 @@ class TTS(object):
         data["_multiSelection"] = ""
         data["_multiSelection_tableId"] = ""
         data["_multiSelection_selectionField"] = ""
-        data["clientWidth"] = ""
+        data["clientWidth"] = "1109"
         data["var%2Foss.search.fieldname"] = "id"
         data["var%2Foss.search.value"] = val['catid']
         data["var%2Foss.dcss.allrecordcount"] = ""
@@ -140,7 +142,7 @@ class TTS(object):
         data["_multiSelection"] = ""
         data["_multiSelection_tableId"] = ""
         data["_multiSelection_selectionField"] = ""
-        data["clientWidth"] = ""
+        data["clientWidth"] = "1109"
         data["var%2Foss.search.fieldname"] = "id"
         data["var%2Foss.search.value"] = val['catid']
         data["var%2Foss.dcss.allrecordcount"] = "1"
@@ -152,8 +154,6 @@ class TTS(object):
         self.DebugPrint(resp_post[0])
         self.DebugPrint(resp_post[1])
 
-        # self.Logout()
-
         data_last_state = resp_post[1]
         parser = AdvancedHTMLParser.AdvancedHTMLParser()
         parser.parseStr(data_last_state)
@@ -164,7 +164,8 @@ class TTS(object):
             ['name', 'instance/oss.address/oss.address'],
             ['name', 'instance/oss.bandwidth'],
             ['name', 'instance/oss.informant'],
-            ['name', 'instance/downtime.start']
+            ['name', 'instance/downtime.start'],
+            ['name', 'instance/affected.item']
         ]
         for l in list_search:
             key = l[0]
@@ -201,15 +202,15 @@ class TTS(object):
         data["formchanged"] = ""
         data["formname"] = "IM.open.incident"
         data[self.csrfName] = self.csrfValue
-        data["clientWidth"] = ""
+        data["clientWidth"] = "1109"
         data["instance%2Fincident.id"] = ""
         data["instance%2Fcustomer.type"] = ""
         data["instance%2Fnumber"] = ""
-        data["instance%2Foss.informant"] = "CATMA"
+        data["instance%2Foss.informant"] = urllib.quote(info['instance/oss.informant'].encode('utf-8'))
         data["instance%2Fcatid"] = val['catid']
-        data["instance%2Fcontact.email"] = urllib.quote("catma@ait.co.th")
+        data["instance%2Fcontact.email"] = ""
         data["instance%2Foss.source"] = urllib.quote(info['instance/oss.source'].encode('utf-8'))
-        data["instance%2Foss.contact.telephone"] = "021041761"
+        data["instance%2Foss.contact.telephone"] = ""
         data["instance%2Foss.destination"] = urllib.quote(info['instance/oss.destination'].encode('utf-8'))
         data["instance%2Foss.contact.sms"] = ""
         data["instance%2Foss.address%2Foss.address"] = urllib.quote(info['instance/oss.address/oss.address'].encode('utf-8'))
@@ -225,18 +226,18 @@ class TTS(object):
         data["instance%2Fcarrier.name"] = ""
         data["instance%2Finitial.impact"] = "3"
         data["instance%2Fcarrier.ticket"] = ""
-        data["instance%2Fseverity"] = "2"
-        data["instance%2Faffected.item"] = urllib.quote("บริการ CAT EPL - Domestic")
+        data["instance%2Fseverity"] = "3"
+        data["instance%2Faffected.item"] = urllib.quote(info['instance/affected.item'].encode('utf-8'))
         data["instance%2Flogical.name"] = ""
         data["instance%2Fowner.group"] = urllib.quote("มข. Core Network/มม.")
         data["instance%2Fdowntime.start"] = urllib.quote(info['instance/downtime.start'].encode('utf-8'))
-        data["instance%2Fassignment"] = urllib.quote("มข. THAIPAK")
+        data["instance%2Fassignment"] = urllib.quote("มข. Core Network/มม.")
         data["instance%2Fdowntime.end"] = ""
         data["instance%2Fendtoend.group"] = ""
         data["instance%2Fdowntime"] = ""
         data["instance%2Frepairteam"] = ""
         data["instance%2Fnext.breach"] = ""
-        data["instance%2Fbrief.description"] = urllib.quote(val['title'])
+        data["instance%2Fbrief.description"] = "Down"
         data["instance%2Faction%2Faction"] = urllib.quote(val['description'])
         data["instance%2Fcomment%2Fcomment"] = ""
         resp_post = self.SendData(TTS_Path.search, data, AutoParseHTMLCharector=False)
@@ -268,7 +269,7 @@ class TTS(object):
         data["formchanged"] = ""
         data["formname"] = "wizard-wizard.fault.down"
         data[self.csrfName] = self.csrfValue
-        data["clientWidth"] = ""
+        data["clientWidth"] = "1109"
         data["var%2Ffault.down.detail1"] = ""
         data["var%2Ffault.down.detail2"] = ""
         data["var%2Ffault.down.detail3"] = ""
@@ -306,7 +307,7 @@ class TTS(object):
         data["formchanged"] = ""
         data["formname"] = "IM.open.incident"
         data[self.csrfName] = self.csrfValue
-        data["clientWidth"] = ""
+        data["clientWidth"] = "1109"
         data["instance%2Fincident.id"] = ""
         data["instance%2Fcustomer.type"] = ""
         data["instance%2Fnumber"] = ""
@@ -341,7 +342,7 @@ class TTS(object):
         data["instance%2Fdowntime"] = ""
         data["instance%2Frepairteam"] = ""
         data["instance%2Fnext.breach"] = ""
-        data["instance%2Fbrief.description"] = urllib.quote(val['title'])
+        data["instance%2Fbrief.description"] = "Down"
         data["instance%2Faction%2Faction"] = urllib.quote(val['description'])
         data["instance%2Fcomment%2Fcomment"] = ""
 
@@ -374,12 +375,13 @@ class TTS(object):
         data["formchanged"] = ""
         data["formname"] = ""
         data[self.csrfName] = self.csrfValue
-        data["clientWidth"] = ""
+        data["clientWidth"] = "1109"
         resp_post = self.SendData(TTS_Path.search, data, AutoParseHTMLCharector=False)
         url = "/sm/L10N/recordlist.jsp"
         resp = self.SendData(url)
         self.DebugPrint(resp_post[1])
 
+        s.cookies.clear()
         self.Logout()
 
     def Get_TicketInfo(self, ticketNo):
@@ -854,7 +856,7 @@ class TTS(object):
                 data = '&'.join(datas)
             self.DebugPrint(data)
             headers['Content-Type'] = 'application/x-www-form-urlencoded'
-            headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36 OPR/52.0.2871.40'
+            headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36'
             resp = httplib2.Http().request(url, 'POST', headers=self.headers, body=data)
         else:
             resp = httplib2.Http().request(url, 'GET', headers=self.headers)
