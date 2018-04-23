@@ -17,14 +17,18 @@
 """A command line utility for executing Splunk searches."""
 
 from __future__ import absolute_import
-import sys, os
-import collections
-import xml.etree.ElementTree as ET
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+import sys, os, json
+from xml.etree import cElementTree as ET
+from collections import defaultdict
 from time import sleep
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from splunklib.binding import HTTPError
 import splunklib.client as client
+sys.path.append("/var/www/html/cgi-enabled")
+from src_script.MySQL import Database
+import re
+db = Database(host='127.0.0.1', username='root', password='', db='alarm_ticket')
 
 try:
     from utils import *
@@ -46,6 +50,25 @@ FLAGS_CREATE = [
 FLAGS_RESULTS = [
     "offset", "count", "search", "field_list", "f", "output_mode"
 ]
+def etree_to_dict(t):
+    d = {t.tag: {} if t.attrib else None}
+    children = list(t)
+    if children:
+        dd = defaultdict(list)
+        for dc in map(etree_to_dict, children):
+            for k, v in dc.items():
+                dd[k].append(v)
+        d = {t.tag: {k:v[0] if len(v) == 1 else v for k, v in dd.items()}}
+    if t.attrib:
+        d[t.tag].update((k, v) for k, v in t.attrib.items())
+    if t.text:
+        text = t.text.strip()
+        if children or t.attrib:
+            if text:
+              d[t.tag]['#text'] = text
+        else:
+            d[t.tag] = text
+    return d
 
 def cmdline(argv, flags, **kwargs):
     """A cmdopts wrapper that takes a list of flags and builds the
@@ -53,7 +76,7 @@ def cmdline(argv, flags, **kwargs):
     rules = dict([(flag, {'flags': ["--%s" % flag]}) for flag in flags])
     return parse(argv, rules, ".splunkrc", **kwargs)
 
-def main(argv):
+def main_search(argv):
     usage = 'usage: %prog [options] "search"'
 
     flags = []
@@ -106,22 +129,101 @@ def main(argv):
     if 'count' not in kwargs_results: kwargs_results['count'] = 0
     results = job.results(**kwargs_results)
 
-    data=collections.OrderedDict()
     strxml=""
     while True:
         content = results.read(1024)
         if len(content) == 0: break
-        strxml+=content.decode("utf-8")
+        strxml+=content
 
         # sys.stdout.write(content.decode('utf-8'))
-        # sys.stdout.flush()
+    # a=xmltodict.parse(strxml)
+    # print a
+    e = ET.XML(strxml)
 
-    tree = ET.parse(strxml)
-    root = tree.getroot()
-    print root
-    sys.stdout.write('\n')
+    #print etree_to_dict(e)
+    #print type(etree_to_dict(e))
+    #tmp = json.loads(etree_to_dict(e))
+
+    host=''
+    host_name_1=''
+    srcinterface=''
+    catid=''
+    cat_id=''
+    link_flap=''
+    devicetime=''
+    portstatus=''
+    tmps=etree_to_dict(e)
+    for tmp in tmps['results']['result']:
+        test_string=tmp
+        field_data=test_string['field']
+        offset=test_string['offset']
+        # print field_data
+        # print offset
+        if offset =='0':
+            for i in test_string['field']:
+                a = i['k']
+                b=i['value']['text']
+                data_splunk=a+' '+b
+                lst=data_splunk.split()
+                if lst[0]=='host':
+                    host=lst[1]
+                if lst[0]=='hostname':
+                    host_name_1=lst[1]
+                if lst[0]=='src_interface':
+                    srcinterface=lst[1]
+                if lst[0]=='cat_id':
+                    cat_id=lst[1].split('_')
+                    catid=cat_id[0]
+                if lst[0]=='flap':
+                    link_flap=lst[1]
+                if lst[0]=='device_time':
+                    devicetime=lst[1]
+                if lst[0]=='port_status':
+                    portstatus=lst[1]
+
+                insert_query = """INSERT INTO splunk
+                                                (cat_id, path, port_status, src_interface, host, flap, hostname, device_time)
+                                                VALUES
+                                                """
+
+                if len(catid) >= 9:
+                    check_query = """
+                                      SELECT splunk_id FROM splunk WHERE host='{0}' AND hostname='{1}' AND path='{2}' AND src_interface='{3}'
+                                    """.format(host, host_name_1, catid, srcinterface)
+                    getsplunk = db.query(check_query)
+                    if len(getsplunk) > 0:
+                        getsplunk = getsplunk[0]
+                        sql_update_port_status = """
+                                                      UPDATE `splunk` SET `port_status`='{0}',`flap`='{1}', cat_id='{3}' WHERE splunk_id='{2}'
+                                                    """.format(str(portstatus), str(link_flap), getsplunk['splunk_id'], str(catid))
+                        db.insert(sql_update_port_status)
+                        print sql_update_port_status
+                        print "UPDATE DONE"
+                    else:
+                        insert_query += "('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')".format(
+                            str(catid), str(cat_id), str(portstatus), str(srcinterface),
+                            str(host), str(link_flap), str(host_name_1), str(devicetime))
+                        db.insert(insert_query)
+                        print insert_query
+                        print "INSERT DONE"
+                else:
+                    insert_query += "('', '{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')".format(
+                        str(cat_id), str(portstatus), str(srcinterface),
+                        str(host), str(link_flap), str(host_name_1), str(devicetime))
+                    db.insert(insert_query)
+                    print "INSERT DONE"
+
+        sys.stdout.write('\n')
+
+        #print str(tmp)+"  /n/n"
+
+    #print test_string['field']
+    # for i in temps_string['offset']:
+    #     print i+"  /n/n"
+    sys.stdout.flush()
+
+    # sys.stdout.write('\n')
     job.cancel()
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
-    print "Hello"
+    main_search(sys.argv[1:])

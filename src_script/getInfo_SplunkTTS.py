@@ -3,11 +3,11 @@ import time
 import datetime
 import re
 import threading
-
+import sys, os
 from MySQL import Database
 from tts_v1 import TTS
-from splunk import SPLUNK
 
+from splunk import SPLUNK
 db = Database(host='127.0.0.1', username='root', password='', db='alarm_ticket')
 
 # SPLUNK
@@ -126,16 +126,19 @@ def insert_TTS(lst_catid):
     print 'ENDED TTS'
 
 
-def job_SPLUNK(searchQuery):
+def job_SPLUNK_Link_40G():
     print 'Doing SPLUNK...'
-    sid = splunk.CreateSearch(searchQuery, timerange="24hr")  # defind timerange query data
-    # sid = splunk.CreateSearch(searchQuery)  # defind timerange query data
-    print (sid)
-    print splunk.GetSearchStatus(sid)
-    while not splunk.GetSearchStatus(sid) == 'DONE':
-        pass
-    lst = splunk.GetSearchResult(sid)
-    insert_Splunk(lst)
+    # sid = splunk.CreateSearch(searchQuery, timerange="24hr")  # defind timerange query data
+    # # sid = splunk.CreateSearch(searchQuery)  # defind timerange query data
+    # print (sid)
+    # print splunk.GetSearchStatus(sid)
+    # while not splunk.GetSearchStatus(sid) == 'DONE':
+    #     pass
+    # lst = splunk.GetSearchResult(sid)
+
+    #insert_Splunk(lst)
+    os.system('python /var/www/html/cgi-enabled/splunksdk/examples/search.py "search earliest=-24h latest=now  eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" cat_id="*TPK*" OR cat_id="*TBB*" host="10.126.0.*" src_interface="POS*" OR "HundredGigE*" | stats count as flap,latest(device_time) AS device_time,latest(port_status) AS port_status by host,hostname,src_interface,cat_id"')
+
     print 'ENDED SPLUNK'
 
 
@@ -157,27 +160,27 @@ def PrintDebug(msg):
 
 
 if __name__ == "__main__":
-    search_link = 'cat_id="*TPK*" OR cat_id="*TBB*" eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" host="10.5.0.*" OR "10.126.0.*" src_interface="POS*" OR "HundredGigE*" OR "TenGigE*" OR "TenGigabitEthernet*" | stats count as flap, latest(port_status) AS port_status, latest(device_time) AS device_time by host, hostname, src_interface, cat_id'
-    search_link_40G_100GbE = 'eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" cat_id="*TPK*" OR cat_id="*TBB*" host="10.126.0.*" src_interface="POS*" OR "HundredGigE*" | stats count as flap,latest(device_time) AS device_time,latest(port_status) AS port_status by host,hostname,src_interface,cat_id'
-    search_link_PE_Bangkok_Flap = 'eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" cat_id="*TPK*" OR cat_id="*TBB*" host="10.5.0.*" | stats count as flap,latest(device_time) AS device_time,latest(port_status) AS port_status by host,hostname,src_interface,cat_id'
+    # search_link = 'cat_id="*TPK*" OR cat_id="*TBB*" eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" host="10.5.0.*" OR "10.126.0.*" src_interface="POS*" OR "HundredGigE*" OR "TenGigE*" OR "TenGigabitEthernet*" | stats count as flap, latest(port_status) AS port_status, latest(device_time) AS device_time by host, hostname, src_interface, cat_id'
+    # search_link_40G_100GbE = 'eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" cat_id="*TPK*" OR cat_id="*TBB*" host="10.126.0.*" src_interface="POS*" OR "HundredGigE*" | stats count as flap,latest(device_time) AS device_time,latest(port_status) AS port_status by host,hostname,src_interface,cat_id'
+    # search_link_PE_Bangkok_Flap = 'eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" cat_id="*TPK*" OR cat_id="*TBB*" host="10.5.0.*" | stats count as flap,latest(device_time) AS device_time,latest(port_status) AS port_status by host,hostname,src_interface,cat_id'
 
-    # job_SPLUNK(search_link)
+    job_SPLUNK_Link_40G()
     # job_TTS()
 
-    t1 = threading.Thread(name='search_link_40G_100GbE', target=job_SPLUNK, args=(search_link_40G_100GbE,))
-    t2 = threading.Thread(name='search_link_PE_Bangkok_Flap', target=job_SPLUNK, args=(search_link_PE_Bangkok_Flap,))
+    # t1 = threading.Thread(name='search_link_40G_100GbE', target=job_SPLUNK, args=(search_link_40G_100GbE,))
+    # t2 = threading.Thread(name='search_link_PE_Bangkok_Flap', target=job_SPLUNK, args=(search_link_PE_Bangkok_Flap,))
 
     start_time = time.strftime('%H:%M:%S')
     dt_started = datetime.datetime.utcnow()
     print dt_started
-    t1.start()
-    t2.start()
-
-    while t1.isAlive() or t2.isAlive():
-        # print 'Script is working!!'
-        # time.sleep(30)
-        pass
-    job_TTS()
+    # t1.start()
+    # t2.start()
+    #
+    # while t1.isAlive() or t2.isAlive():
+    #     # print 'Script is working!!'
+    #     # time.sleep(30)
+    #     pass
+    # job_TTS()
 
     print 'start time : ' + start_time
     print 'end : ' + time.strftime('%H:%M:%S')
