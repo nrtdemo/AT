@@ -106,17 +106,22 @@ def insert_TTS(lst_catid):
 
             insert_query = """INSERT INTO `tts`(`ticketNo`,`incident_id`, `affected_item`, `cat_id`, `status`, `problem_status`, `downtime_start`, `downtime_time`, `owner_group`, `repairteam`, `oss_source`, `oss_destination`, `address`, `title`, `description`, `activity`, `bandwidth`) VALUES """
             value = "\n('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}')".format(
-                l['incident_id'], l['number'], l['affected_item'].encode('utf-8'), l['catid'].encode('utf-8'), l['status'], l['problem_status'], l['downtime_start'], l['downtime'],
-                l['owner_group'].encode('utf-8'), l['repairteam'].encode('utf-8'), l['oss_source'].encode('utf-8'), l['oss_destination'].encode('utf-8'),
-                ticket_info['instance/oss.address/oss.address'].encode('utf-8'), ticket_info['instance/brief.description'].encode('utf-8'),
-                ticket_info['instance/action/action'].encode('utf-8'), activity_table, ticket_info['instance/oss.bandwidth'].encode('utf-8')
+                l['incident_id'], l['number'], l['affected_item'].encode('utf-8'), l['catid'].encode('utf-8'),
+                l['status'], l['problem_status'], l['downtime_start'], l['downtime'],
+                l['owner_group'].encode('utf-8'), l['repairteam'].encode('utf-8'), l['oss_source'].encode('utf-8'),
+                l['oss_destination'].encode('utf-8'),
+                ticket_info['instance/oss.address/oss.address'].encode('utf-8'),
+                ticket_info['instance/brief.description'].encode('utf-8'),
+                ticket_info['instance/action/action'].encode('utf-8'), activity_table,
+                ticket_info['instance/oss.bandwidth'].encode('utf-8')
             )
             query = "{0} {1}".format(insert_query, value)
             # PrintDebug(query)
             resp_status = db.insert(query)
             if not resp_status:
                 update_query = """ UPDATE `tts` SET `affected_item`='{0}',`status`='{1}',`problem_status`='{2}',`downtime_start`='{3}',`downtime_time`='{4}', `description`='{6}', `activity`='{7}' WHERE `ticketNo`='{5}' """.format(
-                    l['affected_item'].encode('utf-8'), l['status'], l['problem_status'], l['downtime_start'], l['downtime'], l['incident_id'],
+                    l['affected_item'].encode('utf-8'), l['status'], l['problem_status'], l['downtime_start'],
+                    l['downtime'], l['incident_id'],
                     ticket_info['instance/action/action'].encode('utf-8'), activity_table)
                 db.insert(update_query)
                 # PrintDebug(update_query)
@@ -143,11 +148,13 @@ def job_TTS():
     print 'Doing TTS...'
 
     select_is_none_ticketNo = db.query(""" SELECT splunk.cat_id, port_status, ticketNo FROM splunk 
-                                            LEFT JOIN (SELECT cat_id, ticketNo FROM tts ORDER BY ticketNo DESC) AS tts ON (splunk.cat_id = tts.cat_id)
-                                            WHERE ticketNo is null or lower(port_status) = 'down'
+                                            LEFT JOIN (SELECT cat_id, ticketNo, problem_status FROM tts ORDER BY ticketNo DESC) AS tts ON (splunk.cat_id = tts.cat_id)
+                                            WHERE ticketNo is null or lower(port_status) = 'down' or problem_status != 'Closed'
                                             GROUP BY splunk.cat_id
                                             ORDER BY port_status asc """)
-    insert_TTS(select_is_none_ticketNo)
+
+    # insert_TTS(select_is_none_ticketNo)
+    print select_is_none_ticketNo
     print 'Ticket {} units'.format(len(select_is_none_ticketNo))
 
 
@@ -161,9 +168,6 @@ if __name__ == "__main__":
     search_link_40G_100GbE = 'eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" cat_id="*TPK*" OR cat_id="*TBB*" host="10.126.0.*" src_interface="POS*" OR "HundredGigE*" | stats count as flap,latest(device_time) AS device_time,latest(port_status) AS port_status by host,hostname,src_interface,cat_id'
     search_link_PE_Bangkok_Flap = 'eventtype="cisco_ios-port_down" OR eventtype="cisco_ios-port_up" cat_id="*TPK*" OR cat_id="*TBB*" host="10.5.0.*" | stats count as flap,latest(device_time) AS device_time,latest(port_status) AS port_status by host,hostname,src_interface,cat_id'
 
-    # job_SPLUNK(search_link)
-    # job_TTS()
-
     t1 = threading.Thread(name='search_link_40G_100GbE', target=job_SPLUNK, args=(search_link_40G_100GbE,))
     t2 = threading.Thread(name='search_link_PE_Bangkok_Flap', target=job_SPLUNK, args=(search_link_PE_Bangkok_Flap,))
 
@@ -171,7 +175,7 @@ if __name__ == "__main__":
     dt_started = datetime.datetime.utcnow()
     print dt_started
     t1.start()
-    t2.start()
+    # t2.start()
 
     while t1.isAlive() or t2.isAlive():
         # print 'Script is working!!'
