@@ -107,7 +107,7 @@ function startRefresh() {
                     var ddTime = '';
                     var msgddTime = '';
                     var hreflink = '';
-                    if (item[7] == 'Closed' || item[7] == 'None') {
+                    if (item[7] == 'Closed' || item[7] == '') {
                         if (timenow - timestamp < 30) {
                             ddTime = ' disabled';
                             msgddTime = 'data-toggle="tooltip" data-placement="left" title="There are currently active users." ';
