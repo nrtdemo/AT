@@ -49,7 +49,8 @@ def main():
             search=search,
             earliest_time="rt", 
             latest_time="rt", 
-            search_mode="realtime")
+            search_mode="realtime",
+            output_mode="json")
 
         for result in ResultsReader(result.body):
             if result is not None:
