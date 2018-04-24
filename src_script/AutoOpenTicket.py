@@ -74,7 +74,7 @@ class OpenTicketCatTTS(object):
         # Description
         elem_Description = driver.find_element_by_name("instance/action/action")
         elem_Description.clear()
-        elem_Description.send_keys(data['description'])
+        elem_Description.send_keys(data['description'].decode('utf-8'))
 
         # Title and clear title
         elem_btn_Title = driver.find_element_by_name("instance/brief.description")
@@ -133,7 +133,7 @@ class OpenTicketCatTTS(object):
 if __name__ == "__main__":
     data = collections.OrderedDict()
     data['catid'] = "TBB147512"
-    data['description'] = "ทดสอบ LINK DOWN\nTEST SYSTEM".decode('utf-8')
+    data['description'] = "ทดสอบ LINK DOWN\nTEST SYSTEM"
 
     tmp = OpenTicketCatTTS(url='http://122.155.137.214/sm/ess.do?lang=en&mode=ess.do&essuser=true')
     tmp.auto_openticket(data)
