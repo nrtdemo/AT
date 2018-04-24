@@ -54,26 +54,26 @@ $('#form_openticket').on('submit', function (e) {
     // Serialize the data in the form
     var serializedData = $form.serialize();
 
-    alert('This feature does not work. Apologize for this inconvenience.');
+    // alert('This feature does not work. Apologize for this inconvenience.');
     // Disabled form elements will not be serialized.
-    // $inputs.prop("disabled", true);
-    //
-    // $.ajax({
-    //     type: 'POST',
-    //     url: "./checkvalue.py",
-    //     data: serializedData, //passing some input here
-    //     // dataType: "text",
-    //     success: function (response) {
-    //         alert('success');
-    //         console.log(response);
-    //     }
-    // }).done(function (data) {
-    //     console.log(data);
-    //     alert(data);
-    // }).always(function () {
-    //     // Reenable the inputs
-    //     $inputs.prop("disabled", false);
-    // });
+    $inputs.prop("disabled", true);
+
+    $.ajax({
+        type: 'POST',
+        url: "./checkvalue.py",
+        data: serializedData, //passing some input here
+        // dataType: "text",
+        success: function (response) {
+            alert('success');
+            console.log(response);
+        }
+    }).done(function (data) {
+        console.log(data);
+        alert(data);
+    }).always(function () {
+        // Reenable the inputs
+        $inputs.prop("disabled", false);
+    });
 
 });
 
@@ -140,7 +140,7 @@ function startRefresh() {
             });
 
             resetData(table);
-            table.order([4, 'asc'], [0, 'desc']).draw();
+            table.order([4, 'asc'], [7, 'desc'], [0, 'desc']).draw();
             table.page.len(100).draw();
             $("[data-toggle='tooltip']").tooltip();
             table.page.len(50).draw();

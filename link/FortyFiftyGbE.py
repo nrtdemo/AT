@@ -77,6 +77,11 @@ class FF(object):
         json_data = []
         ''' ticketNo, cat_id, src_interface, host, port_status, path, flap, problem_status, affected_item'''
         for r in lst_catid:
+            if r['problem_status'] is None:
+                r['problem_status'] = ''
+            if r['affected_item'] is None:
+                r['affected_item'] = ''
+
             tmp = """[ "{0}", "{1}", "{2}", "{3}", "{4}", "{5}", "{6}", "{7}", "{8}", "{9}", "{10}", "{11}" ] """.format(
                 r['ticketNo'], r['cat_id'], r['src_interface'], r['host'], r['port_status'], r['path'], r['flap'],
                 r['problem_status'], r['affected_item'], r['device_time'], r['hostname'], r['timestamp']
@@ -118,8 +123,7 @@ class FF(object):
             else:
                 print '         <td class="col-lg-1 port_status_up text-center"><div data-toggle="tooltip" data-placement="bottom" title="{1}">{0}</div></td>'.format(
                     l['port_status'], l['device_time'])
-            print '         <td class="col-lg-1">{0}</td>'.format(
-                l['path'])
+            print '         <td class="col-lg-1">{0}</td>'.format(l['path'])
             print '         <td class="col-lg-1">{0}</td>'.format(l['flap'])
             if l['problem_status'] is not None:
                 print '         <td class="col-lg-1">{0}</td>'.format(l['problem_status'])
@@ -129,7 +133,8 @@ class FF(object):
             if l['port_status'] == 'Down' and (l['problem_status'] == 'Closed' or l['problem_status'] is None):
                 if l['timestamp'] is not None:
                     t = datetime.datetime.strptime(str(l['timestamp']), '%Y-%m-%d %H:%M:%S')
-                    timediff = abs((time.mktime(t.timetuple()) + 3600) - time.mktime(datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).timetuple()))
+                    timediff = abs((time.mktime(t.timetuple()) + 3600) - time.mktime(
+                        datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).timetuple()))
                     if timediff < 120:
                         status = 'active'
                     else:
