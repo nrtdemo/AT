@@ -60,6 +60,7 @@ class TTS(object):
         self.DebugPrint(resp[1])
 
     def Open_Ticket(self, val):
+        # This is not working
         self.Auth()
         s = requests.session()
         url = '/sm/cwc/nav.menu?name=navStart&id=ROOT%2FOpen%20New%20Ticket&{0}={1}'.format(
@@ -213,7 +214,8 @@ class TTS(object):
         data["instance%2Foss.contact.telephone"] = ""
         data["instance%2Foss.destination"] = urllib.quote(info['instance/oss.destination'].encode('utf-8'))
         data["instance%2Foss.contact.sms"] = ""
-        data["instance%2Foss.address%2Foss.address"] = urllib.quote(info['instance/oss.address/oss.address'].encode('utf-8'))
+        data["instance%2Foss.address%2Foss.address"] = urllib.quote(
+            info['instance/oss.address/oss.address'].encode('utf-8'))
         data["instance%2Foss.contact.fax"] = ""
         data["instance%2Fsource"] = ""
         data["instance%2Fproject.name"] = ""
@@ -318,7 +320,8 @@ class TTS(object):
         data["instance%2Foss.contact.telephone"] = "021041761"
         data["instance%2Foss.destination"] = urllib.quote(info['instance/oss.destination'].encode('utf-8'))
         data["instance%2Foss.contact.sms"] = ""
-        data["instance%2Foss.address%2Foss.address"] = urllib.quote(info['instance/oss.address/oss.address'].encode('utf-8'))
+        data["instance%2Foss.address%2Foss.address"] = urllib.quote(
+            info['instance/oss.address/oss.address'].encode('utf-8'))
         data["instance%2Foss.contact.fax"] = ""
         data["instance%2Fsource"] = ""
         data["instance%2Fproject.name"] = ""
@@ -613,7 +616,8 @@ class TTS(object):
         data["instance%2Foss.contact.sms"] = ""
         data["instance%2Foss.destination"] = urllib.quote(info['instance/oss.destination'].encode('utf-8'))
         data["instance%2Foss.contact.fax"] = ""
-        data["instance%2Foss.address%2Foss.address"] = urllib.quote(info['instance/oss.address/oss.address'].encode('utf-8'))
+        data["instance%2Foss.address%2Foss.address"] = urllib.quote(
+            info['instance/oss.address/oss.address'].encode('utf-8'))
         data["instance%2Fsource"] = ""
         data["instance%2Fcategory"] = "incident"
         data["instance%2Foss.bandwidth"] = urllib.quote(info['instance/oss.bandwidth'].encode('utf-8'))
@@ -628,7 +632,8 @@ class TTS(object):
         data["instance%2Faffected.item"] = "%E0%B8%9A%E0%B8%A3%E0%B8%B4%E0%B8%81%E0%B8%B2%E0%B8%A3+CAT+EPL+-+Domestic"
         data["instance%2Flogical.name"] = ""
         data["instance%2Fowner.group"] = "%E0%B8%A1%E0%B8%82.+Core+Network%2F%E0%B8%A1%E0%B8%A1."
-        data["instance%2Fdowntime.start"] = urllib.quote(datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).strftime('%d/%m/%Y %H:%M:%S'))
+        data["instance%2Fdowntime.start"] = urllib.quote(
+            datetime.datetime.now(tz=pytz.timezone('Asia/Bangkok')).strftime('%d/%m/%Y %H:%M:%S'))
         data["instance%2Fassignment"] = "%E0%B8%A1%E0%B8%82.+THAIPAK"
         data["instance%2Fdowntime.end"] = ""
         data["instance%2Fendtoend.group"] = ""
@@ -856,7 +861,8 @@ class TTS(object):
                 data = '&'.join(datas)
             self.DebugPrint(data)
             headers['Content-Type'] = 'application/x-www-form-urlencoded'
-            headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36'
+            headers[
+                'User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36'
             resp = httplib2.Http().request(url, 'POST', headers=self.headers, body=data)
         else:
             resp = httplib2.Http().request(url, 'GET', headers=self.headers)

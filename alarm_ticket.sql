@@ -1,19 +1,19 @@
 -- auto-generated definition
-CREATE TABLE splunk
+create table splunk
 (
-  splunk_id     INT UNSIGNED AUTO_INCREMENT
-    PRIMARY KEY,
-  cat_id        VARCHAR(255) NOT NULL,
-  path          TEXT         NOT NULL,
-  port_status   VARCHAR(255) NOT NULL,
-  src_interface VARCHAR(255) NOT NULL,
-  device_time   VARCHAR(255) NOT NULL,
-  hostname      VARCHAR(255) NOT NULL,
-  host          VARCHAR(255) NOT NULL,
-  flap          VARCHAR(255) NOT NULL
+  splunk_id     int unsigned auto_increment
+    primary key,
+  cat_id        varchar(255) not null,
+  path          text         not null,
+  port_status   varchar(255) not null,
+  src_interface varchar(255) not null,
+  device_time   varchar(255) not null,
+  hostname      varchar(255) not null,
+  host          varchar(255) not null,
+  flap          varchar(255) not null
 )
-  ENGINE = InnoDB
-  COLLATE = utf8mb4_unicode_ci;
+  engine = InnoDB
+  collate = utf8mb4_unicode_ci;
 
 -- auto-generated definition
 create table tts
@@ -31,17 +31,16 @@ create table tts
   repairteam      varchar(255) not null,
   oss_source      varchar(255) null,
   oss_destination varchar(255) null,
-  bandwidth       varchar(255) null,
   address         text         null,
   title           varchar(255) null,
   description     text         null,
   activity        mediumtext   null,
+  bandwidth       varchar(255) null,
   constraint tts_ticketNo_uindex
   unique (ticketNo)
 )
   engine = InnoDB
   collate = utf8mb4_unicode_ci;
-
 
 -- auto-generated definition
 create table online_active
@@ -54,4 +53,6 @@ create table online_active
   unique (catid)
 )
   engine = InnoDB;
+
+
 

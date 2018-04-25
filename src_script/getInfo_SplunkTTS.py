@@ -188,7 +188,7 @@ if __name__ == "__main__":
 
     t1 = threading.Thread(name='search_link_40G_100GbE', target=job_SPLUNK, args=(search_link_40G_100GbE,))
     t2 = threading.Thread(name='search_link_PE_Bangkok_Flap', target=job_SPLUNK, args=(search_link_PE_Bangkok_Flap,))
-    job_SPLUNK_Link_40G()
+    # job_SPLUNK_Link_40G()
     # job_TTS()
 
     start_time = time.strftime('%H:%M:%S')

@@ -88,10 +88,10 @@ class OpenTicketCatTTS(object):
         driver.save_screenshot('tmp.png')
 
         # exit form open ticket
-        driver.find_element_by_id("X3Btn").click()
+        # driver.find_element_by_id("X3Btn").click()
 
         # save & exit open new ticket
-        # driver.find_element_by_id("X4Btn").click()
+        driver.find_element_by_id("X4Btn").click()
 
     def auto_openticket(self, data):
         try:
