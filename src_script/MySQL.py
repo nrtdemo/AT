@@ -1,6 +1,10 @@
 import MySQLdb
+
+
 class Database(object):
-    def __init__(self, host='localhost', username='root', password='', db=''):
+    # self, host='localhost', username='linkmon', password='80d28016509f7322fcc5fd67760e69c8', db='linkmon'
+    # self, host='localhost', username='root', password='', db='alarm_ticket'
+    def __init__(self, host='localhost', username='root', password='', db='alarm_ticket'):
         self.connection = MySQLdb.connect(host, username, password, db)
         self.cursor = self.connection.cursor()
 

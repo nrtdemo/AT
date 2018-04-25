@@ -1,3 +1,6 @@
+# <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+# <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js"></script>
+
 class template_AT(object):
     def print_header(self):
         print "Content-type: text/html\n\n"
@@ -11,22 +14,14 @@ class template_AT(object):
         # <!-- css -->
         print '<link rel="stylesheet" href="css/app.css">'
         # <!-- Bootstrap 3.3.7 -->
-        print '<link rel="stylesheet" href="AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css">'
+        print '<link rel="stylesheet" href="lib/Bootstrap-3.3.7/css/bootstrap.min.css">'
         # <!-- DataTables -->
-        print '<link rel="stylesheet" href="AdminLTE-2.4.2/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">'
-        # <!-- Font Awesome -->
-        print '<link rel="stylesheet" href="AdminLTE-2.4.2/bower_components/font-awesome/css/font-awesome.min.css">'
-        # <!-- Ionicons -->
-        print '<link rel="stylesheet" href="AdminLTE-2.4.2/bower_components/Ionicons/css/ionicons.min.css">'
-        # <!-- jvectormap -->
-        print '<link rel="stylesheet" href="AdminLTE-2.4.2/bower_components/jvectormap/jquery-jvectormap.css">'
-        # <!-- Theme style -->
-        print '<link rel="stylesheet" href="AdminLTE-2.4.2/dist/css/AdminLTE.min.css">'
-        # <!-- AdminLTE Skins. Choose a skin from the css/skins
-        #    folder instead of downloading all of them to reduce the load. -->
-        print '<link rel="stylesheet" href="AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css">'
+        # print '<link rel="stylesheet" href="lib/DataTables-1.10.16/css/dataTables.bootstrap.min.css">'
+        print '<link rel="stylesheet" href="lib/datatables.css">'
+
         # <!-- iCheck -->
-        print '<link rel="stylesheet" href="AdminLTE-2.4.2/plugins/iCheck/all.css">'
+        print '<link rel="stylesheet" href="lib/iCheck/skins/all.css">'
+
         # <!-- css in alarm ticket content -->
         print '<link rel="stylesheet" href="css/alarm_ticket.css">'
 
@@ -55,29 +50,19 @@ class template_AT(object):
         print " </div>"
         print "</nav>"
 
-
-
     def print_close(self):
         print '<script src="js/app.js"></script>'
         print '<script src="js/main.js"></script>'
         # <!-- jQuery 3 -->
-        print '<script src="AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>'
         print '<script src="js/jquery-3.3.1.min.js"></script>'
         # <!-- Bootstrap 3.3.7 -->
-        print '<script src="AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>'
+        print '<script src="lib/Bootstrap-3.3.7/js/bootstrap.min.js"></script>'
         # <!-- DataTables -->
-        print '<script src="AdminLTE-2.4.2/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>'
-        print '<script src="AdminLTE-2.4.2/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>'
-        # <!-- FastClick -->
-        print '<script src="AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>'
-        # <!-- AdminLTE App -->
-        print '<script src="AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>'
-        # <!-- Sparkline -->
-        print '<script src="AdminLTE-2.4.2/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>'
-        # <!-- SlimScroll -->
-        print '<script src="AdminLTE-2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>'
-        # <!-- iCheck -->
-        print '<script src="AdminLTE-2.4.2/plugins/iCheck/icheck.min.js"></script>'
+        # print '<script src="lib/DataTables-1.10.16/js/jquery.dataTables.min.js"></script>'
+        # print '<script src="lib/DataTables-1.10.16/js/dataTables.bootstrap.min.js"></script>'
+        print '<script src="lib/datatables.js"></script>'
+
+        print '<script src="lib/iCheck/icheck.min.js"></script>'
         print "</body>"
         print "</html>"
 

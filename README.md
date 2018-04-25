@@ -7,4 +7,9 @@ For installing on CentOS
     - pip install -r requirment.txt
     
 Database
-    install alarm_ticket.sql
+
+    FILE: install alarm_ticket.sql
+
+Script running with Crontab
+    
+    run src_script/getInfo_SplunkTTS.py

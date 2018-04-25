@@ -15,7 +15,7 @@ def open_ticket():
     import cgi
     from src_script.MySQL import Database
     form = cgi.FieldStorage()
-    db = Database(host='localhost', username='root', password='', db='alarm_ticket')
+    db = Database()
     query_detail = """SELECT * FROM tts WHERE cat_id = '{0}'""".format(form["cat_id"].value)
     query_splunk = """SELECT * FROM splunk WHERE cat_id = '{0}'""".format(form["cat_id"].value)
     lst_detail = db.query(query_detail)

@@ -9,7 +9,7 @@ from tts_v1 import TTS
 
 from splunk import SPLUNK
 
-db = Database(host='127.0.0.1', username='root', password='', db='alarm_ticket')
+db = Database()
 
 # SPLUNK
 splunk_baseurl = 'https://10.4.0.136:8089'

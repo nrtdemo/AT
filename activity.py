@@ -14,8 +14,7 @@ def index():
     import random
     from src_script.MySQL import Database
     form = cgi.FieldStorage()
-    db = Database(host='localhost', username='root',
-                  password='', db='alarm_ticket')
+    db = Database()
     select_catid = """SELECT * FROM tts WHERE ticketNo = '{0}' LIMIT 1""".format(form["TicketNo"].value)
     lst_catid = db.query(select_catid)
 

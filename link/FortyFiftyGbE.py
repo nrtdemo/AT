@@ -67,8 +67,7 @@ class FF(object):
     def jsonlink(self):
         from src_script.MySQL import Database
 
-        db = Database(host='localhost', username='root',
-                      password='', db='alarm_ticket')
+        db = Database()
         select_catid = """SELECT * FROM splunk
                                     LEFT JOIN (SELECT * FROM tts ORDER BY ticketNo DESC) AS tts ON (splunk.cat_id = tts.cat_id)
                                     LEFT join online_active ON (splunk.cat_id = online_active.catid)
@@ -92,8 +91,7 @@ class FF(object):
     def link(self):
         from src_script.MySQL import Database
 
-        db = Database(host='localhost', username='root',
-                      password='', db='alarm_ticket')
+        db = Database()
         select_catid = """SELECT * FROM splunk
                             LEFT JOIN (SELECT * FROM tts ORDER BY ticketNo DESC) AS tts ON (splunk.cat_id = tts.cat_id)
                             LEFT join online_active ON (splunk.cat_id = online_active.catid)

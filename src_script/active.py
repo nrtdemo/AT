@@ -12,7 +12,7 @@ from MySQL import Database
 form = cgi.FieldStorage()
 cgitb.enable()
 
-db = Database(host='127.0.0.1', username='root', password='', db='alarm_ticket')
+db = Database()
 
 
 def addactive(catid):
